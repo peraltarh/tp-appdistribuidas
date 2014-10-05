@@ -19,7 +19,7 @@ public class Vehiculo {
 	private String estado;
 	private long numeroPolizaSeguro;
 	private Date expiracionGarantia;
-	private ArrayList<PlanDeManteminiento> mantenimientosPlaneados;
+	private ArrayList<PlanDeMantenimiento> mantenimientosPlaneados;
 	private ArrayList<MantenimientoRealizado> mantenimientosRealizados;
 	private ArrayList<Remito> remitos;
 	
@@ -43,7 +43,7 @@ public class Vehiculo {
 		this.estado = estado;
 		this.numeroPolizaSeguro = numeroPolizaSeguro;
 		this.expiracionGarantia = expiracionGarantia;
-		this.mantenimientosPlaneados = new ArrayList<PlanDeManteminiento>();
+		this.mantenimientosPlaneados = new ArrayList<PlanDeMantenimiento>();
 		this.mantenimientosRealizados = new ArrayList<MantenimientoRealizado>();
 		this.remitos = new ArrayList<Remito>();
 	}
@@ -104,7 +104,7 @@ public class Vehiculo {
 		return expiracionGarantia;
 	}
 
-	public ArrayList<PlanDeManteminiento> getMantenimientosPlaneados() {
+	public ArrayList<PlanDeMantenimiento> getMantenimientosPlaneados() {
 		return mantenimientosPlaneados;
 	}
 
@@ -173,7 +173,7 @@ public class Vehiculo {
 	}
 
 	public void addMantenimientoPlaneado(
-			PlanDeManteminiento mantenimientoPlaneado) {
+			PlanDeMantenimiento mantenimientoPlaneado) {
 		this.mantenimientosPlaneados.add(mantenimientoPlaneado);
 	}
 

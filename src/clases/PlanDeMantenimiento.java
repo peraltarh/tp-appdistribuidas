@@ -1,11 +1,11 @@
 package clases;
 
-public class PlanDeManteminiento {
+public class PlanDeMantenimiento {
 	
 	private float cantKilometros;
 	private String tipo;
 	private String controlEspecial;
-	public PlanDeManteminiento(float cantKilometros, String tipo,
+	public PlanDeMantenimiento(float cantKilometros, String tipo,
 			String controlEspecial) {
 		super();
 		this.cantKilometros = cantKilometros;
