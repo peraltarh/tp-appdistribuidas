@@ -2,8 +2,12 @@ package clases;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Vehiculo {
+import xml.MensajeDeControl;
+
+public class Vehiculo extends Observable {
 
 	private float pesoMax;
 	private float volumenMax;
@@ -186,7 +190,11 @@ public class Vehiculo {
 		this.remitos.add(remito);
 	}
 	
-	
-	
+	public void EmitirMensajeDeControl()
+	{
+		setChanged();
+		// Pasa como parametro un objeto de tipo Document (documento XML)
+        notifyObservers(MensajeDeControl.getInstance().GenerarMensajeDeControl(this));
+	}
 	
 }

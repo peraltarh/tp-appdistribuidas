@@ -1,8 +1,12 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class MapaDeRuta {
+import org.w3c.dom.Document;
+
+public class MapaDeRuta implements Observer{
 	
 	private int numSucOrigen;
 	private int numSucDestino;
@@ -10,6 +14,7 @@ public class MapaDeRuta {
 	private float costo;
 	private float distancia;
 	private ArrayList<String> recorridoEnCoord;
+	private ArrayList<Document> mensajesDeControl;
 	public MapaDeRuta(int numSucOrigen, int numSucDestino, float duracionHs,
 			float costo, float distancia) {
 		super();
@@ -19,6 +24,7 @@ public class MapaDeRuta {
 		this.costo = costo;
 		this.distancia = distancia;
 		this.recorridoEnCoord = new ArrayList<String>();
+		this.mensajesDeControl = new ArrayList<Document>();
 	}
 	public int getNumSucOrigen() {
 		return numSucOrigen;
@@ -55,6 +61,12 @@ public class MapaDeRuta {
 	}
 	public void addCoord(String coord) {
 		this.recorridoEnCoord.add(coord);
+	}
+	@Override
+	public void update(Observable o, Object arg) 
+	{
+		mensajesDeControl.add((Document)arg);
+		// TODO: Guardar tambien en coordenadas o reemplazarlo?
 	}
 	
 	

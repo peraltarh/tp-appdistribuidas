@@ -7,7 +7,7 @@ public class ConsideracionEspecial {
 	private boolean entregaInmediata;
 	private boolean requiereAvioneta;
 	private boolean autorizacionAvioneta;
-	private boolean requiereComionExterno;
+	private boolean requiereCamionExterno;
 	private float costoExtra;
 	private ArrayList<Carrier> carriers;
 	private ArrayList<VehiculoExterno> vExternos;
@@ -15,13 +15,13 @@ public class ConsideracionEspecial {
 	
 	public ConsideracionEspecial(boolean entregaInmediata,
 			boolean requiereAvioneta, boolean autorizacionAvioneta,
-			boolean requiereComionExterno, float costoExtra
+			boolean requiereCamionExterno, float costoExtra
 			) {
 		super();
 		this.entregaInmediata = entregaInmediata;
 		this.requiereAvioneta = requiereAvioneta;
 		this.autorizacionAvioneta = autorizacionAvioneta;
-		this.requiereComionExterno = requiereComionExterno;
+		this.requiereCamionExterno = requiereCamionExterno;
 		this.costoExtra = costoExtra;
 		this.carriers = new ArrayList<Carrier>();
 		this.vExternos = new ArrayList<VehiculoExterno>();
@@ -43,8 +43,8 @@ public class ConsideracionEspecial {
 	}
 
 
-	public boolean isRequiereComionExterno() {
-		return requiereComionExterno;
+	public boolean isRequiereCamionExterno() {
+		return requiereCamionExterno;
 	}
 
 
@@ -78,8 +78,8 @@ public class ConsideracionEspecial {
 	}
 
 
-	public void setRequiereComionExterno(boolean requiereComionExterno) {
-		this.requiereComionExterno = requiereComionExterno;
+	public void setRequiereCamionExterno(boolean requiereCamionExterno) {
+		this.requiereCamionExterno = requiereCamionExterno;
 	}
 
 
