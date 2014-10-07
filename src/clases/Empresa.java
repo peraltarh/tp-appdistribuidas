@@ -82,6 +82,12 @@ public class Empresa extends Cliente {
 	public void setCuentaCorriente(CuentaCorriente cuentaCorriente) {
 		this.cuentaCorriente = cuentaCorriente;
 	}
+
+
+	public entities.Empresa getEntity() {
+		return new entities.Empresa(getDireccion(), getTelefono(), getRazonSoial(), getCuit(), getRegularidad()); 
+		
+	}
 	
 	
 	
