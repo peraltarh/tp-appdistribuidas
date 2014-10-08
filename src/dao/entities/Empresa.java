@@ -1,4 +1,4 @@
-package entities;
+package dao.entities;
 
 import java.util.ArrayList;
 import java.util.List;

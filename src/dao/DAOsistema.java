@@ -2,9 +2,8 @@ package dao;
 
 import org.hibernate.classic.Session;
 
-import controller.Sistema;
-import persistencia.HibernateDAO;
-import persistencia.HibernateFactory;
+import clases.controller.Sistema;
+
 
 public class DAOsistema
 {

@@ -2,9 +2,8 @@ package dao;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
-import entities.*;
-import persistencia.HibernateDAO;
-import persistencia.HibernateFactory;
+import dao.entities.*;
+
 
 public class DAOCliente
 {

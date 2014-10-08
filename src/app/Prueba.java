@@ -4,8 +4,8 @@ package app;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 
-import entities.*;
 import dao.DAOCliente;
+import dao.entities.*;
 
 
 public class Prueba {
@@ -22,7 +22,7 @@ public class Prueba {
 	private static void AltaDatos() {
 		
 		
-		entities.Empresa emp = new entities.Empresa("Dir", "232323", "Empresa1", "200202020", "Regular");
+		dao.entities.Empresa emp = new dao.entities.Empresa("Dir", "232323", "Empresa1", "200202020", "Regular");
 		emp.addDireccioneValida(new EmpresaDirValidas ("DirValida1", emp));
 		emp.addDireccioneValida(new EmpresaDirValidas ("DirValida2", emp));
 		
@@ -35,8 +35,8 @@ public class Prueba {
 		emp.addCuentaCorriente(cuenta);
 
 
-		DAOCliente.getInstance().persistir(new entities.Particular("Dir", "202020", "Pepe", "Lopez", 33333));
-		DAOCliente.getInstance().persistir(new entities.Particular("Di2r", "202020", "Luis", "Lopez", 33334));
+		DAOCliente.getInstance().persistir(new dao.entities.Particular("Dir", "202020", "Pepe", "Lopez", 33333));
+		DAOCliente.getInstance().persistir(new dao.entities.Particular("Di2r", "202020", "Luis", "Lopez", 33334));
 		DAOCliente.getInstance().persistir(emp);
 		
 

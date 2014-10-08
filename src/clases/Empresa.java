@@ -84,8 +84,8 @@ public class Empresa extends Cliente {
 	}
 
 
-	public entities.Empresa getEntity() {
-		return new entities.Empresa(getDireccion(), getTelefono(), getRazonSoial(), getCuit(), getRegularidad()); 
+	public dao.entities.Empresa getEntity() {
+		return new dao.entities.Empresa(getDireccion(), getTelefono(), getRazonSoial(), getCuit(), getRegularidad()); 
 		
 	}
 	

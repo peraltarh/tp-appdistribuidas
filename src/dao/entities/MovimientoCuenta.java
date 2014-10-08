@@ -1,4 +1,4 @@
-package entities;
+package dao.entities;
 
 import java.sql.Date;
 
