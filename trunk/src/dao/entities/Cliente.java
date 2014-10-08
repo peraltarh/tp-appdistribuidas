@@ -1,4 +1,4 @@
-package entities;
+package dao.entities;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;

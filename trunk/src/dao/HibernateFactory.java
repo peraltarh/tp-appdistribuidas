@@ -1,9 +1,10 @@
-package persistencia;
+package dao;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import entities.*;
+import dao.entities.*;
+
 
  
 public class HibernateFactory
