@@ -3,32 +3,26 @@ package servidor_RMI;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+
+import ejemplo_1.rmi.GestionAlumnos;
+import repositorio_RMI.TDAManejoDatos;
 
 public class Servidor extends Thread{
+	
+	private TDAManejoDatos objetoRemoto;
 	private Socket s;
+	
+	public static void main(String[] args) 
+	{
+		new Servidor();
+	}
+	
 	
 	public Servidor()
 	{
-		int port=9999;
-		
-		try
-		{
-			ServerSocket ss=new ServerSocket(port);
-			Socket s1;
-			
-			while(true)
-			{
-				s1= ss.accept();
-				Servidor sNuevo= new Servidor(s1);
-				System.out.print("test");
-				sNuevo.start();
-			}
-			
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		run();
 	}
 
 	public Servidor(Socket s1) {
@@ -37,21 +31,27 @@ public class Servidor extends Thread{
 	
 	public void run()
 	{
-		try
-		{
-			ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
-			ois.close();
-			s.close();
-		}
-		catch (Exception e)
-		{
+		try {
+    		LocateRegistry.createRegistry(1099);	
+            TDAManejoDatos gestionAlumnos = new GestionAlumnos();
+            Naming.rebind ("//localhost/GestionAlumnos", gestionAlumnos);
+            System.out.println("Fijado en //localhost/GestionAlumnos");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+//		try
+//		{
+//			
+//			ObjectInputStream ois=new ObjectInputStream(s.getInputStream());
+//			ois.close();
+//			s.close();
+//		}
+//		catch (Exception e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
-	public static void main(String[] args) 
-	{
-		new Servidor();
-	}
+	
 	
 	
 

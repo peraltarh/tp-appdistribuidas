@@ -17,6 +17,7 @@ public interface TDAManejoDatos extends Remote
 	
 	/* alta de un Empresa Direccion Valida */
 	public void EmpresaDirValidas( String direccion, Empresa empresa) throws RemoteException;
+
 	
 	/* alta de una CuentaCorriente */
 	public void CuentaCorriente(int cbu,float saldoActual, float minimoPermitidoSinAuth, boolean TRUE, Empresa emp) throws RemoteException;
