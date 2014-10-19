@@ -110,7 +110,10 @@ public class Sistema {
 		this.cuentasCorrientes.add(cuentaCorriente);
 	}
 	
-	
+	public void addEmpresa(Empresa empresa)
+	{
+		this.empresa.add(empresa)
+	}
 	
 	
 }
