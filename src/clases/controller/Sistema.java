@@ -3,6 +3,7 @@ package clases.controller;
 import java.util.ArrayList;
 
 import clases.*;
+import dao.DAOCliente;
 
 
 public class Sistema {
@@ -26,7 +27,7 @@ public class Sistema {
 		return sys;
 	}
 	
-	private Sistema(){
+	public Sistema(){
 		this.sucursales = new ArrayList<Sucursal>();
 		this.politicas = new ArrayList<PoliticasDeEnvio>();
 		this.rutas = new ArrayList<MapaDeRuta>();
@@ -102,18 +103,22 @@ public class Sistema {
 		this.facturas.add(factura);
 	}
 
-	public void addCliente(Cliente cliente) {
+	private void addCliente(Cliente cliente) {
 		this.clientes.add(cliente);
 	}
 
 	public void addCuentaCorriente(CuentaCorriente cuentaCorriente) {
 		this.cuentasCorrientes.add(cuentaCorriente);
 	}
-	
-	public void addEmpresa(Empresa empresa)
-	{
-		this.empresa.add(empresa)
+
+	public void altaCliente(String direccion, String telefono,
+			String razonSoial, String cuit, String regularidad) {
+		Cliente c=new Cliente(direccion, telefono);
+		this.addCliente(c);
+		DAOCliente.getInstance().persistir(new dao.entities.Particular("Dir", "202020", "Pepe", "Lopez", 33333));
+		
 	}
+	
 	
 	
 }

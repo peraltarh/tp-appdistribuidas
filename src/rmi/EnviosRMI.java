@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 
-import controller.MesaController;
+import clases.controller.Sistema;
 import clases.controller.Sistema;
 
 public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
@@ -23,16 +23,14 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public void Cliente(String direccion, String telefono)
+	public void altaCliente(String direccion, String telefono)
 			throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		Sistema controller = new Sistema();
+		controller.altaCliente(direccion, telefono, telefono, telefono, telefono);
 	}
 
 	@Override
 	public void Empresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException {
-		Sistema controller = new Sistema();
-		return controller.getMesasPorEstado(estado);
 		
 	}
 

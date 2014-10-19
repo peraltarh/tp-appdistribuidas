@@ -1,26 +1,41 @@
 package app;
 
 
+import interfaz.InterfazEnvios;
+
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.sql.Date;
 import java.util.GregorianCalendar;
+
+import javax.swing.JOptionPane;
+
+import rmi.EnviosRMI;
 //Con RMI no deberia ir
 //import dao.DAOCliente;
 //import dao.entities.*;
 
 
 public class Prueba {
-
+	static InterfazEnvios iE;
 	public static void main(String[] args) {
-
-		AltaDatos();
 		
+		AltaDatos();		
 	}
-
+	
 	//DAMIAN
+	private static void AltaDatos()
+	{
+		try {
+			iE.altaCliente("direccion1", "5464523423");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
-	
-	
+}	
 	//RODRIGO
 
 //	private static void AltaDatos() {
