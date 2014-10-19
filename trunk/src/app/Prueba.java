@@ -11,31 +11,32 @@ import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 
 import rmi.EnviosRMI;
+
 //Con RMI no deberia ir
-//import dao.DAOCliente;
-//import dao.entities.*;
+import dao.DAOCliente;
+import dao.entities.*;
 
 
 public class Prueba {
-	static InterfazEnvios iE;
 	public static void main(String[] args) {
 		
 		AltaDatos();		
 	}
 	
 	//DAMIAN
+	
 	private static void AltaDatos()
 	{
 		try {
-			iE.altaCliente("direccion1", "5464523423");
+			EnviosRMI envios=new EnviosRMI();
+			envios.altaCliente("direccion1", "5464523423");
+			//iE.altaCliente("direccion1", "5464523423");
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
-}	
+
 	//RODRIGO
 
 //	private static void AltaDatos() {
@@ -60,9 +61,9 @@ public class Prueba {
 //		
 //
 //	}
-//
 
 
 
 
-//}
+
+}
