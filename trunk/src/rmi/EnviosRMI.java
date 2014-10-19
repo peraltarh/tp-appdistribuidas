@@ -6,6 +6,9 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 
+import controller.MesaController;
+import clases.controller.Sistema;
+
 public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 {
 
@@ -27,9 +30,9 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public void Empresa(String direccion, String telefono, String razonSoial,
-			String cuit, String regularidad) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void Empresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException {
+		Sistema controller = new Sistema();
+		return controller.getMesasPorEstado(estado);
 		
 	}
 
@@ -49,8 +52,7 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public void MovimientoCuenta(Date fecha, float monto,
-			dao.entities.CuentaCorriente cuenta) throws RemoteException {
+	public void MovimientoCuenta(Date fecha, float monto, dao.entities.CuentaCorriente cuenta) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}

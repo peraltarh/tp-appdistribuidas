@@ -1,24 +1,28 @@
-//package app;
-//
-//
-//import java.sql.Date;
-//import java.util.GregorianCalendar;
-//
+package app;
+
+
+import java.sql.Date;
+import java.util.GregorianCalendar;
+//Con RMI no deberia ir
 //import dao.DAOCliente;
 //import dao.entities.*;
-//
-//
-//public class Prueba {
-//
-//	public static void main(String[] args) {
-//
-//		AltaDatos();
-//		
-//		
-//		
-//		
-//	}
-//
+
+
+public class Prueba {
+
+	public static void main(String[] args) {
+
+		AltaDatos();
+		
+	}
+
+	//DAMIAN
+	
+	
+	
+	
+	//RODRIGO
+
 //	private static void AltaDatos() {
 //		
 //		
@@ -42,4 +46,8 @@
 //
 //	}
 //
+
+
+
+
 //}
