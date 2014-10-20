@@ -23,7 +23,7 @@ public class Sistema {
 	private ArrayList<Factura> facturas;
 	private ArrayList<Cliente> clientes;
 	private ArrayList<CuentaCorriente> cuentasCorrientes;
-	
+//	private ArrayList<dao.entities.Cliente> clientes2;
 	
 	
 	public static Sistema getInstance(){
@@ -121,6 +121,8 @@ public class Sistema {
 	{
 		Particular p=new Particular(direccion,telefono,nombre,apellido,dni);
 		addCliente(p);
+//		dao.entities.Particular p2 = new dao.entities.Particular(direccion,telefono,nombre,apellido,dni);
+//		this.clientes2.add(p2);
 		DAOCliente.getInstance().persistir(new dao.entities.Particular(direccion,telefono,nombre,apellido,dni));
 	}
 
