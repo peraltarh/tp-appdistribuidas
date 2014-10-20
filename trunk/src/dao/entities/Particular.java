@@ -9,13 +9,13 @@ import javax.persistence.Entity;
 @DiscriminatorValue("Particular")
 public class Particular extends Cliente{
 	
-	private long dni;
+	private String dni;
 	private String nombre;
 	private String apellido;
 	
 	
 	public Particular(String direccion, String telefono, String nombre,
-			String apellido, long dni) {
+			String apellido, String dni) {
 		super(direccion, telefono);
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -29,7 +29,7 @@ public class Particular extends Cliente{
 	}
 	
 	@Column (unique = true)
-	public long getDni() {
+	public String getDni() {
 		return dni;
 	}
 	public void setNombre(String nombre) {
@@ -38,7 +38,7 @@ public class Particular extends Cliente{
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public void setDni(long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 	

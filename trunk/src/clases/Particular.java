@@ -4,10 +4,10 @@ public class Particular extends Cliente{
 	
 	private String nombre;
 	private String apellido;
-	private long dni;
+	private String dni;
 	
 	public Particular(String direccion, String telefono, String nombre,
-			String apellido, long dni) {
+			String apellido, String dni) {
 		super(direccion, telefono);
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -19,7 +19,7 @@ public class Particular extends Cliente{
 	public String getApellido() {
 		return apellido;
 	}
-	public long getDni() {
+	public String getDni() {
 		return dni;
 	}
 	public void setNombre(String nombre) {
@@ -28,8 +28,14 @@ public class Particular extends Cliente{
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-	public void setDni(long dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
+	}
+	@Override
+	public boolean sosElCliente(String dni) {
+		if(dni.equalsIgnoreCase(this.dni))
+			return true;
+		return false;
 	}
 	
 	public dao.entities.Particular getEntity()
