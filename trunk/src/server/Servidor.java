@@ -1,4 +1,4 @@
-package main;
+package server;
 
 import interfaz.InterfazEnvios;
 
@@ -18,7 +18,7 @@ public class Servidor extends Thread{
 	public static void main(String[] args) 
 	{
 		new Servidor();
-		System.out.println("Arranco Server Restaurante");
+		System.out.println("Arranco Server Envios");
 	}
 	
 	
