@@ -119,6 +119,40 @@ public class Sistema {
 		
 	}
 	
+	public Sucursal getSucursal(int numero)
+	{
+		for(Sucursal sucursal : sucursales)
+		{
+			if(sucursal.getNumero() == numero)
+				return sucursal;
+		}
+		System.out.println("No se encontró la sucursal número "+numero+"\n");
+		return null;
+	}
 	
+	public String RegistrarPedido(Cliente _cliente, Pedido _pedido, int idSucursal)
+	{
+		return getSucursal(idSucursal).RegistrarPedido(_cliente, _pedido);
+	}
+	
+	public String ConfeccionDeEnvio( Pedido _pedido, int idSucursal)
+	{
+		return getSucursal(idSucursal).ProgramarEnvio(_pedido);
+	}
+	
+	public String ValidarEnviosAVencer()
+	{
+		String resultado = "";
+		for(Sucursal sucursal :  sucursales)
+		{
+			resultado += sucursal.validarPedidosAVencer();
+		}
+		return resultado;
+	}
+	
+	public String ContratacionDeTerceros()
+	{
+		return null;
+	}
 	
 }

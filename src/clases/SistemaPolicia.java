@@ -8,7 +8,7 @@ import java.util.Observer;
 
 public class SistemaPolicia implements Observer
 {
-	// Eager, inicialización temprana.
+	// Eager, inicializaciï¿½n temprana.
     private static volatile SistemaPolicia instance = new SistemaPolicia();
     // El primer valor es el nro de chapa del vehiculo desviado, el segundo
     // indica la cantidad de mensajes de desvio continuo
@@ -35,7 +35,7 @@ public class SistemaPolicia implements Observer
 				{
 					// Es el segundo mensaje consecutivo, por lo que son al menos
 					// 10 min fuera de ruta
-					// TODO : Avisar a la Policia
+					// TODO : Avisar a la Policia (seria algÃºn tipo de popup en la app web)
 					return;
 				}else{
 					// Sacarlo de la lista de vehiculos fuera de ruta.

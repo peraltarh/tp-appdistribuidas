@@ -20,8 +20,6 @@ public class DAOCliente
 		HibernateDAO.getInstancia().save(empresa);
 	}
 	
-
-	
 	public void persistir(Particular particular)
 	{
 		HibernateDAO.getInstancia().save(particular);

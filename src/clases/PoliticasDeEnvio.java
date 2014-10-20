@@ -1,7 +1,6 @@
 package clases;
 
-public class PoliticasDeEnvio {
-	
-	public PoliticasDeEnvio(){}
-
+public interface PoliticasDeEnvio 
+{	
+	 String Evaluar(Mercaderia _mercaderia);
 }

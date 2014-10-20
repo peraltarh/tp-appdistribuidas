@@ -2,8 +2,8 @@ package clases;
 
 public class Cliente {
 
-	private String direccion;
-	private String telefono;
+	protected String direccion;
+	protected String telefono;
 	public Cliente(String direccion, String telefono) {
 		super();
 		this.direccion = direccion;
@@ -21,9 +21,5 @@ public class Cliente {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	
-	
-	
-	
 	
 }

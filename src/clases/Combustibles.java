@@ -1,8 +1,15 @@
 package clases;
 
-public class Combustibles extends PoliticasDeEnvio{
+public class Combustibles implements PoliticasDeEnvio{
 
 	public Combustibles (){}
+
+	@Override
+	public String Evaluar(Mercaderia _mercaderia) {
+		return null;
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

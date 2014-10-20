@@ -133,6 +133,27 @@ public class Pedido {
 	public void addConsideraciones(ConsideracionEspecial consideracionEs) {
 		this.consideraciones.add(consideracionEs);
 	}
+
+	// 
+	public float getPesoTotal() 
+	{
+		float pesoTotal=0;
+		for(Mercaderia mercaderia : mercaderias)
+		{
+			pesoTotal += ((MercaderiaPorPeso)mercaderia).getPeso();
+		}
+		return pesoTotal;
+	}
+
+	public float getVolumenTotal() 
+	{
+		float volumenTotal=0;
+		for(Mercaderia mercaderia : mercaderias)
+		{
+			volumenTotal += ((MercaderiaPorVolumen)mercaderia).getVolumen();
+		}
+		return volumenTotal;
+	}
 	
 	
 	
