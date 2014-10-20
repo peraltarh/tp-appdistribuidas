@@ -7,7 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 
 import clases.controller.Sistema;
-import clases.controller.Sistema;
+
 
 public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 {
@@ -22,21 +22,16 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	 */
 	private static final long serialVersionUID = 1L;
 
+
+
 	@Override
-	public void altaCliente(String direccion, String telefono)
-			throws RemoteException {
-		Sistema controller = new Sistema();
-		controller.altaCliente(direccion, telefono, telefono, telefono, telefono);
+	public void altaEmpresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException {
+		Sistema sistema = new Sistema();
+		sistema.altaEmpresa(direccion, telefono, telefono, telefono, telefono);
 	}
 
 	@Override
-	public void Empresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException {
-		
-	}
-
-	@Override
-	public void EmpresaDirValidas(String direccion, dao.entities.Empresa empresa)
-			throws RemoteException {
+	public void EmpresaDirValidas(String direccion, dao.entities.Empresa empresa) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -55,12 +50,6 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		
 	}
 
-	@Override
-	public void Particular(String direccion, String telefono, String nombre,
-			String apellido, long dni) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void Producto(String tipo, String descripcion,
@@ -68,5 +57,19 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni) throws RemoteException {
+		Sistema sistema=new Sistema();
+		sistema.altaParticular(direccion,telefono,nombre,apellido,dni);
+		
+	}
+
+	public void agregarDireccionValida(String direccion, String cuit) {
+		Sistema sistema=new Sistema();
+		sistema.agregarDireccionValida(direccion,cuit);
+	}
+
+	
 	
 }

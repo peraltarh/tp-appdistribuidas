@@ -1,6 +1,6 @@
 package clases;
 
-public class Cliente {
+public abstract class Cliente {
 
 	protected String direccion;
 	protected String telefono;
@@ -21,5 +21,6 @@ public class Cliente {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+	public abstract boolean sosElCliente(String cuit);
 	
 }

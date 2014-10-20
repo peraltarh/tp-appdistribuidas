@@ -145,7 +145,7 @@ public class Sucursal {
 		if(_cliente.getClass()==Particular.class)
 		{
 			Particular particular = (Particular)_cliente;
-			if(particular.getDni()==0)
+			if(particular.getDni().isEmpty())
 				validacion += "Completar DNI. \n";
 			if(particular.getApellido().isEmpty())
 				validacion += "Completar apellido. \n";

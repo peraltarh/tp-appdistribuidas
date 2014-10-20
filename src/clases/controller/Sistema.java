@@ -1,9 +1,13 @@
 package clases.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import clases.*;
 import dao.DAOCliente;
+import dao.entities.Empresa;
+import dao.entities.EmpresaDirValidas;
+
 
 
 public class Sistema {
@@ -111,47 +115,37 @@ public class Sistema {
 		this.cuentasCorrientes.add(cuentaCorriente);
 	}
 
-	public void altaCliente(String direccion, String telefono,
-			String razonSoial, String cuit, String regularidad) {
-		Cliente c=new Cliente(direccion, telefono);
-		this.addCliente(c);
-		DAOCliente.getInstance().persistir(new dao.entities.Particular("Dir", "202020", "Pepe", "Lopez", 33333));
+
+	
+	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
+	{
+		Particular p=new Particular(direccion,telefono,nombre,apellido,dni);
+		addCliente(p);
+		DAOCliente.getInstance().persistir(new dao.entities.Particular(direccion,telefono,nombre,apellido,dni));
+	}
+
+	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
+		Empresa e=new Empresa (direccion,telefono,razonSocial,cuit,regularidad);
+		clientes.add(e);
+		DAOCliente.getInstance().persistir(new dao.entities.Empresa(direccion,telefono,razonSocial,cuit,regularidad));
+	}
+
+	public void agregarDireccionValida(String direccion, String cuit) {
+		Empresa e = buscarEmpresa(cuit);
+		e.addDireccioneValida(new EmpresaDirValidas(direccion, e));
+		DAOCliente.getInstance().persistir(new dao.entities.Empresa(e.getDireccion(),e.getTelefono(),e.getRazonSoial(),e.getCuit(),e.getRegularidad()));
 		
 	}
-	
-	public Sucursal getSucursal(int numero)
+
+	private Empresa buscarEmpresa(String cuit) 
 	{
-		for(Sucursal sucursal : sucursales)
+		for (Cliente c:clientes)
 		{
-			if(sucursal.getNumero() == numero)
-				return sucursal;
+			if(c.sosElCliente(cuit))
+			{
+				return c;
+			}
 		}
-		System.out.println("No se encontró la sucursal número "+numero+"\n");
-		return null;
-	}
-	
-	public String RegistrarPedido(Cliente _cliente, Pedido _pedido, int idSucursal)
-	{
-		return getSucursal(idSucursal).RegistrarPedido(_cliente, _pedido);
-	}
-	
-	public String ConfeccionDeEnvio( Pedido _pedido, int idSucursal)
-	{
-		return getSucursal(idSucursal).ProgramarEnvio(_pedido);
-	}
-	
-	public String ValidarEnviosAVencer()
-	{
-		String resultado = "";
-		for(Sucursal sucursal :  sucursales)
-		{
-			resultado += sucursal.validarPedidosAVencer();
-		}
-		return resultado;
-	}
-	
-	public String ContratacionDeTerceros()
-	{
 		return null;
 	}
 	

@@ -88,6 +88,14 @@ public class Empresa extends Cliente {
 		return new dao.entities.Empresa(getDireccion(), getTelefono(), getRazonSoial(), getCuit(), getRegularidad()); 
 		
 	}
+
+
+	@Override
+	public boolean sosElCliente(String cuit) {
+		if(cuit.equalsIgnoreCase(this.cuit))
+			return true;
+		return false;
+	}
 	
 	
 	
