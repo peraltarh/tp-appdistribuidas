@@ -32,7 +32,7 @@ public class Prueba {
 			envios.altaParticular("salta 1234", "543523", "Pepe", "Garcia", "32243243");
 			envios.altaEmpresa("DirEmpresa","3432423","Empresa1","111111","Regular");
 			envios.altaEmpresa("DirEmpresa2","999999","Empresa2","222222","Regular");
-			envios.agregarDireccionValida("DireccionValida","222222");
+			envios.agregarDireccionValida("DireccionValida","111111");
 			
 			//iE.altaCliente("direccion1", "5464523423");
 		} catch (RemoteException e) {

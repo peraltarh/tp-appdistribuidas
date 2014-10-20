@@ -125,28 +125,31 @@ public class Sistema {
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
-		Empresa e=new Empresa (direccion,telefono,razonSocial,cuit,regularidad);
+		clases.Empresa e=new clases.Empresa (direccion,telefono,razonSocial,cuit,regularidad);
 		clientes.add(e);
 		DAOCliente.getInstance().persistir(new dao.entities.Empresa(direccion,telefono,razonSocial,cuit,regularidad));
 	}
 
+	//Falla el buscarEmpresa-> Inserta mal los datos y genera duplicados en la base.
 	public void agregarDireccionValida(String direccion, String cuit) {
-		Empresa e = buscarEmpresa(cuit);
-		e.addDireccioneValida(new EmpresaDirValidas(direccion, e));
-		DAOCliente.getInstance().persistir(new dao.entities.Empresa(e.getDireccion(),e.getTelefono(),e.getRazonSoial(),e.getCuit(),e.getRegularidad()));
+//		clases.Empresa e = buscarEmpresa(cuit);
+//		e.addDireccioneValida(new EmpresaDirValidas(direccion, e));
+//		DAOCliente.getInstance().persistir(new dao.entities.Empresa(e.getDireccion(),e.getTelefono(),e.getRazonSoial(),e.getCuit(),e.getRegularidad()));
 		
 	}
 
-	private Empresa buscarEmpresa(String cuit) 
+//Falla con el CAST.
+	
+	private clases.Empresa buscarEmpresa(String cuit) 
 	{
-		for (Cliente c:clientes)
+		int i=0;
+		for (clases.Cliente c:clientes)
 		{
 			if(c.sosElCliente(cuit))
 			{
-				return c;
+				return (clases.Empresa) c;
 			}
 		}
 		return null;
 	}
-	
 }

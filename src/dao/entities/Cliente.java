@@ -16,7 +16,7 @@ import javax.persistence.Table;
 		name="tipo",
 		discriminatorType=DiscriminatorType.STRING
 		)
-public class Cliente {
+public abstract class Cliente {
 
 	private int idCliente;
 	private String direccion;
@@ -24,7 +24,6 @@ public class Cliente {
 	
 	
 	public Cliente(String direccion, String telefono) {
-		super();
 		this.direccion = direccion;
 		this.telefono = telefono;
 	}
