@@ -2,7 +2,7 @@ package clases;
 
 import java.util.ArrayList;
 import java.util.List;
-// TODO: seguimiento satelital, los seguros y el móvil de seguridad
+// TODO: seguimiento satelital, los seguros y el mï¿½vil de seguridad
 public class Contrataciones 
 {
     private static volatile Contrataciones instance = new Contrataciones();    
@@ -18,7 +18,7 @@ public class Contrataciones
         return instance;
     }
     
-	public void contratarTransporteExterno(Pedido pedido)
+	public String contratarTransporteExterno(Pedido pedido)
 	{
 		// TODO: Cargar BBDD de empresas de transporte.
 		ArrayList<ConsideracionEspecial> listaConsideraciones = pedido.getConsideraciones();
@@ -37,7 +37,7 @@ public class Contrataciones
 				continue;
 			}
 			
-			// Envío internacional (carrier)
+			// Envï¿½o internacional (carrier)
 			
 			
 			
@@ -46,6 +46,7 @@ public class Contrataciones
 			// Por lo tanto cualquier empresa normal sirve.
 			solicitarVehiculoExterno(ce);
 		}
+		return null;
 		
 	}
 	// Para estas tres, despues de obtener la lista de empresas que cumplen

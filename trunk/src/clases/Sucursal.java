@@ -1,6 +1,13 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import clases.controller.Sistema;
+import dao.DAOCliente;
+import dao.DAOPedido;
 
 public class Sucursal {
 	
@@ -89,6 +96,167 @@ public class Sucursal {
 		this.rutas.add(ruta);
 	}
 	
+	// Recibe un cliente nuevo o el Id del cliente(si ya existe), mas un pedido completo
+	public String RegistrarPedido(Cliente _cliente, Pedido _pedido)
+	{
+		String resultado = "";
+		Cliente clienteBD = null;// TODO: Reemplazar null por busqueda en la BBDD (DAOCliente)
+		// Esta el cliente en la BBDD?
+		if(clienteBD == null)
+		{
+			// [No]->Dar de alta.
+			// comprobar que esten todos los datos necesarios y que no haya errores.
+			resultado = validarCliente(_cliente);
+			// Paso la validación?
+			if(!resultado.isEmpty())
+			{
+				// [No]-> Devolver resultado de la validación.
+				return resultado;
+			}else{
+				// Alta de cliente
+				if(_cliente.getClass()==Particular.class)
+					DAOCliente.getInstance().persistir(((Particular)_cliente).getEntity());
+				else
+					DAOCliente.getInstance().persistir(((Empresa)_cliente).getEntity());
+			}
+		}
+		// Cliente[Ok]-> Validar y persistir pedido.
+		// Validar mercaderias
+		for(Mercaderia mercaderia :_pedido.getMercaderias())
+		{
+			resultado += validarMercaderia(clienteBD, mercaderia);			
+		}
+		if(!resultado.isEmpty())
+			return resultado;
+		// Mercaderias[Ok]
+		DAOPedido.getInstance().persistir(_pedido);
+		
+		return resultado;// Operación finalizada con éxito
+	}
 	
-
+	// Comprueba que no falten completar datos del cliente
+	public String validarCliente(Cliente _cliente)
+	{
+		String validacion = "";
+		if(_cliente.getDireccion().isEmpty())
+			validacion += "Completar dirección. \n";
+		if(_cliente.getTelefono().isEmpty())
+			validacion += "Completar telefono. \n";
+		if(_cliente.getClass()==Particular.class)
+		{
+			Particular particular = (Particular)_cliente;
+			if(particular.getDni()==0)
+				validacion += "Completar DNI. \n";
+			if(particular.getApellido().isEmpty())
+				validacion += "Completar apellido. \n";
+			if(particular.getNombre().isEmpty())
+				validacion += "Completar nombre. \n";
+		}else{
+			Empresa empresa = (Empresa)_cliente;
+			// TODO: añadir los datos que faltan.
+			if(empresa.getRazonSoial().isEmpty())
+				validacion += "Completar razón social. \n";
+		
+		}
+		return validacion;// Si todo esta Ok devuelve un String vacio.
+	}
+	
+	public String validarMercaderia(Cliente _cliente, Mercaderia _mercaderia)
+	{
+		String validacion = "";
+		//TODO: _cliente.get getAutorizaciones -> implementar?
+		for(PoliticasDeEnvio politica :Sistema.getInstance().getPoliticas())
+		{
+			validacion = politica.Evaluar(_mercaderia);
+		}
+		return validacion;
+	}
+	
+	public String ProgramarEnvio(Pedido _pedido) 
+	{
+		for(Vehiculo vehiculo : vehiculos)
+		{
+			if(vehiculo.getEstado().equals("Disponible"))// TODO: Cambiar por enum?
+			{
+				// TODO: y ahora? hay mercaderia por volumen y por peso pero no con
+				// 		 ambos. Por ahora queda solamente por volumen con cast.
+				float volumenOcupado = vehiculo.getVolumenMax()/100.f*_pedido.getVolumenTotal();
+				if(volumenOcupado > 100)
+					continue;
+				if(volumenOcupado > 70)
+				{
+					Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+					for(Mercaderia mercaderia : _pedido.getMercaderias())
+						remito.addMercaderia(mercaderia);
+					vehiculo.addRemito(remito);
+					vehiculo.setEstado("Despachar");
+					return null;
+				}else{
+					Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+					for(Mercaderia mercaderia : _pedido.getMercaderias())
+						remito.addMercaderia(mercaderia);
+					vehiculo.addRemito(remito);
+					vehiculo.setEstado("Media carga");
+					return null;
+				}
+			}else{
+				if(vehiculo.getEstado().equals("Media carga")  && vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal())
+				{
+					Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+					for(Mercaderia mercaderia : _pedido.getMercaderias())
+						remito.addMercaderia(mercaderia);
+					vehiculo.addRemito(remito);
+					
+					if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
+					{
+						vehiculo.setEstado("Despachar");
+						return null;
+					}else{
+						vehiculo.setEstado("Media carga");			
+						return null;
+					}
+				}
+			}
+		}
+		return new String("No hay vehiculos/espacio disponible");
+	}
+	
+	public String validarPedidosAVencer() 
+	{
+		float aVencer = 0, propios = 0, terceros = 0;
+		List<Pedido> pedidosAVencer = new ArrayList<Pedido>();
+		for(Pedido pedido : pedidos)
+		{
+			int diasRestantes = (int) TimeUnit.MILLISECONDS.toDays(pedido.getFechaEnregaMaxima().getTime() - (new Date()).getTime());
+			// TODO: Cuando estaria por vencer?
+			if(diasRestantes <= 3)// cualquier número, reemplazar por lo que se necesite
+				pedidosAVencer.add(pedido);
+		}
+		aVencer = pedidosAVencer.size();
+		// Intentar despachar con los vehiculos propios
+		for(Pedido pedido : pedidosAVencer)
+		{
+			if(ProgramarEnvio(pedido).isEmpty())// String vacio significa que se completo exitosamente la operación
+				pedidosAVencer.remove(pedido);
+		}
+		propios = aVencer - pedidosAVencer.size();
+		// Despachar los restantes por terceros
+		for(Pedido pedido : pedidosAVencer)
+		{
+			if(TercerizarTransporte(pedido).isEmpty())
+				pedidosAVencer.remove(pedido);
+		}
+		terceros = aVencer - propios - pedidosAVencer.size();
+		if(pedidosAVencer.isEmpty())
+			return null;
+		else
+			return new String("Pedidos a vencer:"+aVencer+"\nDespachados por medios propios:"+propios
+					+"\nDespachados por terceros:"+terceros+"Pendientes:"+(aVencer-propios-terceros));
+	}
+	
+	private String TercerizarTransporte(Pedido pedido) 
+	{
+		return Contrataciones.getInstance().contratarTransporteExterno(pedido);
+	}
+	
 }

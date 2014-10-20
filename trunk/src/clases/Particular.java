@@ -32,6 +32,9 @@ public class Particular extends Cliente{
 		this.dni = dni;
 	}
 	
-	
+	public dao.entities.Particular getEntity()
+	{
+		return new dao.entities.Particular(direccion, telefono, nombre, apellido, dni);
+	}
 
 }

@@ -111,7 +111,5 @@ public class Mercaderia {
 	public void addMovimiento (Movimiento movimiento) {
 		this.movimientos.add(movimiento);
 	}
-	
-	
 
 }

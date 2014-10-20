@@ -196,5 +196,18 @@ public class Vehiculo extends Observable {
 		// Pasa como parametro un objeto de tipo Document (documento XML)
         notifyObservers(MensajeDeControl.getInstance().GenerarMensajeDeControl(this));
 	}
+
+	public float getVolumenDisponible() 
+	{
+		float volumenOcupado = 0;
+		for(Remito remito: remitos)
+		{
+			for(Mercaderia mercaderia: remito.getMercaderias())
+			{
+				volumenOcupado += ((MercaderiaPorVolumen)mercaderia).getVolumen();
+			}
+		}
+		return volumenMax-volumenOcupado;
+	}
 	
 }
