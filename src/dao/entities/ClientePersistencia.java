@@ -16,14 +16,14 @@ import javax.persistence.Table;
 		name="tipo",
 		discriminatorType=DiscriminatorType.STRING
 		)
-public abstract class Cliente {
+public abstract class ClientePersistencia {
 
 	private int idCliente;
 	private String direccion;
 	private String telefono;
 	
 	
-	public Cliente(String direccion, String telefono) {
+	public ClientePersistencia(String direccion, String telefono) {
 		this.direccion = direccion;
 		this.telefono = telefono;
 	}

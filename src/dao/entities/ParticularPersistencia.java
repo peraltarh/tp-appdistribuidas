@@ -1,12 +1,20 @@
-package clases;
+package dao.entities;
 
-public class Particular extends Cliente{
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+
+@Entity
+@DiscriminatorValue("Particular")
+public class ParticularPersistencia extends ClientePersistencia{
 	
+	private String dni;
 	private String nombre;
 	private String apellido;
-	private String dni;
 	
-	public Particular(String direccion, String telefono, String nombre,
+	
+	public ParticularPersistencia(String direccion, String telefono, String nombre,
 			String apellido, String dni) {
 		super(direccion, telefono);
 		this.nombre = nombre;
@@ -19,6 +27,8 @@ public class Particular extends Cliente{
 	public String getApellido() {
 		return apellido;
 	}
+	
+	@Column (unique = true)
 	public String getDni() {
 		return dni;
 	}
@@ -31,16 +41,7 @@ public class Particular extends Cliente{
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	@Override
-	public boolean sosElCliente(String dni) {
-		if(dni.equalsIgnoreCase(this.dni))
-			return true;
-		return false;
-	}
 	
-	public dao.entities.ParticularPersistencia getEntity()
-	{
-		return new dao.entities.ParticularPersistencia(direccion, telefono, nombre, apellido, dni);
-	}
+	
 
 }

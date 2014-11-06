@@ -5,8 +5,8 @@ import java.util.Iterator;
 
 import clases.*;
 import dao.DAOCliente;
-import dao.entities.Empresa;
-import dao.entities.EmpresaDirValidas;
+import dao.entities.EmpresaPersistencia;
+import dao.entities.EmpresaDirValidasPersistencia;
 
 
 
@@ -123,13 +123,13 @@ public class Sistema {
 		addCliente(p);
 //		dao.entities.Particular p2 = new dao.entities.Particular(direccion,telefono,nombre,apellido,dni);
 //		this.clientes2.add(p2);
-		DAOCliente.getInstance().persistir(new dao.entities.Particular(direccion,telefono,nombre,apellido,dni));
+		DAOCliente.getInstance().persistir(new dao.entities.ParticularPersistencia(direccion,telefono,nombre,apellido,dni));
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
 		clases.Empresa e=new clases.Empresa (direccion,telefono,razonSocial,cuit,regularidad);
 		clientes.add(e);
-		DAOCliente.getInstance().persistir(new dao.entities.Empresa(direccion,telefono,razonSocial,cuit,regularidad));
+		DAOCliente.getInstance().persistir(new dao.entities.EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad));
 	}
 
 	//Falla el buscarEmpresa-> Inserta mal los datos y genera duplicados en la base.

@@ -11,14 +11,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="MovimientoCuenta")
-public class MovimientoCuenta {
+public class MovimientoCuentaPersistencia {
 	
 	private int idMovimiento;
 	private Date fecha;
 	private float monto;
-	private CuentaCorriente cuenta;
+	private CuentaCorrientePersistencia cuenta;
 	
-	public MovimientoCuenta(Date fecha, float monto, CuentaCorriente cuenta) {
+	public MovimientoCuentaPersistencia(Date fecha, float monto, CuentaCorrientePersistencia cuenta) {
 		super();
 		this.fecha = fecha;
 		this.monto = monto;
@@ -39,11 +39,11 @@ public class MovimientoCuenta {
 
 	@ManyToOne
 	@JoinColumn(name="cbu")
-	public CuentaCorriente getCuenta() {
+	public CuentaCorrientePersistencia getCuenta() {
 		return cuenta;
 	}
 
-	public void setCuenta(CuentaCorriente cuenta) {
+	public void setCuenta(CuentaCorrientePersistencia cuenta) {
 		this.cuenta = cuenta;
 	}
 

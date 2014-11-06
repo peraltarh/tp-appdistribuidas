@@ -9,15 +9,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="ProductosValidos")
-public class Producto {
+public class ProductoPersistencia {
 	
 	private int idProd;
 	private String tipo;
 	private String descripcion;
-	private Empresa empresa;
+	private EmpresaPersistencia empresa;
 	
 	
-	public Producto(String tipo, String descripcion,Empresa empresa) {
+	public ProductoPersistencia(String tipo, String descripcion,EmpresaPersistencia empresa) {
 		super();
 		this.tipo = tipo;
 		this.descripcion = descripcion;
@@ -37,11 +37,11 @@ public class Producto {
 	
 	@ManyToOne
 	@JoinColumn(name="empresa")
-	public Empresa getEmpresa() {
+	public EmpresaPersistencia getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(EmpresaPersistencia empresa) {
 		this.empresa = empresa;
 	}
 
