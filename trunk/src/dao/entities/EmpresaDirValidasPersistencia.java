@@ -9,11 +9,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="DireccionesEmpresa")
-public class EmpresaDirValidas {
+public class EmpresaDirValidasPersistencia {
 	
 	private int idDir;
 	private String direccion;
-	private Empresa empresa;
+	private EmpresaPersistencia empresa;
 	
 	
 	@Id
@@ -28,11 +28,11 @@ public class EmpresaDirValidas {
 	
 	@ManyToOne
 	@JoinColumn(name="empresa")
-	public Empresa getEmpresa() {
+	public EmpresaPersistencia getEmpresa() {
 		return empresa;
 	}
 	
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(EmpresaPersistencia empresa) {
 		this.empresa = empresa;
 	}
 	
@@ -45,7 +45,7 @@ public class EmpresaDirValidas {
 		this.direccion = direccion;
 	}
 
-	public EmpresaDirValidas( String direccion, Empresa empresa) {
+	public EmpresaDirValidasPersistencia( String direccion, EmpresaPersistencia empresa) {
 		super();
 		this.direccion = direccion;
 		this.empresa = empresa;

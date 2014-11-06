@@ -14,22 +14,22 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="CuentaCorriente")
-public class CuentaCorriente {
+public class CuentaCorrientePersistencia {
 	private int cbu;
 	private float saldoActual;
 	private float minimoPermitidoSinAuth;
 	private boolean estado;
-	private Empresa empresa;
-	private List<MovimientoCuenta> movimientos;
+	private EmpresaPersistencia empresa;
+	private List<MovimientoCuentaPersistencia> movimientos;
 	
-	public CuentaCorriente(int cbu,float saldoActual, float minimoPermitidoSinAuth,
-			boolean estado, Empresa emp) {
+	public CuentaCorrientePersistencia(int cbu,float saldoActual, float minimoPermitidoSinAuth,
+			boolean estado, EmpresaPersistencia emp) {
 		super();
 		this.cbu = cbu;
 		this.saldoActual = saldoActual;
 		this.minimoPermitidoSinAuth = minimoPermitidoSinAuth;
 		this.estado = estado;
-		this.movimientos = new ArrayList<MovimientoCuenta>();
+		this.movimientos = new ArrayList<MovimientoCuentaPersistencia>();
 		this.empresa = emp;
 	}
 
@@ -43,7 +43,7 @@ public class CuentaCorriente {
 		this.cbu = cbu;
 	}
 
-	public void setMovimientos(List<MovimientoCuenta> movimientos) {
+	public void setMovimientos(List<MovimientoCuentaPersistencia> movimientos) {
 		this.movimientos = movimientos;
 	}
 	
@@ -62,7 +62,7 @@ public class CuentaCorriente {
 
 	@OneToMany (cascade=CascadeType.ALL)
 	@JoinColumn(name="cbu")
-	public List<MovimientoCuenta> getMovimientos() {
+	public List<MovimientoCuentaPersistencia> getMovimientos() {
 		return movimientos;
 	}
 
@@ -79,7 +79,7 @@ public class CuentaCorriente {
 	}
 
 	
-	public void addMovimiento(MovimientoCuenta movimiento) {
+	public void addMovimiento(MovimientoCuentaPersistencia movimiento) {
 		this.movimientos.add(movimiento);
 	}
 	
@@ -87,11 +87,11 @@ public class CuentaCorriente {
 	
 	@ManyToOne
 	@JoinColumn(name="empresa")
-	public Empresa getEmpresa() {
+	public EmpresaPersistencia getEmpresa() {
 		return empresa;
 	}
 
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(EmpresaPersistencia empresa) {
 		this.empresa = empresa;
 	}
 

@@ -31,21 +31,21 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public void EmpresaDirValidas(String direccion, dao.entities.Empresa empresa) throws RemoteException {
+	public void EmpresaDirValidas(String direccion, dao.entities.EmpresaPersistencia empresa) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void CuentaCorriente(int cbu, float saldoActual,
-			float minimoPermitidoSinAuth, boolean TRUE, dao.entities.Empresa emp)
+			float minimoPermitidoSinAuth, boolean TRUE, dao.entities.EmpresaPersistencia emp)
 			throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void MovimientoCuenta(Date fecha, float monto, dao.entities.CuentaCorriente cuenta) throws RemoteException {
+	public void MovimientoCuenta(Date fecha, float monto, dao.entities.CuentaCorrientePersistencia cuenta) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -53,7 +53,7 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 
 	@Override
 	public void Producto(String tipo, String descripcion,
-			dao.entities.Empresa empresa) throws RemoteException {
+			dao.entities.EmpresaPersistencia empresa) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}

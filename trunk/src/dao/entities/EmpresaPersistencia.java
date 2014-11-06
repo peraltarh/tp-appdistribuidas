@@ -13,27 +13,27 @@ import javax.persistence.OneToMany;
 
 @Entity
 @DiscriminatorValue("Empresa")
-public class Empresa extends Cliente {
+public class EmpresaPersistencia extends ClientePersistencia {
 
 
 
 	private String cuit;
 	private String razonSoial;
 	private String regularidad;
-	private List<EmpresaDirValidas> direccionesValidas;
-	private List<Producto> productosValidos;
-	private List<CuentaCorriente> cuentasCorrientes;
+	private List<EmpresaDirValidasPersistencia> direccionesValidas;
+	private List<ProductoPersistencia> productosValidos;
+	private List<CuentaCorrientePersistencia> cuentasCorrientes;
 	
 	
-	public Empresa(String direccion, String telefono, String razonSoial,
+	public EmpresaPersistencia(String direccion, String telefono, String razonSoial,
 			String cuit, String regularidad) {
 		super(direccion, telefono);
 		this.razonSoial = razonSoial;
 		this.cuit = cuit;
 		this.regularidad = regularidad;
-		this.direccionesValidas = new ArrayList<EmpresaDirValidas>();
-		this.productosValidos = new ArrayList<Producto>();
-		this.cuentasCorrientes =  new ArrayList<CuentaCorriente>();
+		this.direccionesValidas = new ArrayList<EmpresaDirValidasPersistencia>();
+		this.productosValidos = new ArrayList<ProductoPersistencia>();
+		this.cuentasCorrientes =  new ArrayList<CuentaCorrientePersistencia>();
 	}
 
 
@@ -53,21 +53,21 @@ public class Empresa extends Cliente {
 
 	@OneToMany (cascade=CascadeType.ALL)
 	@JoinColumn(name="empresa")
-	public List<EmpresaDirValidas> getDireccionesValidas() {
+	public List<EmpresaDirValidasPersistencia> getDireccionesValidas() {
 		return direccionesValidas;
 	}
 
 
 	@OneToMany (cascade=CascadeType.ALL)
 	@JoinColumn(name="empresa")
-	public List<Producto> getProductosValidos() {
+	public List<ProductoPersistencia> getProductosValidos() {
 		return productosValidos;
 	}
 
 
 	@OneToMany (cascade=CascadeType.ALL)
 	@JoinColumn(name="empresa")
-	public List<CuentaCorriente> getCuentasCorrientes() {
+	public List<CuentaCorrientePersistencia> getCuentasCorrientes() {
 		return cuentasCorrientes;
 	}
 
@@ -87,32 +87,32 @@ public class Empresa extends Cliente {
 	}
 
 
-	public void addDireccioneValida(EmpresaDirValidas direccionValida) {
+	public void addDireccioneValida(EmpresaDirValidasPersistencia direccionValida) {
 		this.direccionesValidas.add(direccionValida);
 	}
 
 
-	public void addProductoValido(Producto productosValido) {
+	public void addProductoValido(ProductoPersistencia productosValido) {
 		this.productosValidos.add(productosValido);
 	}
 
 
-	public void setCuentasCorrientes(List<CuentaCorriente> cuentasCorrientes) {
+	public void setCuentasCorrientes(List<CuentaCorrientePersistencia> cuentasCorrientes) {
 		this.cuentasCorrientes = cuentasCorrientes;
 	}
 
 
 	
-	public void setProductosValidos(List<Producto> productosValidos) {
+	public void setProductosValidos(List<ProductoPersistencia> productosValidos) {
 		this.productosValidos = productosValidos;
 	}
 
-	public void setDireccionesValidas(List<EmpresaDirValidas> direccionesValidas) {
+	public void setDireccionesValidas(List<EmpresaDirValidasPersistencia> direccionesValidas) {
 		this.direccionesValidas = direccionesValidas;
 	}
 
 
-	public void addCuentaCorriente(CuentaCorriente cuentaCorriente) {
+	public void addCuentaCorriente(CuentaCorrientePersistencia cuentaCorriente) {
 		this.cuentasCorrientes.add(cuentaCorriente);
 		
 	}
