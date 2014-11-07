@@ -1,25 +1,46 @@
 package dao.entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MercaderiaPersistencia {
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+
+@Entity
+@Table(name="Mercaderia")
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE.JOINED)
+@DiscriminatorColumn(name="tipo",discriminatorType=DiscriminatorType.STRING)
+
+public abstract class MercaderiaPersistencia {
 	
-	private float alto;
-	private float ancho;
-	private float profundidad;
-	private String fragilidad;
-	private boolean aplicable;
-	private int cantApilable;
-	private String condDeViaje;
-	private String indicacionesManpulacion;
-	private String coordenadasDestino;
-	private ArrayList<MovimientoPersistencia> movimientos;
+	protected int idMercaderia;
+	protected float alto;
+	protected float ancho;
+	protected float profundidad;
+	protected String fragilidad;
+	protected boolean aplicable;
+	protected int cantApilable;
+	protected String condDeViaje;
+	protected String indicacionesManpulacion;
+	protected String coordenadasDestino;
+	protected RemitoPersistencia remito;
+	protected List<MovimientoPersistencia> movimientos;
 	
-	public MercaderiaPersistencia(float alto, float ancho, float profundidad,
-			String fragilidad, boolean aplicable, int cantApilable,
-			String condDeViaje, String indicacionesManpulacion,
-			String coordenadasDestino) {
-		super();
+	public MercaderiaPersistencia(float alto, float ancho, float profundidad,String fragilidad, boolean aplicable, int cantApilable,
+			String condDeViaje, String indicacionesManpulacion,	String coordenadasDestino, RemitoPersistencia remito) {
 		this.alto = alto;
 		this.ancho = ancho;
 		this.profundidad = profundidad;
@@ -30,7 +51,44 @@ public class MercaderiaPersistencia {
 		this.indicacionesManpulacion = indicacionesManpulacion;
 		this.coordenadasDestino = coordenadasDestino;
 		this.movimientos = new ArrayList<MovimientoPersistencia>();
+		this.remito=remito;
 	}
+
+	
+	@Id
+	@GeneratedValue
+	public int getIdMercaderia() {
+		return idMercaderia;
+	}
+	public void setIdMercaderia(int idMercaderia) {
+		this.idMercaderia = idMercaderia;
+	}
+
+
+@ManyToOne
+@JoinColumn(name="nroRemito")
+	public RemitoPersistencia getRemito() {
+		return remito;
+	}
+
+
+
+	public void setRemito(RemitoPersistencia remito) {
+		this.remito = remito;
+	}
+
+
+@OneToMany(cascade=CascadeType.ALL)
+@JoinColumn(name="idMercaderia")
+	public List<MovimientoPersistencia> getMovimientos() {
+		return movimientos;
+	}
+
+	public void setMovimientos(ArrayList<MovimientoPersistencia> movimientos) {
+		this.movimientos = movimientos;
+	}
+
+
 
 	public float getAlto() {
 		return alto;
@@ -66,10 +124,6 @@ public class MercaderiaPersistencia {
 
 	public String getCoordenadasDestino() {
 		return coordenadasDestino;
-	}
-
-	public ArrayList<MovimientoPersistencia> getMovimientos() {
-		return movimientos;
 	}
 
 	public void setAlto(float alto) {

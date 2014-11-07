@@ -22,13 +22,13 @@ public class SistemaPoliciaPersistencia implements Observer
         return instance;
     }
     
-	@Override
+
 	public void update(Observable o, Object arg) 
 	{
 		// Buscar si estaba fuera de ruta.
 		for(Entry<String, Integer> vehiculo : vehiculosDesviados.entrySet())
 		{
-			if(vehiculo.getKey() == ((VehiculoPersistencia)o).getNroChasis())
+//			if(vehiculo.getKey() == ((VehiculoPersistencia)o).getNroChasis())
 			{
 				// Sigue fuera de ruta?
 				if(((VehiculoPersistencia)o).getEstado().contentEquals("Desviado"))
@@ -48,7 +48,7 @@ public class SistemaPoliciaPersistencia implements Observer
 		if(((VehiculoPersistencia)o).getEstado().contentEquals("Desviado"))
 		{
 			// Ponerlo en la lista de los vehiculos fuera de ruta.
-			vehiculosDesviados.put(((VehiculoPersistencia)o).getNroChasis(), 1);
+//			vehiculosDesviados.put(((VehiculoPersistencia)o).getNroChasis(), 1);
 		}
 		
 	}

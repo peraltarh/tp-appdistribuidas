@@ -2,17 +2,22 @@ package dao.entities;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import clases.PlanDeMantenimiento;
 import xml.MensajeDeControl;
+
 
 @Entity
 @Table(name="Vehiculo")
@@ -24,7 +29,7 @@ public class VehiculoPersistencia extends Observable {
 	private String condEspeciales;
 	private float tara;
 	private String patente;
-	private String nroChasis;
+	private int nroChasis;
 	private String tipo;
 	private float kilometrakeActual;
 	private float kilometrajemaximo;
@@ -34,13 +39,11 @@ public class VehiculoPersistencia extends Observable {
 	private long numeroPolizaSeguro;
 	private Date expiracionGarantia;
 	private SucursalPersistencia sucursal;
-	//	private ArrayList<PlanDeMantenimientoPersistencia> mantenimientosPlaneados;
-	//	private ArrayList<MantenimientoRealizadoPersistencia> mantenimientosRealizados;
-	//	private ArrayList<RemitoPersistencia> remitos;
+	private List<PlanDeMantenimientoPersistencia> mantenimientosPlaneados;
+	private List<MantenimientoRealizadoPersistencia> mantenimientosRealizados;
+	private List<RemitoPersistencia> remitos;
 
-	public VehiculoPersistencia(float pesoMax, float volumenMax, String condEspeciales,
-			float tara, String patente, String nroChasis, String tipo,
-			float kilometrakeActual, float kilometrajemaximo, Date modelo,
+	public VehiculoPersistencia(float pesoMax, float volumenMax, String condEspeciales,	float tara, String patente, int nroChasis, String tipo,	float kilometrakeActual, float kilometrajemaximo, Date modelo,
 			String coordenadaActual, String estado, long numeroPolizaSeguro,
 			Date expiracionGarantia, SucursalPersistencia sucursal) {
 		super();
@@ -58,9 +61,17 @@ public class VehiculoPersistencia extends Observable {
 		this.estado = estado;
 		this.numeroPolizaSeguro = numeroPolizaSeguro;
 		this.expiracionGarantia = expiracionGarantia;
-		//		this.mantenimientosPlaneados = new ArrayList<PlanDeMantenimientoPersistencia>();
-		//		this.mantenimientosRealizados = new ArrayList<MantenimientoRealizadoPersistencia>();
-		//		this.remitos = new ArrayList<RemitoPersistencia>();
+		this.mantenimientosPlaneados= new ArrayList<PlanDeMantenimientoPersistencia>();
+		this.mantenimientosRealizados = new ArrayList<MantenimientoRealizadoPersistencia>();
+		this.remitos = new ArrayList<RemitoPersistencia>();
+	}
+
+	
+	public String getPatente() {
+		return patente;
+	}
+	public void setPatente(String patente) {
+		this.patente = patente;
 	}
 
 	public float getPesoMax() {
@@ -78,16 +89,9 @@ public class VehiculoPersistencia extends Observable {
 	public float getTara() {
 		return tara;
 	}
-	
-	@Id
-	public String getPatente() {
-		return patente;
-	}
-	public void setPatente(String patente) {
-		this.patente = patente;
-	}
 
-	public String getNroChasis() {
+@Id
+	public int getNroChasis() {
 		return nroChasis;
 	}
 
@@ -99,6 +103,7 @@ public class VehiculoPersistencia extends Observable {
 		return kilometrakeActual;
 	}
 
+	
 	public float getKilometrajemaximo() {
 		return kilometrajemaximo;
 	}
@@ -141,9 +146,7 @@ public class VehiculoPersistencia extends Observable {
 		this.tara = tara;
 	}
 
-
-
-	public void setNroChasis(String nroChasis) {
+	public void setNroChasis(int nroChasis) {
 		this.nroChasis = nroChasis;
 	}
 
@@ -189,50 +192,78 @@ public class VehiculoPersistencia extends Observable {
 		this.sucursal = sucursal;
 	}
 
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="nroChasis")
+	public List<PlanDeMantenimientoPersistencia> getMantenimientosPlaneados() {
+		return mantenimientosPlaneados;
+	}
 
-	//	public ArrayList<PlanDeMantenimientoPersistencia> getMantenimientosPlaneados() {
-	//		return mantenimientosPlaneados;
-	//	}
-	//
-	//	public ArrayList<MantenimientoRealizadoPersistencia> getMantenimientosRealizados() {
-	//		return mantenimientosRealizados;
-	//	}
-	//
-	//	public ArrayList<RemitoPersistencia> getRemitos() {
-	//		return remitos;
-	//	}
-	//	public void addMantenimientoPlaneado(
-	//			PlanDeMantenimientoPersistencia mantenimientoPlaneado) {
-	//		this.mantenimientosPlaneados.add(mantenimientoPlaneado);
-	//	}
-	//
-	//	public void addMantenimientoRealizado(
-	//			MantenimientoRealizadoPersistencia mantenimientoRealizado) {
-	//		this.mantenimientosRealizados.add(mantenimientoRealizado);
-	//	}
-	//
-	//	public void addRemito(RemitoPersistencia remito) {
-	//		this.remitos.add(remito);
-	//	}
-	//	
-	//	public void EmitirMensajeDeControl()
-	//	{
-	//		setChanged();
-	//		// Pasa como parametro un objeto de tipo Document (documento XML)
-	////        notifyObservers(MensajeDeControl.getInstance().GenerarMensajeDeControl(this));
-	//	}
+	public void setMantenimientosPlaneados(
+			List<PlanDeMantenimientoPersistencia> mantenimientosPlaneados) {
+		this.mantenimientosPlaneados = mantenimientosPlaneados;
+	}
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="patente")
+	public List<MantenimientoRealizadoPersistencia> getMantenimientosRealizados() {
+		return mantenimientosRealizados;
+	}
+	
+	public void setMantenimientosPlaneados(ArrayList<PlanDeMantenimientoPersistencia> mantenimientosPlaneados) {
+		this.mantenimientosPlaneados = mantenimientosPlaneados;
+	}
+	
+	
+	
 
-	//	public float getVolumenDisponible() 
-	//	{
-	//		float volumenOcupado = 0;
-	//		for(RemitoPersistencia remito: remitos)
-	//		{
-	//			for(MercaderiaPersistencia mercaderia: remito.getMercaderias())
-	//			{
-	//				volumenOcupado += ((MercaderiaPorVolumenPersistencia)mercaderia).getVolumen();
-	//			}
-	//		}
-	//		return volumenMax-volumenOcupado;
-	//	}
+	public void setMantenimientosRealizados(
+			List<MantenimientoRealizadoPersistencia> mantenimientosRealizados) {
+		this.mantenimientosRealizados = mantenimientosRealizados;
+	}
+@OneToMany(cascade=CascadeType.ALL)
+@JoinColumn(name="nroChasis")
+	public List<RemitoPersistencia> getRemitos() {
+		return remitos;
+	}
+	public void setRemitos(List<RemitoPersistencia> remitos) {
+		this.remitos = remitos;
+	}
+
+	
+	public void addMantenimientoPlaneado(PlanDeMantenimientoPersistencia mantenimientoPlaneado) 
+	{
+		this.mantenimientosPlaneados.add(mantenimientoPlaneado);
+	}
+
+	public void addMantenimientoRealizado(MantenimientoRealizadoPersistencia mantenimientoRealizado) {
+		this.mantenimientosRealizados.add(mantenimientoRealizado);
+	}
+
+	
+	public void addRemito(RemitoPersistencia remito) {
+		this.remitos.add(remito);
+	}
+
+	public void EmitirMensajeDeControl()
+	{
+		setChanged();
+//		Pasa como parametro un objeto de tipo Document (documento XML)
+//		notifyObservers(MensajeDeControl.getInstance().GenerarMensajeDeControl(this));
+	}
+
+//	public float getVolumenDisponible() 
+//	{
+//		float volumenOcupado = 0;
+//		for(RemitoPersistencia remito: remitos)
+//		{
+//			for(MercaderiaPersistencia mercaderia: remito.getMercaderias())
+//			{
+//				volumenOcupado += ((MercaderiaPorVolumenPersistencia)mercaderia).getVolumen();
+//			}
+//		}
+//		return volumenMax-volumenOcupado;
+//	}
+	
+	
 
 }
