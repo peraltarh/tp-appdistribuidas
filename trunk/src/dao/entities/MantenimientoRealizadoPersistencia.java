@@ -2,17 +2,29 @@ package dao.entities;
 
 import java.sql.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="MantenimientoRealizado")
+
 public class MantenimientoRealizadoPersistencia {
 	
+	private int idMantenimiento;
 	private String descripcion;
 	private float costo;
 	private Date fecha;
 	private float kilometrajeActual;
 	private float kilometrosRealizadosDesdeUltimoControl;
 	private String tipo;
+	private VehiculoPersistencia vehiculo;
 	public MantenimientoRealizadoPersistencia(String descripcion, float costo, Date fecha,
 			float kilometrajeActual,
-			float kilometrosRealizadosDesdeUltimoControl, String tipo) {
+			float kilometrosRealizadosDesdeUltimoControl, String tipo, VehiculoPersistencia vehiculo) {
 		super();
 		this.descripcion = descripcion;
 		this.costo = costo;
@@ -21,6 +33,36 @@ public class MantenimientoRealizadoPersistencia {
 		this.kilometrosRealizadosDesdeUltimoControl = kilometrosRealizadosDesdeUltimoControl;
 		this.tipo = tipo;
 	}
+	
+	
+	@Id
+	@GeneratedValue	
+	public int getIdMantenimiento() {
+		return idMantenimiento;
+	}
+
+	public void setIdMantenimiento(int idMantenimiento) {
+		this.idMantenimiento = idMantenimiento;
+	}
+
+
+
+@ManyToOne
+@JoinColumn(name="patente")
+	public VehiculoPersistencia getVehiculo() {
+		return vehiculo;
+	}
+
+
+
+
+	public void setVehiculo(VehiculoPersistencia vehiculo) {
+		this.vehiculo = vehiculo;
+	}
+
+
+
+
 	public String getDescripcion() {
 		return descripcion;
 	}

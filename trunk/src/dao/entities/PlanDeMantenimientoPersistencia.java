@@ -1,17 +1,55 @@
 package dao.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="PlanDeMantenimiento")
+
 public class PlanDeMantenimientoPersistencia {
-	
+
+	private int idPlan;
 	private float cantKilometros;
 	private String tipo;
 	private String controlEspecial;
-	public PlanDeMantenimientoPersistencia(float cantKilometros, String tipo,
-			String controlEspecial) {
-		super();
+	private VehiculoPersistencia vehiculo;
+	public PlanDeMantenimientoPersistencia(float cantKilometros, String tipo, String controlEspecial, VehiculoPersistencia vehiculo) {
 		this.cantKilometros = cantKilometros;
 		this.tipo = tipo;
 		this.controlEspecial = controlEspecial;
+		this.vehiculo=vehiculo;
 	}
+
+
+	@Id
+	@GeneratedValue
+	public int getIdPlan() {
+		return idPlan;
+	}
+
+	public void setIdPlan(int idPlan) {
+		this.idPlan = idPlan;
+	}
+
+
+	@ManyToOne
+	@JoinColumn(name="nroChasis")
+	public VehiculoPersistencia getVehiculo() {
+		return vehiculo;
+	}
+
+
+
+	public void setVehiculo(VehiculoPersistencia vehiculo) {
+		this.vehiculo = vehiculo;
+	}
+
+
+
 	public float getCantKilometros() {
 		return cantKilometros;
 	}
@@ -30,7 +68,7 @@ public class PlanDeMantenimientoPersistencia {
 	public void setControlEspecial(String controlEspecial) {
 		this.controlEspecial = controlEspecial;
 	}
-	
-	
+
+
 
 }

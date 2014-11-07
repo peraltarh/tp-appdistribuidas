@@ -2,17 +2,28 @@ package dao.entities;
 
 import java.sql.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Movimiento")
 public class MovimientoPersistencia {
 
+	private int idMovimiento;
 	private Date fechaSalida;
 	private Date fechaLlegada;
 	private String origen;
 	private String destino;
 	private String condicionDeArribo;
 	private String estado;
+	private MercaderiaPersistencia mercaderia;
 	
 	public MovimientoPersistencia(Date fechaSalida, Date fechaLlegada, String origen,
-			String destino, String condicionDeArribo, String estado) {
+			String destino, String condicionDeArribo, String estado, MercaderiaPersistencia mercaderia) {
 		super();
 		this.fechaSalida = fechaSalida;
 		this.fechaLlegada = fechaLlegada;
@@ -21,6 +32,39 @@ public class MovimientoPersistencia {
 		this.condicionDeArribo = condicionDeArribo;
 		this.estado = estado;
 	}
+
+	
+	
+	@Id
+	@GeneratedValue
+	public int getIdMovimiento() {
+		return idMovimiento;
+	}
+
+
+
+
+	public void setIdMovimiento(int idMovimiento) {
+		this.idMovimiento = idMovimiento;
+	}
+
+
+
+@ManyToOne
+@JoinColumn(name="idMercaderia")
+	public MercaderiaPersistencia getMercaderia() {
+		return mercaderia;
+	}
+
+
+
+
+	public void setMercaderia(MercaderiaPersistencia mercaderia) {
+		this.mercaderia = mercaderia;
+	}
+
+
+
 
 	public Date getFechaSalida() {
 		return fechaSalida;
