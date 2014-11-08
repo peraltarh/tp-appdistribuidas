@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -53,10 +54,9 @@ public class FacturaPersistencia {
 	public ClientePersistencia getCliente() {
 		return cliente;
 	}
-	@ManyToOne(cascade=CascadeType.ALL)
+	
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="idFactura")
-	
-	
 	public List<ItemFacturaPersistencia> getItems() {
 		return items;
 	}

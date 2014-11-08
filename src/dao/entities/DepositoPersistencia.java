@@ -3,11 +3,13 @@ package dao.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,16 +19,16 @@ public class DepositoPersistencia {
 	private int idDeposito;
 	private float cantidadMax;
 	private String encargado;
-//	private List<AreaPersistencia> areas;
-//	private List<MercaderiaPersistencia> mercaderias;
+	private List<AreaPersistencia> areas;
+	private List<MercaderiaPersistencia> mercaderias;
 	private SucursalPersistencia suc;
 	
 
 	public DepositoPersistencia(float cantidadMax, String encargado, SucursalPersistencia sucursal) {
 		this.cantidadMax = cantidadMax;
 		this.encargado = encargado;
-//		this.areas = new ArrayList<AreaPersistencia>();
-//		this.mercaderias = new ArrayList<MercaderiaPersistencia>();
+		this.areas = new ArrayList<AreaPersistencia>();
+		this.mercaderias = new ArrayList<MercaderiaPersistencia>();
 		this.suc=sucursal;
 	}
 
@@ -41,18 +43,26 @@ public class DepositoPersistencia {
 	public void setIdDeposito(int idDeposito) {
 		this.idDeposito = idDeposito;
 	}
+@OneToMany(cascade=CascadeType.ALL)
+@JoinColumn(name="idDeposito")
+	public List<AreaPersistencia> getAreas() {
+		return areas;
+	}
+
+	public void setAreas(ArrayList<AreaPersistencia> areas) {
+		this.areas = areas;
+	}
 
 
+@OneToMany(cascade=CascadeType.ALL)
+@JoinColumn(name="idDeposito")
+	public List<MercaderiaPersistencia> getMercaderias() {
+		return mercaderias;
+	}
 
-//	public void setAreas(ArrayList<AreaPersistencia> areas) {
-//		this.areas = areas;
-//	}
-//
-//
-//
-//	public void setMercaderias(ArrayList<MercaderiaPersistencia> mercaderias) {
-//		this.mercaderias = mercaderias;
-//	}
+	public void setMercaderias(ArrayList<MercaderiaPersistencia> mercaderias) {
+		this.mercaderias = mercaderias;
+	}
 
 
 
@@ -64,14 +74,6 @@ public class DepositoPersistencia {
 		return encargado;
 	}
 
-//	public List<AreaPersistencia> getAreas() {
-//		return areas;
-//	}
-//
-//	public List<MercaderiaPersistencia> getMercaderias() {
-//		return mercaderias;
-//	}
-
 	public void setCantidadMax(float cantidadMax) {
 		this.cantidadMax = cantidadMax;
 	}
@@ -80,13 +82,13 @@ public class DepositoPersistencia {
 		this.encargado = encargado;
 	}
 
-//	public void addAreas(AreaPersistencia area) {
-//		this.areas.add(area);
-//	}
-//
-//	public void addMercaderia(MercaderiaPersistencia mercaderia) {
-//		this.mercaderias.add(mercaderia);
-//	}
+	public void addAreas(AreaPersistencia area) {
+		this.areas.add(area);
+	}
+
+	public void addMercaderia(MercaderiaPersistencia mercaderia) {
+		this.mercaderias.add(mercaderia);
+	}
 
 @ManyToOne
 @JoinColumn(name="numeroSucursal")
