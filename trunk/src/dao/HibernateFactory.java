@@ -16,20 +16,20 @@ public class HibernateFactory
         {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
 //        	 config.addAnnotatedClass(Sistema.class);
-//        	 config.addAnnotatedClass(Area.class);
+        	 config.addAnnotatedClass(AreaPersistencia.class);
 //        	 config.addAnnotatedClass(Armas.class);
-//        	 config.addAnnotatedClass(Carrier.class);
+        	 config.addAnnotatedClass(CarrierPersistencia.class);
         	 config.addAnnotatedClass(ClientePersistencia.class);
 //        	 config.addAnnotatedClass(Combustibles.class);
-//        	 config.addAnnotatedClass(ConsideracionEspecial.class);
+        	 config.addAnnotatedClass(ConsideracionEspecialPersistencia.class);
         	 config.addAnnotatedClass(CuentaCorrientePersistencia.class);
         	 config.addAnnotatedClass(DepositoPersistencia.class);
-//        	 config.addAnnotatedClass(Destinatario.class);
+        	 config.addAnnotatedClass(DestinatarioPersistencia.class);
         	 config.addAnnotatedClass(EmpresaPersistencia.class);
 //        	 config.addAnnotatedClass(EmpresaSubContratada.class);
 //        	 config.addAnnotatedClass(Explosivos.class);
-//        	 config.addAnnotatedClass(Factura.class);
-//        	 config.addAnnotatedClass(ItemFactura.class);
+        	 config.addAnnotatedClass(FacturaPersistencia.class);
+        	 config.addAnnotatedClass(ItemFacturaPersistencia.class);
         	 config.addAnnotatedClass(MantenimientoRealizadoPersistencia.class);
         	 config.addAnnotatedClass(MapaDeRutaPersistencia.class);
         	 config.addAnnotatedClass(MercaderiaPersistencia.class);
@@ -48,7 +48,7 @@ public class HibernateFactory
         	 config.addAnnotatedClass(RemitoPersistencia.class);
         	 config.addAnnotatedClass(SucursalPersistencia.class);
         	 config.addAnnotatedClass(VehiculoPersistencia.class);
-//        	 config.addAnnotatedClass(VehiculoExterno.class); 
+        	 config.addAnnotatedClass(VehiculoExternoPersistencia.class); 
            	 sessionFactory = config.buildSessionFactory();
         }
         catch (Throwable ex)

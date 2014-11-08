@@ -38,9 +38,11 @@ public abstract class MercaderiaPersistencia {
 	protected String coordenadasDestino;
 	protected RemitoPersistencia remito;
 	protected List<MovimientoPersistencia> movimientos;
+	protected PedidoPersistencia pedido;
+	protected DepositoPersistencia deposito;
 	
 	public MercaderiaPersistencia(float alto, float ancho, float profundidad,String fragilidad, boolean aplicable, int cantApilable,
-			String condDeViaje, String indicacionesManpulacion,	String coordenadasDestino, RemitoPersistencia remito) {
+			String condDeViaje, String indicacionesManpulacion,	String coordenadasDestino, RemitoPersistencia remito, PedidoPersistencia pedido, DepositoPersistencia deposito) {
 		this.alto = alto;
 		this.ancho = ancho;
 		this.profundidad = profundidad;
@@ -52,6 +54,8 @@ public abstract class MercaderiaPersistencia {
 		this.coordenadasDestino = coordenadasDestino;
 		this.movimientos = new ArrayList<MovimientoPersistencia>();
 		this.remito=remito;
+		this.pedido=pedido;
+		this.deposito=deposito;
 	}
 
 	
@@ -166,4 +170,32 @@ public abstract class MercaderiaPersistencia {
 		this.movimientos.add(movimiento);
 	}
 
+	@ManyToOne
+	@JoinColumn(name="idPedido")
+	public PedidoPersistencia getPedido() {
+		return pedido;
+	}
+
+
+	public void setPedido(PedidoPersistencia pedido) {
+		this.pedido = pedido;
+	}
+
+
+	public void setMovimientos(List<MovimientoPersistencia> movimientos) {
+		this.movimientos = movimientos;
+	}
+
+@ManyToOne
+@JoinColumn(name="idDeposito")
+	public DepositoPersistencia getDeposito() {
+		return deposito;
+	}
+
+
+	public void setDeposito(DepositoPersistencia deposito) {
+		this.deposito = deposito;
+	}
+
+	
 }

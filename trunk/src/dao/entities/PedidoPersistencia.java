@@ -2,12 +2,15 @@ package dao.entities;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,10 +28,10 @@ public class PedidoPersistencia {
 	private String dirDeRetiroSoloEmpresa;
 	private int prioridad;
 	private SucursalPersistencia sucursal;
-//	private ArrayList<MercaderiaPersistencia> mercaderias;
-//	private ArrayList<DestinatarioPersistencia> destinatarios;
-//	private ArrayList<ConsideracionEspecialPersistencia> consideraciones;
-	
+	private List<MercaderiaPersistencia> mercaderias;
+	private List<DestinatarioPersistencia> destinatarios;
+	private List<ConsideracionEspecialPersistencia> consideraciones;
+
 	public PedidoPersistencia(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
 			Date horarioDeEntregaDesde, Date horarioDeEntregahasta,
@@ -43,15 +46,15 @@ public class PedidoPersistencia {
 		this.horarioDeEntregahasta = horarioDeEntregahasta;
 		this.dirDeRetiroSoloEmpresa = dirDeRetiroSoloEmpresa;
 		this.prioridad = prioridad;
-//		this.mercaderias = new ArrayList<MercaderiaPersistencia>();
-//		this.destinatarios = new ArrayList<DestinatarioPersistencia>();
-//		this.consideraciones = new ArrayList<ConsideracionEspecialPersistencia>();
-		
-	}
-	
+		this.mercaderias = new ArrayList<MercaderiaPersistencia>();
+		this.destinatarios = new ArrayList<DestinatarioPersistencia>();
+		this.consideraciones = new ArrayList<ConsideracionEspecialPersistencia>();
 
-@Id
-@GeneratedValue
+	}
+
+
+	@Id
+	@GeneratedValue
 	public int getIdPedido() {
 		return idPedido;
 	}
@@ -100,17 +103,38 @@ public class PedidoPersistencia {
 		return prioridad;
 	}
 
-//	public ArrayList<MercaderiaPersistencia> getMercaderias() {
-//		return mercaderias;
-//	}
-//
-//	public ArrayList<DestinatarioPersistencia> getDestinatarios() {
-//		return destinatarios;
-//	}
-//
-//	public ArrayList<ConsideracionEspecialPersistencia> getConsideraciones() {
-//		return consideraciones;
-//	}
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="idPedido")
+	public List<MercaderiaPersistencia> getMercaderias() {
+		return mercaderias;
+	}
+
+	public void setMercaderias(List<MercaderiaPersistencia> mercaderias) {
+		this.mercaderias = mercaderias;
+	}
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="idPedido")
+	public List<ConsideracionEspecialPersistencia> getConsideraciones() {
+		return consideraciones;
+	}
+	public void setConsideraciones(
+			List<ConsideracionEspecialPersistencia> consideraciones) {
+		this.consideraciones = consideraciones;
+	}
+
+	
+
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="idPedido")
+	public List<DestinatarioPersistencia> getDestinatarios() {
+		return destinatarios;
+	}
+	public void setDestinatarios(List<DestinatarioPersistencia> destinatarios) {
+		this.destinatarios = destinatarios;
+	}
+
+
 
 	public void setManifiesto(String manifiesto) {
 		this.manifiesto = manifiesto;
@@ -148,19 +172,19 @@ public class PedidoPersistencia {
 		this.prioridad = prioridad;
 	}
 
-//	public void addMercaderia(MercaderiaPersistencia mercaderia) {
-//		this.mercaderias.add(mercaderia);
-//	}
-//
-//	public void addDestinatario(DestinatarioPersistencia destinatario) {
-//		this.destinatarios.add(destinatario);
-//	}
-//
-//	public void addConsideraciones(ConsideracionEspecialPersistencia consideracionEs) {
-//		this.consideraciones.add(consideracionEs);
-//	}
+	public void addMercaderia(MercaderiaPersistencia mercaderia) {
+		this.mercaderias.add(mercaderia);
+	}
 
-	
+	public void addDestinatario(DestinatarioPersistencia destinatario) {
+		this.destinatarios.add(destinatario);
+	}
+
+	public void addConsideraciones(ConsideracionEspecialPersistencia consideracionEs) {
+		this.consideraciones.add(consideracionEs);
+	}
+
+
 	@ManyToOne
 	@JoinColumn(name="numeroSucursal")
 	public SucursalPersistencia getSucursal() {
@@ -173,43 +197,43 @@ public class PedidoPersistencia {
 	}
 
 
-//	public void setMercaderias(ArrayList<MercaderiaPersistencia> mercaderias) {
-//		this.mercaderias = mercaderias;
-//	}
-//
-//
-//	public void setDestinatarios(ArrayList<DestinatarioPersistencia> destinatarios) {
-//		this.destinatarios = destinatarios;
-//	}
-//
-//
-//	public void setConsideraciones(
-//			ArrayList<ConsideracionEspecialPersistencia> consideraciones) {
-//		this.consideraciones = consideraciones;
-//	}
-//
-//
-//	// 
-//	public float getPesoTotal() 
-//	{
-//		float pesoTotal=0;
-//		for(MercaderiaPersistencia mercaderia : mercaderias)
-//		{
-//			pesoTotal += ((MercaderiaPorPesoPersistencia)mercaderia).getPeso();
-//		}
-//		return pesoTotal;
-//	}
-//
-//	public float getVolumenTotal() 
-//	{
-//		float volumenTotal=0;
-//		for(MercaderiaPersistencia mercaderia : mercaderias)
-//		{
-//			volumenTotal += ((MercaderiaPorVolumenPersistencia)mercaderia).getVolumen();
-//		}
-//		return volumenTotal;
-//	}
-//	
-//	
-	
+	//	public void setMercaderias(ArrayList<MercaderiaPersistencia> mercaderias) {
+	//		this.mercaderias = mercaderias;
+	//	}
+	//
+	//
+	//	public void setDestinatarios(ArrayList<DestinatarioPersistencia> destinatarios) {
+	//		this.destinatarios = destinatarios;
+	//	}
+	//
+	//
+	//	public void setConsideraciones(
+	//			ArrayList<ConsideracionEspecialPersistencia> consideraciones) {
+	//		this.consideraciones = consideraciones;
+	//	}
+	//
+	//
+	//	// 
+	//	public float getPesoTotal() 
+	//	{
+	//		float pesoTotal=0;
+	//		for(MercaderiaPersistencia mercaderia : mercaderias)
+	//		{
+	//			pesoTotal += ((MercaderiaPorPesoPersistencia)mercaderia).getPeso();
+	//		}
+	//		return pesoTotal;
+	//	}
+	//
+	//	public float getVolumenTotal() 
+	//	{
+	//		float volumenTotal=0;
+	//		for(MercaderiaPersistencia mercaderia : mercaderias)
+	//		{
+	//			volumenTotal += ((MercaderiaPorVolumenPersistencia)mercaderia).getVolumen();
+	//		}
+	//		return volumenTotal;
+	//	}
+	//	
+	//	
+
 }

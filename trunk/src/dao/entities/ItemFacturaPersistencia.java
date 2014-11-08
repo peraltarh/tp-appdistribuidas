@@ -4,7 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -35,7 +37,7 @@ public class ItemFacturaPersistencia {
 		this.idItemFactura = idItemFactura;
 	}
 
-@OneToMany
+@ManyToOne
 @JoinColumn(name="idFactura")
 
 	public FacturaPersistencia getFactura() {
@@ -53,15 +55,19 @@ public class ItemFacturaPersistencia {
 	public float getCosto() {
 		return costo;
 	}
+	@OneToOne
+	@JoinColumn(name="idItemFactura")
 	public MercaderiaPersistencia getMercaderia() {
 		return mercaderia;
+	}
+	
+	public void setMercaderia(MercaderiaPersistencia mercaderia) {
+		this.mercaderia = mercaderia;
 	}
 	public void setCosto(float costo) {
 		this.costo = costo;
 	}
-	public void setMercaderia(MercaderiaPersistencia mercaderia) {
-		this.mercaderia = mercaderia;
-	}
+	
 	
 	
 	
