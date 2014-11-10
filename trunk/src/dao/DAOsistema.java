@@ -17,7 +17,7 @@ public class DAOsistema
 	
 	public void persistir(Sistema sistema)
 	{
-		HibernateDAO.getInstancia().persist(sistema);
+		HibernateDAO.getInstancia().save(sistema);
 	}
 
 	public Sistema getSistema(String codigo_SKF_, String codigo_extendido_)

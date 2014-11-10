@@ -5,8 +5,11 @@ import java.util.Iterator;
 
 import clases.*;
 import dao.DAOCliente;
+import dao.entities.ClientePersistencia;
+import dao.entities.CuentaCorrientePersistencia;
 import dao.entities.EmpresaPersistencia;
 import dao.entities.EmpresaDirValidasPersistencia;
+import dao.entities.ParticularPersistencia;
 
 
 
@@ -139,19 +142,24 @@ public class Sistema {
 //		DAOCliente.getInstance().persistir(new dao.entities.Empresa(e.getDireccion(),e.getTelefono(),e.getRazonSoial(),e.getCuit(),e.getRegularidad()));
 		
 	}
-
-//Falla con el CAST.
 	
-	private clases.Empresa buscarEmpresa(String cuit) 
-	{
-		int i=0;
-		for (clases.Cliente c:clientes)
-		{
-			if(c.sosElCliente(cuit))
-			{
-				return (clases.Empresa) c;
-			}
-		}
-		return null;
+
+	public void buscarClienteParticular(String dni) {
+		ParticularPersistencia particular=DAOCliente.getInstance().getClienteParticular(dni);
+		System.out.println("\n\n\n\n\n\n"+particular.getDni());
 	}
+
+	public void buscarClienteEmpresa(String cuit) {
+		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
+		System.out.println("\n\n\n\n\n\n"+empresa.getIdCliente());		
+	}
+	
+	public void altaCuentaCorriente(int cbu, float saldoActual, float minimoPermitidoSinAuth, String cuit) {
+		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
+		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
+		empresa.addCuentaCorriente(cc);
+		DAOCliente.getInstance().persistir(empresa);
+	}
+
+	
 }

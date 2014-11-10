@@ -6,6 +6,9 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dao.entities.ClientePersistencia;
+import dao.entities.EmpresaPersistencia;
+
 
 public class HibernateDAO {
 	protected static HibernateDAO instancia = null;
@@ -39,13 +42,6 @@ public class HibernateDAO {
 		}
 	}
 	
-	public void persist(Object obj) {
-		Session session = getSession();
-		session.beginTransaction();
-		session.persist(obj);
-		session.getTransaction().commit();
-	}
-	
 	@SuppressWarnings("rawtypes")
 	public void persistList(List lista){
 		Session session = getSession();
@@ -55,6 +51,7 @@ public class HibernateDAO {
 		}
 		session.flush();
 		session.getTransaction().commit();
+//		this.closeSession();
 	}
 	
 	// Devuelve un objeto de tipo 'c' que contenga un Id 'o' que coincida.
@@ -65,24 +62,43 @@ public class HibernateDAO {
 		return session.get(c, (Serializable) o);
 	}
 	
+	
+	// Devuelve un objeto, en className recibe el nombre de la clase, campo es la columna y valor es el filtro.
+	public Object getObjectWithString(String className, String campo, String value) {
+		Session s = this.getSession();
+		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setString(0, value).uniqueResult();
+//		this.closeSession();
+		return r;
+	}
+	
+	public Object getObjectWithInt(String className, String campo, int value) {
+		Session s = this.getSession();
+		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setInteger(0, value).uniqueResult();
+//		this.closeSession();
+		return r;
+	}
+	
 	public void delete(Object obj) {
 		Session session = getSession();
 		session.beginTransaction();
 		session.delete(obj);
 		session.getTransaction().commit();
-	}
+//		this.closeSession();
+		}
 	
 	public void update(Object obj) {
 		Session session = getSession();
 		session.beginTransaction();
 		session.update(obj);
 		session.getTransaction().commit();
-	}
+//		this.closeSession();
+		}
 
 	public void save(Object obj) {
 		Session session = getSession();
 		session.beginTransaction();
 		session.save(obj);
 		session.getTransaction().commit();
+//		this.closeSession();
 	}
 }

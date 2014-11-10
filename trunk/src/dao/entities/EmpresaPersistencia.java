@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 @DiscriminatorValue("Empresa")
 public class EmpresaPersistencia extends ClientePersistencia {
 
-
-
 	private String cuit;
 	private String razonSoial;
 	private String regularidad;
@@ -25,8 +23,7 @@ public class EmpresaPersistencia extends ClientePersistencia {
 	private List<CuentaCorrientePersistencia> cuentasCorrientes;
 	
 	
-	public EmpresaPersistencia(String direccion, String telefono, String razonSoial,
-			String cuit, String regularidad) {
+	public EmpresaPersistencia(String direccion, String telefono, String razonSoial, String cuit, String regularidad) {
 		super(direccion, telefono);
 		this.razonSoial = razonSoial;
 		this.cuit = cuit;
@@ -35,6 +32,7 @@ public class EmpresaPersistencia extends ClientePersistencia {
 		this.productosValidos = new ArrayList<ProductoPersistencia>();
 		this.cuentasCorrientes =  new ArrayList<CuentaCorrientePersistencia>();
 	}
+
 
 
 	public String getRazonSoial() {
