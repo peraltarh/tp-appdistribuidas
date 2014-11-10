@@ -80,6 +80,7 @@ public class CuentaCorrientePersistencia {
 
 	
 	public void addMovimiento(MovimientoCuentaPersistencia movimiento) {
+		this.saldoActual=this.saldoActual+movimiento.getMonto();
 		this.movimientos.add(movimiento);
 	}
 	

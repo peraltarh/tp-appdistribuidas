@@ -22,14 +22,12 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 
 	@Override
 	public void altaEmpresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException {
-		
-		sistema.altaEmpresa(direccion, telefono, telefono, telefono, telefono);
+		sistema.altaEmpresa(direccion, telefono, razonSoial, cuit, regularidad);
 	}
 
 	@Override
-	public void altaEmpresaDirValidas(String direccion, dao.entities.EmpresaPersistencia empresa) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+	public void agregarEmpresaDireccionValida(String direccion, String cuit) throws RemoteException {
+		sistema.agregarEmpresaDireccionValida(direccion, cuit);	
 	}
 
 	@Override
@@ -42,36 +40,29 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 
 	@Override
 	public void altaMovimientoCuenta(Date fecha, float monto, int cbu) throws RemoteException {
-		// TODO Auto-generated method stub
-		
+		sistema.altaMovimientoCuenta(fecha,monto,cbu);
 	}
 
 
 	public void altaProducto(String tipo, String descripcion, String cuit) throws RemoteException {
-		// TODO Auto-generated method stub
+		sistema.altaProducto(tipo,descripcion,cuit);
 		
 	}
 
 	@Override
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni) throws RemoteException {
-//		Sistema sistema=new Sistema();
 		sistema.altaParticular(direccion,telefono,nombre,apellido,dni);
 		
 	}
 
-	public void agregarDireccionValida(String direccion, String cuit) {
-//		Sistema sistema=new Sistema();
-		sistema.agregarDireccionValida(direccion,cuit);
-	}
 
 	@Override
 	public void buscarClienteParticular(String dni) {
-//		Sistema sistema=new Sistema();
 		sistema.buscarClienteParticular(dni);
 	}
 
 	@Override
-	public void buscarClienteEmpresa(String cuit){
+	public void buscarClienteEmpresa(String cuit) {
 		sistema.buscarClienteEmpresa(cuit);
 	}
 

@@ -15,6 +15,10 @@ public class EmpresaDirValidasPersistencia {
 	private String direccion;
 	private EmpresaPersistencia empresa;
 	
+	public EmpresaDirValidasPersistencia( String direccion, EmpresaPersistencia empresa) {
+		this.direccion = direccion;
+		this.empresa = empresa;
+	}
 	
 	@Id
 	@GeneratedValue
@@ -45,11 +49,7 @@ public class EmpresaDirValidasPersistencia {
 		this.direccion = direccion;
 	}
 
-	public EmpresaDirValidasPersistencia( String direccion, EmpresaPersistencia empresa) {
-		super();
-		this.direccion = direccion;
-		this.empresa = empresa;
-	}
+	
 	
 
 	

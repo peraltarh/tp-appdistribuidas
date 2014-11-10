@@ -8,7 +8,7 @@ import dao.entities.*;
 
 public interface InterfazEnvios extends Remote
 {
-	public void altaEmpresaDirValidas( String direccion, EmpresaPersistencia empresa) throws RemoteException;
+	public void agregarEmpresaDireccionValida( String direccion, String cuit) throws RemoteException;
 	public void altaCuentaCorriente(int cbu,float saldoActual, float minimoPermitidoSinAuth, String cuit) throws RemoteException;
 	public void altaMovimientoCuenta(Date fecha, float monto, int cbu) throws RemoteException;
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni) throws RemoteException;
