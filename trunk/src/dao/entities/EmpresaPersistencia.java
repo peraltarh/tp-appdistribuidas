@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -21,8 +22,8 @@ public class EmpresaPersistencia extends ClientePersistencia {
 	private List<EmpresaDirValidasPersistencia> direccionesValidas;
 	private List<ProductoPersistencia> productosValidos;
 	private List<CuentaCorrientePersistencia> cuentasCorrientes;
-	
-	
+
+
 	public EmpresaPersistencia(String direccion, String telefono, String razonSoial, String cuit, String regularidad) {
 		super(direccion, telefono);
 		this.razonSoial = razonSoial;
@@ -39,7 +40,7 @@ public class EmpresaPersistencia extends ClientePersistencia {
 		return razonSoial;
 	}
 
-
+	@Column(unique=true)
 	public String getCuit() {
 		return cuit;
 	}
@@ -85,7 +86,7 @@ public class EmpresaPersistencia extends ClientePersistencia {
 	}
 
 
-	public void addDireccioneValida(EmpresaDirValidasPersistencia direccionValida) {
+	public void addDireccionValida(EmpresaDirValidasPersistencia direccionValida) {
 		this.direccionesValidas.add(direccionValida);
 	}
 
@@ -100,7 +101,7 @@ public class EmpresaPersistencia extends ClientePersistencia {
 	}
 
 
-	
+
 	public void setProductosValidos(List<ProductoPersistencia> productosValidos) {
 		this.productosValidos = productosValidos;
 	}
@@ -112,11 +113,11 @@ public class EmpresaPersistencia extends ClientePersistencia {
 
 	public void addCuentaCorriente(CuentaCorrientePersistencia cuentaCorriente) {
 		this.cuentasCorrientes.add(cuentaCorriente);
-		
+
 	}
 
 
-	
-	
+
+
 
 }

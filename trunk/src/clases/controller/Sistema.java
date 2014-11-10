@@ -1,15 +1,19 @@
 package clases.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import clases.*;
 import dao.DAOCliente;
+import dao.DAOCuentaCorriente;
 import dao.entities.ClientePersistencia;
 import dao.entities.CuentaCorrientePersistencia;
 import dao.entities.EmpresaPersistencia;
 import dao.entities.EmpresaDirValidasPersistencia;
+import dao.entities.MovimientoCuentaPersistencia;
 import dao.entities.ParticularPersistencia;
+import dao.entities.ProductoPersistencia;
 
 
 
@@ -122,25 +126,13 @@ public class Sistema {
 	
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
-		Particular p=new Particular(direccion,telefono,nombre,apellido,dni);
-		addCliente(p);
-//		dao.entities.Particular p2 = new dao.entities.Particular(direccion,telefono,nombre,apellido,dni);
-//		this.clientes2.add(p2);
-		DAOCliente.getInstance().persistir(new dao.entities.ParticularPersistencia(direccion,telefono,nombre,apellido,dni));
+		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
+		DAOCliente.getInstance().persistir(p);
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
-		clases.Empresa e=new clases.Empresa (direccion,telefono,razonSocial,cuit,regularidad);
-		clientes.add(e);
-		DAOCliente.getInstance().persistir(new dao.entities.EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad));
-	}
-
-	//Falla el buscarEmpresa-> Inserta mal los datos y genera duplicados en la base.
-	public void agregarDireccionValida(String direccion, String cuit) {
-//		clases.Empresa e = buscarEmpresa(cuit);
-//		e.addDireccioneValida(new EmpresaDirValidas(direccion, e));
-//		DAOCliente.getInstance().persistir(new dao.entities.Empresa(e.getDireccion(),e.getTelefono(),e.getRazonSoial(),e.getCuit(),e.getRegularidad()));
-		
+		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
+		DAOCliente.getInstance().persistir(e);
 	}
 	
 
@@ -159,6 +151,28 @@ public class Sistema {
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistir(empresa);
+	}
+
+	public void altaProducto(String tipo, String descripcion, String cuit) {
+		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
+		ProductoPersistencia p=new ProductoPersistencia(tipo, descripcion, empresa);
+		empresa.addProductoValido(p);
+		DAOCliente.getInstance().update(empresa);
+	}
+
+	public void altaMovimientoCuenta(Date fecha, float monto, int cbu) {
+		CuentaCorrientePersistencia cuenta=DAOCuentaCorriente.getInstance().getCuentaCorriente(cbu);
+		MovimientoCuentaPersistencia mov=new MovimientoCuentaPersistencia(fecha, monto, cuenta);
+		cuenta.addMovimiento(mov);
+		DAOCuentaCorriente.getInstance().update(cuenta);
+	}
+
+	public void agregarEmpresaDireccionValida(String direccion, String cuit) {
+		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
+		EmpresaDirValidasPersistencia dir=new EmpresaDirValidasPersistencia(direccion, empresa);
+		empresa.addDireccionValida(dir);
+		DAOCliente.getInstance().update(empresa);
+		
 	}
 
 	
