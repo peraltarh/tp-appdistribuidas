@@ -25,17 +25,43 @@ public class DAOCliente
 		HibernateDAO.getInstancia().save(particular);
 	}
 	
+	public void update(ParticularPersistencia particular)
+	{
+		HibernateDAO.getInstancia().update(particular);
+	}
 	
-//	public Empresa getClienteEmpresa(String razonSocial , String Cuil)
+	public void update(EmpresaPersistencia empresa)
+	{
+		HibernateDAO.getInstancia().update(empresa);
+	}
+	
+	
+//	public EmpresaPersistencia getClienteEmpresa(String razonSocial , String Cuil)
 //	{
 //		Session s = HibernateFactory.getSessionFactory().openSession();
-//		Empresa c = (Empresa) s.createCriteria(Empresa.class)
+//		EmpresaPersistencia c = (EmpresaPersistencia) s.createCriteria(EmpresaPersistencia.class)
 //				.add(Restrictions.eq("CUIL_cliente_", Integer.parseInt(Cuil)))
 //				.add(Restrictions.like("razon_social_", razonSocial))
 //			.uniqueResult();
 //		s.close();
 //		return c;
 //	}
-//	
+	
+	public ParticularPersistencia getClienteParticular(String dni)
+	{
+		Session s = HibernateFactory.getSessionFactory().openSession();
+		ParticularPersistencia c = (ParticularPersistencia) HibernateDAO.getInstancia().getObjectWithString("ClientePersistencia", "dni", dni);
+		s.close();
+		return c;
+	}
+	
+	public EmpresaPersistencia getClienteEmpresa(String cuit)
+	{
+		Session s = HibernateFactory.getSessionFactory().openSession();
+		EmpresaPersistencia c = (EmpresaPersistencia) HibernateDAO.getInstancia().getObjectWithString("ClientePersistencia", "cuit", cuit);
+		s.close();
+		return c;
+	}
+
 	
 }

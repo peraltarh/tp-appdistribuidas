@@ -14,8 +14,7 @@ public class ParticularPersistencia extends ClientePersistencia{
 	private String apellido;
 	
 	
-	public ParticularPersistencia(String direccion, String telefono, String nombre,
-			String apellido, String dni) {
+	public ParticularPersistencia(String direccion, String telefono, String nombre,	String apellido, String dni) {
 		super(direccion, telefono);
 		this.nombre = nombre;
 		this.apellido = apellido;

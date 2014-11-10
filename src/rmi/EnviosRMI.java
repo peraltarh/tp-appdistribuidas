@@ -11,63 +11,68 @@ import clases.controller.Sistema;
 
 public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 {
-
+	Sistema sistema = new Sistema();
 	public EnviosRMI() throws RemoteException {
 //		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
+	
 
 
 	@Override
 	public void altaEmpresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException {
-		Sistema sistema = new Sistema();
+		
 		sistema.altaEmpresa(direccion, telefono, telefono, telefono, telefono);
 	}
 
 	@Override
-	public void EmpresaDirValidas(String direccion, dao.entities.EmpresaPersistencia empresa) throws RemoteException {
+	public void altaEmpresaDirValidas(String direccion, dao.entities.EmpresaPersistencia empresa) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void CuentaCorriente(int cbu, float saldoActual,
-			float minimoPermitidoSinAuth, boolean TRUE, dao.entities.EmpresaPersistencia emp)
-			throws RemoteException {
+	public void altaCuentaCorriente(int cbu, float saldoActual,	float minimoPermitidoSinAuth, String cuit)	throws RemoteException {
+		sistema.altaCuentaCorriente(cbu,saldoActual,minimoPermitidoSinAuth, cuit);
+		
+	}
+	
+	
+
+	@Override
+	public void altaMovimientoCuenta(Date fecha, float monto, int cbu) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void MovimientoCuenta(Date fecha, float monto, dao.entities.CuentaCorrientePersistencia cuenta) throws RemoteException {
-		// TODO Auto-generated method stub
-		
-	}
 
-
-	@Override
-	public void Producto(String tipo, String descripcion,
-			dao.entities.EmpresaPersistencia empresa) throws RemoteException {
+	public void altaProducto(String tipo, String descripcion, String cuit) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni) throws RemoteException {
-		Sistema sistema=new Sistema();
+//		Sistema sistema=new Sistema();
 		sistema.altaParticular(direccion,telefono,nombre,apellido,dni);
 		
 	}
 
 	public void agregarDireccionValida(String direccion, String cuit) {
-		Sistema sistema=new Sistema();
+//		Sistema sistema=new Sistema();
 		sistema.agregarDireccionValida(direccion,cuit);
+	}
+
+	@Override
+	public void buscarClienteParticular(String dni) {
+//		Sistema sistema=new Sistema();
+		sistema.buscarClienteParticular(dni);
+	}
+
+	@Override
+	public void buscarClienteEmpresa(String cuit){
+		sistema.buscarClienteEmpresa(cuit);
 	}
 
 	
