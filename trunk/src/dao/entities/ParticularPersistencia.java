@@ -20,6 +20,12 @@ public class ParticularPersistencia extends ClientePersistencia{
 		this.apellido = apellido;
 		this.dni = dni;
 	}
+	
+	public ParticularPersistencia() {
+		super();
+	}
+		
+	
 	public String getNombre() {
 		return nombre;
 	}

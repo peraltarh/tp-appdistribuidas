@@ -15,6 +15,10 @@ public class MercaderiaPorPesoPersistencia extends MercaderiaPersistencia{
 		this.peso = peso;
 	}
 
+	public MercaderiaPorPesoPersistencia()
+	{
+		super();
+	}
 	public float getPeso() {
 		return peso;
 	}

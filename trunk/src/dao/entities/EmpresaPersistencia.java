@@ -34,7 +34,9 @@ public class EmpresaPersistencia extends ClientePersistencia {
 		this.cuentasCorrientes =  new ArrayList<CuentaCorrientePersistencia>();
 	}
 
-
+	public EmpresaPersistencia() {
+		super();
+	}
 
 	public String getRazonSoial() {
 		return razonSoial;
@@ -113,7 +115,6 @@ public class EmpresaPersistencia extends ClientePersistencia {
 
 	public void addCuentaCorriente(CuentaCorrientePersistencia cuentaCorriente) {
 		this.cuentasCorrientes.add(cuentaCorriente);
-
 	}
 
 

@@ -21,6 +21,7 @@ public class AreaPersistencia {
 		this.capacidadMaxima = capacidadMaxima;
 	}
 	
+	public AreaPersistencia(){}
 	
 	@Id
 	@GeneratedValue

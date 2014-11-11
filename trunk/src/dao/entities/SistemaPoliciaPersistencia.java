@@ -15,7 +15,7 @@ public class SistemaPoliciaPersistencia implements Observer
     private Map<String, Integer> vehiculosDesviados = new HashMap<String,Integer>(); 
     
     // Singleton
-    private SistemaPoliciaPersistencia() {}
+    public SistemaPoliciaPersistencia() {}
  
     public static SistemaPoliciaPersistencia getInstance() 
     {

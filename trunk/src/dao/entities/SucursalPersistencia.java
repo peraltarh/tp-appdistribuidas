@@ -42,6 +42,7 @@ public class SucursalPersistencia {
 		this.vehiculos = new ArrayList<VehiculoPersistencia>();
 		this.rutas = new ArrayList<MapaDeRutaPersistencia>();
 	}
+	public SucursalPersistencia(){}
 	
 	@Id
 	@GeneratedValue

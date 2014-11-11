@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 
 @Entity
 @Table(name="VehiculoExterno")
+
+
 public class VehiculoExternoPersistencia {
 	
 	private int idVehiculoExterno;
@@ -25,7 +27,8 @@ public class VehiculoExternoPersistencia {
 		this.capacidadCarga = capacidadCarga;
 		this.consideracionEspecial=consideracionEspecial;
 	}
-	
+
+	public VehiculoExternoPersistencia(){}
 	@Id
 	@GeneratedValue
 	public int getIdVehiculoExterno() {

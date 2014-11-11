@@ -31,6 +31,8 @@ public class FacturaPersistencia {
 		this.items = new ArrayList<ItemFacturaPersistencia>();
 	}
 	
+	public FacturaPersistencia(){}
+	
 	@Id
 	@GeneratedValue
 	public int getIdFactura()
@@ -50,7 +52,6 @@ public class FacturaPersistencia {
 		return total;
 	}
 	@OneToOne
-	@JoinColumn(name="idFactura")
 	public ClientePersistencia getCliente() {
 		return cliente;
 	}

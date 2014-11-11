@@ -4,6 +4,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -18,10 +19,11 @@ import javax.persistence.Table;
 public abstract class ClientePersistencia {
 
 	
-	
+
 	private int idCliente;
 	private String direccion;
 	private String telefono;
+
 	
 	
 	public ClientePersistencia(String direccion, String telefono) {
@@ -29,9 +31,11 @@ public abstract class ClientePersistencia {
 		this.telefono = telefono;
 	}
 	
+	public ClientePersistencia() {
+	}
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue	
 	public int getIdCliente(){
 		return idCliente;
 	}

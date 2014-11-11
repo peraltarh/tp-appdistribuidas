@@ -24,7 +24,7 @@ public class CarrierPersistencia {
 		this.consideracionEspecial=consideracionEspecial;
 	}
 	
-	
+	public CarrierPersistencia(){}
 	
 @Id
 @GeneratedValue

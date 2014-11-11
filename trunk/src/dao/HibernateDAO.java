@@ -36,7 +36,8 @@ public class HibernateDAO {
 	}
 	
 	public void closeSession(){
-		if (session.isOpen()) {
+		if (session.isOpen()) 
+		{
 			session.close();
 			System.out.println("\nOPEN: " + session.isOpen());
 		}
@@ -51,30 +52,28 @@ public class HibernateDAO {
 		}
 		session.flush();
 		session.getTransaction().commit();
-//		this.closeSession();
 	}
 	
 	// Devuelve un objeto de tipo 'c' que contenga un Id 'o' que coincida.
 	// Si no hay coincidencias, retorna null.
-	@SuppressWarnings("rawtypes")
-	public Object get (Class c, Object o) {
-		Session session = getSession();
-		return session.get(c, (Serializable) o);
-	}
+//	@SuppressWarnings("rawtypes")
+//	public Object get (Class c, Object o) {
+//		Session session = getSession();
+//		return session.get(c, (Serializable) o);
+//	}
 	
 	
 	// Devuelve un objeto, en className recibe el nombre de la clase, campo es la columna y valor es el filtro.
 	public Object getObjectWithString(String className, String campo, String value) {
 		Session s = this.getSession();
 		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setString(0, value).uniqueResult();
-//		this.closeSession();
 		return r;
+		
 	}
 	
 	public Object getObjectWithInt(String className, String campo, int value) {
 		Session s = this.getSession();
 		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setInteger(0, value).uniqueResult();
-//		this.closeSession();
 		return r;
 	}
 	
@@ -83,7 +82,6 @@ public class HibernateDAO {
 		session.beginTransaction();
 		session.delete(obj);
 		session.getTransaction().commit();
-//		this.closeSession();
 		}
 	
 	public void update(Object obj) {
@@ -91,7 +89,7 @@ public class HibernateDAO {
 		session.beginTransaction();
 		session.update(obj);
 		session.getTransaction().commit();
-//		this.closeSession();
+		this.closeSession();
 		}
 
 	public void save(Object obj) {
@@ -99,6 +97,6 @@ public class HibernateDAO {
 		session.beginTransaction();
 		session.save(obj);
 		session.getTransaction().commit();
-//		this.closeSession();
+		
 	}
 }

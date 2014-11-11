@@ -18,6 +18,11 @@ public class MercaderiaPorVolumenPersistencia extends MercaderiaPersistencia{
 		this.volumen = volumen;
 	}
 
+	public MercaderiaPorVolumenPersistencia()
+	{ 
+		super();
+	}
+	
 	public float getVolumen() {
 		return volumen;
 	}

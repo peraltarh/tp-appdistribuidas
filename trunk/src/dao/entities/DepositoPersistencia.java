@@ -32,6 +32,7 @@ public class DepositoPersistencia {
 		this.suc=sucursal;
 	}
 
+	public DepositoPersistencia(){}
 	
 	@Id
 	@GeneratedValue

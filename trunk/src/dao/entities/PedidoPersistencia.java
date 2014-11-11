@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +28,7 @@ public class PedidoPersistencia {
 	private Date horarioDeEntregahasta;
 	private String dirDeRetiroSoloEmpresa;
 	private int prioridad;
+	private ClientePersistencia cliente;
 	private SucursalPersistencia sucursal;
 	private List<MercaderiaPersistencia> mercaderias;
 	private List<DestinatarioPersistencia> destinatarios;
@@ -35,8 +37,8 @@ public class PedidoPersistencia {
 	public PedidoPersistencia(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
 			Date horarioDeEntregaDesde, Date horarioDeEntregahasta,
-			String dirDeRetiroSoloEmpresa, int prioridad, SucursalPersistencia sucursal) {
-		super();
+			String dirDeRetiroSoloEmpresa, int prioridad, SucursalPersistencia sucursal,ClientePersistencia cliente) 
+	{
 		this.manifiesto = manifiesto;
 		this.dirDestino = dirDestino;
 		this.fechaEnregaMaxima = fechaEnregaMaxima;
@@ -47,12 +49,13 @@ public class PedidoPersistencia {
 		this.dirDeRetiroSoloEmpresa = dirDeRetiroSoloEmpresa;
 		this.prioridad = prioridad;
 		this.mercaderias = new ArrayList<MercaderiaPersistencia>();
+		this.cliente=cliente;
 		this.destinatarios = new ArrayList<DestinatarioPersistencia>();
 		this.consideraciones = new ArrayList<ConsideracionEspecialPersistencia>();
-
 	}
 
-
+	public PedidoPersistencia(){}
+	
 	@Id
 	@GeneratedValue
 	public int getIdPedido() {
@@ -196,44 +199,15 @@ public class PedidoPersistencia {
 		this.sucursal = sucursal;
 	}
 
+	@OneToOne
+	public ClientePersistencia getCliente() {
+		return cliente;
+	}
 
-	//	public void setMercaderias(ArrayList<MercaderiaPersistencia> mercaderias) {
-	//		this.mercaderias = mercaderias;
-	//	}
-	//
-	//
-	//	public void setDestinatarios(ArrayList<DestinatarioPersistencia> destinatarios) {
-	//		this.destinatarios = destinatarios;
-	//	}
-	//
-	//
-	//	public void setConsideraciones(
-	//			ArrayList<ConsideracionEspecialPersistencia> consideraciones) {
-	//		this.consideraciones = consideraciones;
-	//	}
-	//
-	//
-	//	// 
-	//	public float getPesoTotal() 
-	//	{
-	//		float pesoTotal=0;
-	//		for(MercaderiaPersistencia mercaderia : mercaderias)
-	//		{
-	//			pesoTotal += ((MercaderiaPorPesoPersistencia)mercaderia).getPeso();
-	//		}
-	//		return pesoTotal;
-	//	}
-	//
-	//	public float getVolumenTotal() 
-	//	{
-	//		float volumenTotal=0;
-	//		for(MercaderiaPersistencia mercaderia : mercaderias)
-	//		{
-	//			volumenTotal += ((MercaderiaPorVolumenPersistencia)mercaderia).getVolumen();
-	//		}
-	//		return volumenTotal;
-	//	}
-	//	
-	//	
 
+	public void setCliente(ClientePersistencia cliente) {
+		this.cliente = cliente;
+	}
+
+	
 }
