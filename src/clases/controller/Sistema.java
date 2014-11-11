@@ -3,6 +3,7 @@ package clases.controller;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import clases.*;
 import dao.DAOCliente;
@@ -18,9 +19,9 @@ import dao.entities.ProductoPersistencia;
 
 
 public class Sistema {
-	
+
 	private static Sistema sys = null;
-	
+
 	private ArrayList<Sucursal> sucursales;
 	private ArrayList<PoliticasDeEnvio> politicas;
 	private ArrayList<MapaDeRuta> rutas;
@@ -30,14 +31,14 @@ public class Sistema {
 	private ArrayList<Factura> facturas;
 	private ArrayList<Cliente> clientes;
 	private ArrayList<CuentaCorriente> cuentasCorrientes;
-//	private ArrayList<dao.entities.Cliente> clientes2;
-	
-	
+	//	private ArrayList<dao.entities.Cliente> clientes2;
+
+
 	public static Sistema getInstance(){
 		if (sys ==null){sys = new Sistema();}
 		return sys;
 	}
-	
+
 	public Sistema(){
 		this.sucursales = new ArrayList<Sucursal>();
 		this.politicas = new ArrayList<PoliticasDeEnvio>();
@@ -123,7 +124,7 @@ public class Sistema {
 	}
 
 
-	
+
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
@@ -134,7 +135,7 @@ public class Sistema {
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
 		DAOCliente.getInstance().persistirEmpresa(e);
 	}
-	
+
 
 	public void buscarClienteParticular(String dni) {
 		ParticularPersistencia particular=DAOCliente.getInstance().getClienteParticular(dni);
@@ -145,7 +146,7 @@ public class Sistema {
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		System.out.println("\n\n\n\n\n\n"+empresa.getIdCliente());		
 	}
-	
+
 	public void altaCuentaCorriente(int cbu, float saldoActual, float minimoPermitidoSinAuth, String cuit) {
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
@@ -172,8 +173,34 @@ public class Sistema {
 		EmpresaDirValidasPersistencia dir=new EmpresaDirValidasPersistencia(direccion, tel, empresa);
 		empresa.addDireccionValida(dir);
 		DAOCliente.getInstance().update(empresa);
-		
+
 	}
 
-	
+	private Particular convertParticularPersistenciaToCliente(ParticularPersistencia pP)
+	{
+		Particular p=new Particular();
+		p.setApellido(pP.getApellido());
+		p.setDireccion(pP.getDireccion());
+		p.setDni(pP.getDni());
+		p.setNombre(pP.getNombre());
+		p.setTelefono(pP.getTelefono());
+		return p;
+	}
+	//*****************************************************************
+	//Sin terminar
+	private Empresa convertEmpresaPersistenciaToNegocio(EmpresaPersistencia eP)
+	{
+		Empresa emp = new Empresa();
+		emp.setCuit(eP.getCuit());
+		emp.setRazonSoial(eP.getRazonSoial());
+		emp.setRegularidad(eP.getRegularidad());
+		emp.setDireccion(eP.getDireccion());
+		emp.setTelefono(eP.getTelefono());
+		List<CuentaCorriente>cuentas=new ArrayList<CuentaCorriente>();
+		emp.setCuentasCorrientes(cuentas);
+
+		return emp;
+
+	}
+
 }

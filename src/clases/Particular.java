@@ -13,6 +13,9 @@ public class Particular extends Cliente{
 		this.apellido = apellido;
 		this.dni = dni;
 	}
+	public Particular() {
+		super();
+	}
 	public String getNombre() {
 		return nombre;
 	}

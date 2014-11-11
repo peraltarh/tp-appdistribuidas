@@ -1,5 +1,7 @@
 package dao.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -15,10 +17,7 @@ import javax.persistence.Table;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo",discriminatorType=DiscriminatorType.STRING)
 
-
-public abstract class ClientePersistencia {
-
-	
+public abstract class ClientePersistencia{
 
 	private int idCliente;
 	private String direccion;
@@ -35,7 +34,7 @@ public abstract class ClientePersistencia {
 	}
 	
 	@Id
-	@GeneratedValue	
+	@GeneratedValue
 	public int getIdCliente(){
 		return idCliente;
 	}

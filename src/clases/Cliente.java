@@ -9,6 +9,8 @@ public abstract class Cliente {
 		this.direccion = direccion;
 		this.telefono = telefono;
 	}
+	public Cliente() {
+	}
 	public String getDireccion() {
 		return direccion;
 	}

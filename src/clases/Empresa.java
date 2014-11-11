@@ -1,15 +1,20 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import dao.entities.CuentaCorrientePersistencia;
+import dao.entities.EmpresaDirValidasPersistencia;
+import dao.entities.ProductoPersistencia;
 
 public class Empresa extends Cliente {
 	
 	private String razonSoial;
 	private String cuit;
 	private String regularidad;
-	private ArrayList<String> direccionesValidas;
-	private ArrayList<Producto> productosValidos;
-	private CuentaCorriente cuentaCorriente;
+	private List<EmpresaDirValidas> direccionesValidas;
+	private List<Producto> productosValidos;
+	private List<CuentaCorriente> cuentasCorrientes;
 	
 	
 	public Empresa(String direccion, String telefono, String razonSoial,
@@ -18,9 +23,15 @@ public class Empresa extends Cliente {
 		this.razonSoial = razonSoial;
 		this.cuit = cuit;
 		this.regularidad = regularidad;
-		this.direccionesValidas = new ArrayList<String>();
+		this.direccionesValidas = new ArrayList<EmpresaDirValidas>();
 		this.productosValidos = new ArrayList<Producto>();
-		this.cuentaCorriente = null;
+		this.cuentasCorrientes =  new ArrayList<CuentaCorriente>();
+		}
+
+
+	public Empresa()
+	{
+		super();
 	}
 
 
@@ -38,22 +49,6 @@ public class Empresa extends Cliente {
 		return regularidad;
 	}
 
-
-	public ArrayList<String> getDireccionesValidas() {
-		return direccionesValidas;
-	}
-
-
-	public ArrayList<Producto> getProductosValidos() {
-		return productosValidos;
-	}
-
-
-	public CuentaCorriente getCuentaCorriente() {
-		return cuentaCorriente;
-	}
-
-
 	public void setRazonSoial(String razonSoial) {
 		this.razonSoial = razonSoial;
 	}
@@ -69,18 +64,38 @@ public class Empresa extends Cliente {
 	}
 
 
-	public void addDireccioneValida(String direccionesValida) {
-		this.direccionesValidas.add(direccionesValida);
+	
+
+
+	
+
+	public List<EmpresaDirValidas> getDireccionesValidas() {
+		return direccionesValidas;
 	}
 
 
-	public void addProductoValido(Producto productosValido) {
-		this.productosValidos.add(productosValido);
+	public void setDireccionesValidas(List<EmpresaDirValidas> direccionesValidas) {
+		this.direccionesValidas = direccionesValidas;
 	}
 
 
-	public void setCuentaCorriente(CuentaCorriente cuentaCorriente) {
-		this.cuentaCorriente = cuentaCorriente;
+	public List<Producto> getProductosValidos() {
+		return productosValidos;
+	}
+
+
+	public void setProductosValidos(List<Producto> productosValidos) {
+		this.productosValidos = productosValidos;
+	}
+
+
+	public List<CuentaCorriente> getCuentasCorrientes() {
+		return cuentasCorrientes;
+	}
+
+
+	public void setCuentasCorrientes(List<CuentaCorriente> cuentasCorrientes) {
+		this.cuentasCorrientes = cuentasCorrientes;
 	}
 
 
