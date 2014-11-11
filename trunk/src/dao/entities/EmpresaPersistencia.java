@@ -1,5 +1,6 @@
 package dao.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,6 @@ public class EmpresaPersistencia extends ClientePersistencia {
 	private List<EmpresaDirValidasPersistencia> direccionesValidas;
 	private List<ProductoPersistencia> productosValidos;
 	private List<CuentaCorrientePersistencia> cuentasCorrientes;
-
 
 	public EmpresaPersistencia(String direccion, String telefono, String razonSoial, String cuit, String regularidad) {
 		super(direccion, telefono);
