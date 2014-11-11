@@ -24,6 +24,7 @@ public class PlanDeMantenimientoPersistencia {
 		this.vehiculo=vehiculo;
 	}
 
+	public PlanDeMantenimientoPersistencia(){}
 
 	@Id
 	@GeneratedValue

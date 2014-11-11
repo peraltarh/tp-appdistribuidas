@@ -15,7 +15,6 @@ public class DAOPedido
 	public void persistir(Pedido _pedido) 
 	{
 		HibernateDAO.getInstancia().save(_pedido);
-		HibernateDAO.getInstancia().closeSession();
 	}
 	
 	

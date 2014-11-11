@@ -115,9 +115,9 @@ public class Sucursal {
 			}else{
 				// Alta de cliente
 				if(_cliente.getClass()==Particular.class)
-					DAOCliente.getInstance().persistir(((Particular)_cliente).getEntity());
+					DAOCliente.getInstance().persistirParticular(((Particular)_cliente).getEntity());
 				else
-					DAOCliente.getInstance().persistir(((Empresa)_cliente).getEntity());
+					DAOCliente.getInstance().persistirEmpresa(((Empresa)_cliente).getEntity());
 			}
 		}
 		// Cliente[Ok]-> Validar y persistir pedido.

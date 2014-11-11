@@ -58,6 +58,9 @@ public abstract class MercaderiaPersistencia {
 		this.deposito=deposito;
 	}
 
+	public MercaderiaPersistencia()
+	{
+	}
 	
 	@Id
 	@GeneratedValue

@@ -26,8 +26,8 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public void agregarEmpresaDireccionValida(String direccion, String cuit) throws RemoteException {
-		sistema.agregarEmpresaDireccionValida(direccion, cuit);	
+	public void agregarEmpresaDireccionValida(String direccion, String tel,String cuit) throws RemoteException {
+		sistema.agregarEmpresaDireccionValida(direccion, tel,cuit);	
 	}
 
 	@Override

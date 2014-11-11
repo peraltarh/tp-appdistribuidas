@@ -24,7 +24,7 @@ public class ItemFacturaPersistencia {
 		this.mercaderia = mercaderia;
 	}
 	
-	
+	public ItemFacturaPersistencia(){}
 	@Id
 	@GeneratedValue
 	public int getIdItemFactura() {

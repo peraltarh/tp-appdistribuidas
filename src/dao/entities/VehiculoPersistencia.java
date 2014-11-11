@@ -66,6 +66,7 @@ public class VehiculoPersistencia extends Observable {
 		this.remitos = new ArrayList<RemitoPersistencia>();
 	}
 
+	public VehiculoPersistencia(){}
 	
 	public String getPatente() {
 		return patente;

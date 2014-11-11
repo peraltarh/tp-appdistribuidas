@@ -13,13 +13,16 @@ public class EmpresaDirValidasPersistencia {
 	
 	private int idDir;
 	private String direccion;
+	private String tel;
 	private EmpresaPersistencia empresa;
 	
-	public EmpresaDirValidasPersistencia( String direccion, EmpresaPersistencia empresa) {
+	public EmpresaDirValidasPersistencia( String direccion, String tel, EmpresaPersistencia empresa) {
 		this.direccion = direccion;
 		this.empresa = empresa;
+		this.tel=tel;
 	}
 	
+	public EmpresaDirValidasPersistencia(){}
 	@Id
 	@GeneratedValue
 	public int getIdDir() {
@@ -47,6 +50,15 @@ public class EmpresaDirValidasPersistencia {
 	}
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+	}
+
+	
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 	

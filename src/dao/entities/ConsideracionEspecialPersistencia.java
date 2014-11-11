@@ -40,7 +40,7 @@ public class ConsideracionEspecialPersistencia {
 		this.pedido=pedido;
 	}
 
-
+	public ConsideracionEspecialPersistencia(){}
 	
 	@Id
 	@GeneratedValue

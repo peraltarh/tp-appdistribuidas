@@ -127,12 +127,12 @@ public class Sistema {
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
-		DAOCliente.getInstance().persistir(p);
+		DAOCliente.getInstance().persistirParticular(p);
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
-		DAOCliente.getInstance().persistir(e);
+		DAOCliente.getInstance().persistirEmpresa(e);
 	}
 	
 
@@ -150,7 +150,7 @@ public class Sistema {
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
-		DAOCliente.getInstance().persistir(empresa);
+		DAOCliente.getInstance().persistirEmpresa(empresa);
 	}
 
 	public void altaProducto(String tipo, String descripcion, String cuit) {
@@ -167,9 +167,9 @@ public class Sistema {
 		DAOCuentaCorriente.getInstance().update(cuenta);
 	}
 
-	public void agregarEmpresaDireccionValida(String direccion, String cuit) {
+	public void agregarEmpresaDireccionValida(String direccion, String tel,String cuit) {
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
-		EmpresaDirValidasPersistencia dir=new EmpresaDirValidasPersistencia(direccion, empresa);
+		EmpresaDirValidasPersistencia dir=new EmpresaDirValidasPersistencia(direccion, tel, empresa);
 		empresa.addDireccionValida(dir);
 		DAOCliente.getInstance().update(empresa);
 		

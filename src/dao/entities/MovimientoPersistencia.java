@@ -33,7 +33,7 @@ public class MovimientoPersistencia {
 		this.estado = estado;
 	}
 
-	
+	public MovimientoPersistencia(){}
 	
 	@Id
 	@GeneratedValue

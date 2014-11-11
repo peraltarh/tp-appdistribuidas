@@ -2,6 +2,7 @@ package dao.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,8 +25,10 @@ public class ProductoPersistencia {
 		this.empresa = empresa;
 	}
 
+	public ProductoPersistencia(){}
+	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public int getIdProd(){
 		return idProd;
 	}
@@ -59,5 +62,5 @@ public class ProductoPersistencia {
 		this.descripcion = descripcion;
 	}
 	
-
+	
 }

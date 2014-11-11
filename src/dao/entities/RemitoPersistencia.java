@@ -28,6 +28,8 @@ public class RemitoPersistencia {
 		this.vehiculo=vehiculo;
 	}
 
+	public RemitoPersistencia(){}
+	
 	@Id
 	public int getNroRemito() {
 		return nroRemito;

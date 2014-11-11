@@ -25,6 +25,8 @@ public class MovimientoCuentaPersistencia {
 		this.cuenta = cuenta;
 	}
 	
+	public MovimientoCuentaPersistencia(){}
+	
 	
 	@Id
 	@GeneratedValue

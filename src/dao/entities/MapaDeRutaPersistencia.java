@@ -40,6 +40,8 @@ public class MapaDeRutaPersistencia implements Observer{
 //		this.mensajesDeControl = new ArrayList<Document>();
 	}
 	
+	public MapaDeRutaPersistencia(){}
+	
 	@Id
 	@GeneratedValue
 	public int getIdMapa() {

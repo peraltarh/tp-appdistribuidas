@@ -34,6 +34,7 @@ public class MantenimientoRealizadoPersistencia {
 		this.tipo = tipo;
 	}
 	
+	public MantenimientoRealizadoPersistencia(){}
 	
 	@Id
 	@GeneratedValue	

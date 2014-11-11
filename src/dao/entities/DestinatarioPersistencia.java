@@ -23,6 +23,8 @@ public class DestinatarioPersistencia {
 		this.dni = dni;
 		this.pedido=pedido;
 	}
+	
+	public DestinatarioPersistencia(){}
 	public String getNombre() {
 		return nombre;
 	}

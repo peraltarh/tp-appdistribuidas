@@ -16,6 +16,8 @@ public class EmpresaSubContratadaPersistencia {
 		
 	}
 
+	public EmpresaSubContratadaPersistencia(){}
+	
 	public String getRazonSocial() {
 		return razonSocial;
 	}

@@ -8,6 +8,7 @@ import dao.entities.*;
 public class DAOCliente
 {
 	static DAOCliente instance_ = null;
+	
 	public static DAOCliente getInstance()
     {
 		if(instance_ == null)
@@ -15,12 +16,13 @@ public class DAOCliente
         return instance_;
     }
 	
-	public void persistir(EmpresaPersistencia empresa)
+	public void persistirEmpresa(EmpresaPersistencia empresa)
 	{
 		HibernateDAO.getInstancia().save(empresa);
+		
 	}
 	
-	public void persistir(ParticularPersistencia particular)
+	public void persistirParticular(ParticularPersistencia particular)
 	{
 		HibernateDAO.getInstancia().save(particular);
 	}
@@ -49,17 +51,13 @@ public class DAOCliente
 	
 	public ParticularPersistencia getClienteParticular(String dni)
 	{
-		Session s = HibernateFactory.getSessionFactory().openSession();
 		ParticularPersistencia c = (ParticularPersistencia) HibernateDAO.getInstancia().getObjectWithString("ClientePersistencia", "dni", dni);
-		s.close();
 		return c;
 	}
 	
 	public EmpresaPersistencia getClienteEmpresa(String cuit)
 	{
-		Session s = HibernateFactory.getSessionFactory().openSession();
 		EmpresaPersistencia c = (EmpresaPersistencia) HibernateDAO.getInstancia().getObjectWithString("ClientePersistencia", "cuit", cuit);
-		s.close();
 		return c;
 	}
 

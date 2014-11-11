@@ -33,6 +33,7 @@ public class CuentaCorrientePersistencia {
 		this.empresa = emp;
 	}
 
+	public CuentaCorrientePersistencia(){}
 	@Id
 	@Column(nullable = false)
 	public int getCbu() {
