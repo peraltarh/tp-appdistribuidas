@@ -197,10 +197,70 @@ public class Sistema {
 		emp.setDireccion(eP.getDireccion());
 		emp.setTelefono(eP.getTelefono());
 		List<CuentaCorriente>cuentas=new ArrayList<CuentaCorriente>();
+		for (CuentaCorrientePersistencia cuentaCorrientePersistencia : eP.getCuentasCorrientes()) {
+			cuentas.add(convertCuentaCorrientePersistenciaToNegocio(cuentaCorrientePersistencia));
+		}
 		emp.setCuentasCorrientes(cuentas);
-
+		
+		List<EmpresaDirValidas>direcciones=new ArrayList<EmpresaDirValidas>();
+		for (EmpresaDirValidasPersistencia empresaDirValidasPersistencia : eP.getDireccionesValidas()) {
+			direcciones.add(convertEmpresaDirValidasToNegocio(empresaDirValidasPersistencia));
+		}
+		emp.setDireccionesValidas(direcciones);
+		
+		List<Producto>productos=new ArrayList<Producto>();
+		for(ProductoPersistencia producto: eP.getProductosValidos())
+		{
+			productos.add(convertProductoPersistenciaToNegocio(producto));
+		}
+		emp.setProductosValidos(productos);
+		
+		
 		return emp;
 
 	}
-
+	private MovimientoCuenta convertMovimientoCuentaPersistenciaToNegocio (MovimientoCuentaPersistencia mP)
+	{
+		MovimientoCuenta m=new MovimientoCuenta();
+		m.setFecha(mP.getFecha());
+		m.setMonto(mP.getMonto());		
+		return m;
+	}
+	
+	private CuentaCorriente convertCuentaCorrientePersistenciaToNegocio(CuentaCorrientePersistencia ccP)
+	{
+		CuentaCorriente cc=new CuentaCorriente();
+		cc.setCbu(ccP.getCbu());
+		cc.setMinimoPermitidoSinAuth(ccP.getMinimoPermitidoSinAuth());
+		cc.setSaldoActual(ccP.getSaldoActual());
+		
+		List<MovimientoCuenta>movimientosCuenta=new ArrayList<MovimientoCuenta>();
+		for(MovimientoCuentaPersistencia movimientoCuenta: ccP.getMovimientos())
+		{
+			movimientosCuenta.add(convertMovimientoCuentaPersistenciaToNegocio(movimientoCuenta));
+		}
+		cc.setMovimientos(movimientosCuenta);
+		
+		
+		return cc;
+		
+	}
+	
+	private EmpresaDirValidas convertEmpresaDirValidasToNegocio (EmpresaDirValidasPersistencia eP)
+	{
+		EmpresaDirValidas e=new EmpresaDirValidas();
+		e.setDireccion(eP.getDireccion());
+		e.setTel(eP.getTel());
+		return e;
+		
+	}
+	
+	private Producto convertProductoPersistenciaToNegocio(ProductoPersistencia pp)
+	{
+		Producto p=new Producto();
+		p.setDescripcion(pp.getDescripcion());
+		p.setTipo(pp.getTipo());
+		return p;
+	}
+	
 }

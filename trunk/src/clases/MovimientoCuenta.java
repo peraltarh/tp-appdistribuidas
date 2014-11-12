@@ -12,6 +12,10 @@ public class MovimientoCuenta {
 		this.monto = monto;
 	}
 	
+	public MovimientoCuenta() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Date getFecha() {
 		return fecha;
 	}

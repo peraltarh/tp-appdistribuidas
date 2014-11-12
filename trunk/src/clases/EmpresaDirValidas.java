@@ -12,6 +12,10 @@ public class EmpresaDirValidas {
 		this.tel=tel;
 	}
 
+	public EmpresaDirValidas() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getDireccion() {
 		return direccion;
 	}

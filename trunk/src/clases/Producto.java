@@ -3,23 +3,26 @@ package clases;
 public class Producto {
 	
 	private String tipo;
-	private String nombre;
-	public Producto(String tipo, String nombre) {
+	private String descripcion;
+	public Producto(String tipo, String descripcion) {
 		super();
 		this.tipo = tipo;
-		this.nombre = nombre;
+		this.descripcion = descripcion;
+	}
+	public Producto() {
+		// TODO Auto-generated constructor stub
 	}
 	public String getTipo() {
 		return tipo;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getDescripcion() {
+		return descripcion;
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setDescripcion(String descripcion) {
+		this.descripcion= descripcion;
 	}
 	
 	

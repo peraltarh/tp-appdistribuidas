@@ -1,21 +1,27 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CuentaCorriente {
 	
+	private int cbu;
 	private float saldoActual;
 	private float minimoPermitidoSinAuth;
 	private boolean estado;
-	private ArrayList<MovimientoCuenta> movimientos;
+	private List<MovimientoCuenta> movimientos;
 	
-	public CuentaCorriente(float saldoActual, float minimoPermitidoSinAuth,
+	public CuentaCorriente(int cbu,float saldoActual, float minimoPermitidoSinAuth,
 			boolean estado) {
-		super();
+		this.cbu=cbu;
 		this.saldoActual = saldoActual;
 		this.minimoPermitidoSinAuth = minimoPermitidoSinAuth;
 		this.estado = estado;
 		this.movimientos = new ArrayList<MovimientoCuenta>();
+	}
+
+	public CuentaCorriente() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public float getSaldoActual() {
@@ -30,7 +36,7 @@ public class CuentaCorriente {
 		return estado;
 	}
 
-	public ArrayList<MovimientoCuenta> getMovimientos() {
+	public List<MovimientoCuenta> getMovimientos() {
 		return movimientos;
 	}
 
@@ -48,6 +54,18 @@ public class CuentaCorriente {
 
 	public void addMovimiento(MovimientoCuenta movimiento) {
 		this.movimientos.add(movimiento);
+	}
+
+	public void setMovimientos(List<MovimientoCuenta> movimientos) {
+		this.movimientos = movimientos;
+	}
+
+	public int getCbu() {
+		return cbu;
+	}
+
+	public void setCbu(int cbu) {
+		this.cbu = cbu;
 	}
 	
 	
