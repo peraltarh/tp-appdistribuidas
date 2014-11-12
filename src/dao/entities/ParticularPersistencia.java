@@ -1,14 +1,18 @@
 package dao.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 
 
 @Entity
 @DiscriminatorValue("Particular")
-public class ParticularPersistencia extends ClientePersistencia{
+public class ParticularPersistencia extends ClientePersistencia implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private String dni;
 	private String nombre;
 	private String apellido;
@@ -33,7 +37,7 @@ public class ParticularPersistencia extends ClientePersistencia{
 		return apellido;
 	}
 
-	@Column (unique = true)
+	@Column(nullable=true)
 	public String getDni() {
 		return dni;
 	}

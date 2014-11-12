@@ -129,22 +129,28 @@ public class Sistema {
 	{
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
 		DAOCliente.getInstance().persistirParticular(p);
+	
+//Prueba de convert Particular		
+//		p=buscarClienteParticular(dni);
+//		Particular part=convertParticularPersistenciaToCliente(p);
+//		System.out.println("\n\n"+part.getApellido()+"\n\n"+part.getNombre()+"\n\n"+part.getDireccion());
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
 		DAOCliente.getInstance().persistirEmpresa(e);
+	
 	}
 
 
-	public void buscarClienteParticular(String dni) {
+	public ParticularPersistencia buscarClienteParticular(String dni) {
 		ParticularPersistencia particular=DAOCliente.getInstance().getClienteParticular(dni);
-		System.out.println("\n\n\n\n\n\n"+particular.getDni());
+		return particular;
 	}
 
-	public void buscarClienteEmpresa(String cuit) {
+	public EmpresaPersistencia buscarClienteEmpresa(String cuit) {
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
-		System.out.println("\n\n\n\n\n\n"+empresa.getIdCliente());		
+		return empresa;
 	}
 
 	public void altaCuentaCorriente(int cbu, float saldoActual, float minimoPermitidoSinAuth, String cuit) {
@@ -152,6 +158,11 @@ public class Sistema {
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistirEmpresa(empresa);
+		
+//Prueba de convert Empresa
+//		EmpresaPersistencia e=buscarClienteEmpresa(cuit);
+//		Empresa emp=convertEmpresaPersistenciaToNegocio(e);
+//		System.out.println("\n\n"+emp.getCuit()+"\n\n"+"\n\n"+emp.getDireccion()+emp.getCuentasCorrientes().get(0).getCbu());
 	}
 
 	public void altaProducto(String tipo, String descripcion, String cuit) {

@@ -65,6 +65,7 @@ public class HibernateDAO {
 	
 	// Devuelve un objeto, en className recibe el nombre de la clase, campo es la columna y valor es el filtro.
 	public Object getObjectWithString(String className, String campo, String value) {
+		
 		Session s = this.getSession();
 		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setString(0, value).uniqueResult();
 		return r;

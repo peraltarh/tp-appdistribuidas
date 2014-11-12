@@ -5,7 +5,7 @@ import org.hibernate.criterion.Restrictions;
 import dao.entities.*;
 
 
-public class DAOCliente
+public class DAOCliente extends HibernateDAO
 {
 	static DAOCliente instance_ = null;
 	
@@ -24,6 +24,7 @@ public class DAOCliente
 	
 	public void persistirParticular(ParticularPersistencia particular)
 	{
+		super.getSession().close();
 		HibernateDAO.getInstancia().save(particular);
 	}
 	
