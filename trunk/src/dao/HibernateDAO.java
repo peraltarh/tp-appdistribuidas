@@ -57,8 +57,6 @@ public class HibernateDAO {
 	{
 		Session session=getSession();
 		List<?> list = session.createQuery("from "+className + " s where s. "+ columna + " =?").setInteger(0, value).list();
-//		List<DepositoPersistencia> list = session.createQuery("from DepositoPersistencia m where m.cantidadMax = 500").list();
-//		List<DepositoPersistencia> list = session.createQuery("from DepositoPersistencia d where d.suc = 1").list();
 
 		return list;
 	}
