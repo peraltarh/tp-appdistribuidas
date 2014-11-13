@@ -16,5 +16,7 @@ public interface InterfazEnvios extends Remote
 	public void altaEmpresa(String direccion, String telefono, String razonSoial, String cuit, String regularidad) throws RemoteException;
 	public void buscarClienteParticular(String dni) throws RemoteException;
 	public void buscarClienteEmpresa(String cuit) throws RemoteException;
+	public void altaSucursal(String nombre, String dir, String gerente, String encDespacho, String encRecepcion) throws RemoteException;
+	public void altaDeposito(float cantidadMax, String encargado, String sucursal) throws RemoteException;
 	
 }

@@ -66,6 +66,16 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		sistema.buscarClienteEmpresa(cuit);
 	}
 
+	@Override
+	public void altaSucursal(String nombre, String dir, String gerente,
+			String encDespacho, String encRecepcion) {
+		sistema.altaSucursal(nombre,dir,gerente,encDespacho,encRecepcion);
+	}
+
+	public void altaDeposito(float cantidadMax, String encargado, String sucursal)
+	{
+		sistema.altaDeposito(cantidadMax, encargado, sucursal);
+	}
 	
 	
 }
