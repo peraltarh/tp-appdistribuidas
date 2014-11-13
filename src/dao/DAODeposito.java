@@ -35,7 +35,7 @@ public class DAODeposito
 		
 	public List<DepositoPersistencia> getDepositos(int idSucursal)
 	{
-		List<DepositoPersistencia> lista = (List<DepositoPersistencia>) HibernateDAO.getInstancia().getList("DepositoPersistencia", "numeroSucursal", idSucursal);
+		List<DepositoPersistencia> lista = (List<DepositoPersistencia>) HibernateDAO.getInstancia().getList("DepositoPersistencia", "suc", idSucursal);
 		return lista;
 	}
 	

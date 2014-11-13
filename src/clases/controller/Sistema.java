@@ -35,7 +35,6 @@ public class Sistema {
 	private List<Factura> facturas;
 	private List<Cliente> clientes;
 	private List<CuentaCorriente> cuentasCorrientes;
-	//	private ArrayList<dao.entities.Cliente> clientes2;
 
 
 	public static Sistema getInstance(){
@@ -170,8 +169,8 @@ public class Sistema {
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistirEmpresa(empresa);
 
-//		List<DepositoPersistencia> depositos=getDepositos(1);
-//		System.out.println("\n\n"+depositos.get(0).getEncargado()+"\n\n"+depositos.get(1).getEncargado());
+		List<DepositoPersistencia> depositos=getDepositos(1);
+		System.out.println("\n\n"+depositos.get(0).getEncargado()+"\n\n"+depositos.get(1).getEncargado());
 		
 		//Prueba de convert Empresa
 		//		EmpresaPersistencia e=buscarClienteEmpresa(cuit);
