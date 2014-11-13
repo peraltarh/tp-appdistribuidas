@@ -53,12 +53,12 @@ public class HibernateDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<DepositoPersistencia> getList(String className, String columna,int value)
+	public List<?> getList(String className, String columna,int value)
 	{
 		Session session=getSession();
-//		List<?> list = session.createQuery("from "+className + " s where s. "+ columna + " =?").setInteger(0, value).list();
-		List<DepositoPersistencia> list = session.createQuery("from DepositoPersistencia m where m.cantidadMax = 500").list();
-//		List<DepositoPersistencia> list = session.createQuery("from DepositoPersistencia m where m.numeroSucursal = 1").list();
+		List<?> list = session.createQuery("from "+className + " s where s. "+ columna + " =?").setInteger(0, value).list();
+//		List<DepositoPersistencia> list = session.createQuery("from DepositoPersistencia m where m.cantidadMax = 500").list();
+//		List<DepositoPersistencia> list = session.createQuery("from DepositoPersistencia d where d.suc = 1").list();
 
 		return list;
 	}
