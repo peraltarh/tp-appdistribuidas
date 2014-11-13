@@ -8,13 +8,17 @@ import java.util.List;
 import clases.*;
 import dao.DAOCliente;
 import dao.DAOCuentaCorriente;
+import dao.DAODeposito;
+import dao.DAOSucursal;
 import dao.entities.ClientePersistencia;
 import dao.entities.CuentaCorrientePersistencia;
+import dao.entities.DepositoPersistencia;
 import dao.entities.EmpresaPersistencia;
 import dao.entities.EmpresaDirValidasPersistencia;
 import dao.entities.MovimientoCuentaPersistencia;
 import dao.entities.ParticularPersistencia;
 import dao.entities.ProductoPersistencia;
+import dao.entities.SucursalPersistencia;
 
 
 
@@ -22,15 +26,15 @@ public class Sistema {
 
 	private static Sistema sys = null;
 
-	private ArrayList<Sucursal> sucursales;
-	private ArrayList<PoliticasDeEnvio> politicas;
-	private ArrayList<MapaDeRuta> rutas;
-	private ArrayList<Vehiculo> vehiculos;
-	private ArrayList<Remito> remitos;
-	private ArrayList<Pedido> pedidos;
-	private ArrayList<Factura> facturas;
-	private ArrayList<Cliente> clientes;
-	private ArrayList<CuentaCorriente> cuentasCorrientes;
+	private List<Sucursal> sucursales;
+	private List<PoliticasDeEnvio> politicas;
+	private List<MapaDeRuta> rutas;
+	private List<Vehiculo> vehiculos;
+	private List<Remito> remitos;
+	private List<Pedido> pedidos;
+	private List<Factura> facturas;
+	private List<Cliente> clientes;
+	private List<CuentaCorriente> cuentasCorrientes;
 	//	private ArrayList<dao.entities.Cliente> clientes2;
 
 
@@ -51,39 +55,39 @@ public class Sistema {
 		this.cuentasCorrientes = new ArrayList<CuentaCorriente>();
 	}
 
-	public ArrayList<Sucursal> getSucursales() {
+	public List<Sucursal> getSucursales() {
 		return sucursales;
 	}
 
-	public ArrayList<PoliticasDeEnvio> getPoliticas() {
+	public List<PoliticasDeEnvio> getPoliticas() {
 		return politicas;
 	}
 
-	public ArrayList<MapaDeRuta> getRutas() {
+	public List<MapaDeRuta> getRutas() {
 		return rutas;
 	}
 
-	public ArrayList<Vehiculo> getVehiculos() {
+	public List<Vehiculo> getVehiculos() {
 		return vehiculos;
 	}
 
-	public ArrayList<Remito> getRemitos() {
+	public List<Remito> getRemitos() {
 		return remitos;
 	}
 
-	public ArrayList<Pedido> getPedidos() {
+	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
-	public ArrayList<Factura> getFacturas() {
+	public List<Factura> getFacturas() {
 		return facturas;
 	}
 
-	public ArrayList<Cliente> getClientes() {
+	public List<Cliente> getClientes() {
 		return clientes;
 	}
 
-	public ArrayList<CuentaCorriente> getCuentasCorrientes() {
+	public List<CuentaCorriente> getCuentasCorrientes() {
 		return cuentasCorrientes;
 	}
 
@@ -129,17 +133,17 @@ public class Sistema {
 	{
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
 		DAOCliente.getInstance().persistirParticular(p);
-	
-//Prueba de convert Particular		
-//		p=buscarClienteParticular(dni);
-//		Particular part=convertParticularPersistenciaToCliente(p);
-//		System.out.println("\n\n"+part.getApellido()+"\n\n"+part.getNombre()+"\n\n"+part.getDireccion());
+
+		//Prueba de convert Particular		
+		//		p=buscarClienteParticular(dni);
+		//		Particular part=convertParticularPersistenciaToCliente(p);
+		//		System.out.println("\n\n"+part.getApellido()+"\n\n"+part.getNombre()+"\n\n"+part.getDireccion());
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
 		DAOCliente.getInstance().persistirEmpresa(e);
-	
+
 	}
 
 
@@ -153,16 +157,26 @@ public class Sistema {
 		return empresa;
 	}
 
+	public List<DepositoPersistencia> getDepositos(int idSucursal) {
+		List<DepositoPersistencia> depositos=new ArrayList<DepositoPersistencia>();
+		depositos=DAODeposito.getInstance().getDepositos(idSucursal);
+		return depositos;
+	}
+
+
 	public void altaCuentaCorriente(int cbu, float saldoActual, float minimoPermitidoSinAuth, String cuit) {
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistirEmpresa(empresa);
+
+//		List<DepositoPersistencia> depositos=getDepositos(1);
+//		System.out.println("\n\n"+depositos.get(0).getEncargado()+"\n\n"+depositos.get(1).getEncargado());
 		
-//Prueba de convert Empresa
-//		EmpresaPersistencia e=buscarClienteEmpresa(cuit);
-//		Empresa emp=convertEmpresaPersistenciaToNegocio(e);
-//		System.out.println("\n\n"+emp.getCuit()+"\n\n"+"\n\n"+emp.getDireccion()+emp.getCuentasCorrientes().get(0).getCbu());
+		//Prueba de convert Empresa
+		//		EmpresaPersistencia e=buscarClienteEmpresa(cuit);
+		//		Empresa emp=convertEmpresaPersistenciaToNegocio(e);
+		//		System.out.println("\n\n"+emp.getCuit()+"\n\n"+"\n\n"+emp.getDireccion()+emp.getCuentasCorrientes().get(0).getCbu());
 	}
 
 	public void altaProducto(String tipo, String descripcion, String cuit) {
@@ -172,6 +186,17 @@ public class Sistema {
 		DAOCliente.getInstance().update(empresa);
 	}
 
+	public void altaSucursal(String nombre, String dir, String gerente, String encDespacho, String encRecepcion) {
+
+		SucursalPersistencia suc=new SucursalPersistencia(nombre, dir, gerente, encDespacho, encRecepcion);
+		DAOSucursal.getInstance().persistirSucursal(suc);
+	}
+
+	public void altaDeposito(float cantidadMax, String encargado, String sucursal) {
+		SucursalPersistencia suc=DAOSucursal.getInstance().getSucursal(sucursal);
+		DepositoPersistencia dep=new DepositoPersistencia(cantidadMax, encargado, suc);
+		DAODeposito.getInstance().persistirDeposito(dep);
+	}
 	public void altaMovimientoCuenta(Date fecha, float monto, int cbu) {
 		CuentaCorrientePersistencia cuenta=DAOCuentaCorriente.getInstance().getCuentaCorriente(cbu);
 		MovimientoCuentaPersistencia mov=new MovimientoCuentaPersistencia(fecha, monto, cuenta);
@@ -212,21 +237,21 @@ public class Sistema {
 			cuentas.add(convertCuentaCorrientePersistenciaToNegocio(cuentaCorrientePersistencia));
 		}
 		emp.setCuentasCorrientes(cuentas);
-		
+
 		List<EmpresaDirValidas>direcciones=new ArrayList<EmpresaDirValidas>();
 		for (EmpresaDirValidasPersistencia empresaDirValidasPersistencia : eP.getDireccionesValidas()) {
 			direcciones.add(convertEmpresaDirValidasToNegocio(empresaDirValidasPersistencia));
 		}
 		emp.setDireccionesValidas(direcciones);
-		
+
 		List<Producto>productos=new ArrayList<Producto>();
 		for(ProductoPersistencia producto: eP.getProductosValidos())
 		{
 			productos.add(convertProductoPersistenciaToNegocio(producto));
 		}
 		emp.setProductosValidos(productos);
-		
-		
+
+
 		return emp;
 
 	}
@@ -237,35 +262,35 @@ public class Sistema {
 		m.setMonto(mP.getMonto());		
 		return m;
 	}
-	
+
 	private CuentaCorriente convertCuentaCorrientePersistenciaToNegocio(CuentaCorrientePersistencia ccP)
 	{
 		CuentaCorriente cc=new CuentaCorriente();
 		cc.setCbu(ccP.getCbu());
 		cc.setMinimoPermitidoSinAuth(ccP.getMinimoPermitidoSinAuth());
 		cc.setSaldoActual(ccP.getSaldoActual());
-		
+
 		List<MovimientoCuenta>movimientosCuenta=new ArrayList<MovimientoCuenta>();
 		for(MovimientoCuentaPersistencia movimientoCuenta: ccP.getMovimientos())
 		{
 			movimientosCuenta.add(convertMovimientoCuentaPersistenciaToNegocio(movimientoCuenta));
 		}
 		cc.setMovimientos(movimientosCuenta);
-		
-		
+
+
 		return cc;
-		
+
 	}
-	
+
 	private EmpresaDirValidas convertEmpresaDirValidasToNegocio (EmpresaDirValidasPersistencia eP)
 	{
 		EmpresaDirValidas e=new EmpresaDirValidas();
 		e.setDireccion(eP.getDireccion());
 		e.setTel(eP.getTel());
 		return e;
-		
+
 	}
-	
+
 	private Producto convertProductoPersistenciaToNegocio(ProductoPersistencia pp)
 	{
 		Producto p=new Producto();
@@ -273,5 +298,7 @@ public class Sistema {
 		p.setTipo(pp.getTipo());
 		return p;
 	}
-	
+
+
+
 }

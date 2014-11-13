@@ -93,13 +93,20 @@ public class DepositoPersistencia {
 
 @ManyToOne
 @JoinColumn(name="numeroSucursal")
-	public SucursalPersistencia getSucursal() {
+	public SucursalPersistencia getSuc() {
 		return suc;
 	}
 
+	public void setSuc(SucursalPersistencia suc) {
+		this.suc = suc;
+	}
 
-	public void setSucursal(SucursalPersistencia sucursal) {
-		this.suc = sucursal;
+	public void setAreas(List<AreaPersistencia> areas) {
+		this.areas = areas;
+	}
+
+	public void setMercaderias(List<MercaderiaPersistencia> mercaderias) {
+		this.mercaderias = mercaderias;
 	}
 	
 	
