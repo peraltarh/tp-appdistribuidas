@@ -168,10 +168,7 @@ public class Sistema {
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistirEmpresa(empresa);
-
-		List<DepositoPersistencia> depositos=getDepositos(1);
-		System.out.println("\n\n"+depositos.get(0).getEncargado()+"\n\n"+depositos.get(1).getEncargado());
-		
+	
 		//Prueba de convert Empresa
 		//		EmpresaPersistencia e=buscarClienteEmpresa(cuit);
 		//		Empresa emp=convertEmpresaPersistenciaToNegocio(e);
