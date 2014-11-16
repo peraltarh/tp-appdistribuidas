@@ -9,6 +9,7 @@ import clases.*;
 import dao.DAOCliente;
 import dao.DAOCuentaCorriente;
 import dao.DAODeposito;
+import dao.DAOPedido;
 import dao.DAOSucursal;
 import dao.entities.ClientePersistencia;
 import dao.entities.CuentaCorrientePersistencia;
@@ -134,27 +135,12 @@ public class Sistema {
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
 		DAOCliente.getInstance().persistirParticular(p);
 
-		//Prueba de convert Particular		
-		//		p=buscarClienteParticular(dni);
-		//		Particular part=convertParticularPersistenciaToCliente(p);
-		//		System.out.println("\n\n"+part.getApellido()+"\n\n"+part.getNombre()+"\n\n"+part.getDireccion());
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
 		DAOCliente.getInstance().persistirEmpresa(e);
 
-	}
-
-
-	public ParticularPersistencia buscarClienteParticular(String dni) {
-		ParticularPersistencia particular=DAOCliente.getInstance().getClienteParticular(dni);
-		return particular;
-	}
-
-	public EmpresaPersistencia buscarClienteEmpresa(String cuit) {
-		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
-		return empresa;
 	}
 
 	public List<DepositoPersistencia> getDepositos(int idSucursal) {
@@ -169,11 +155,7 @@ public class Sistema {
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistirEmpresa(empresa);
-	
-		//Prueba de convert Empresa
-		//		EmpresaPersistencia e=buscarClienteEmpresa(cuit);
-		//		Empresa emp=convertEmpresaPersistenciaToNegocio(e);
-		//		System.out.println("\n\n"+emp.getCuit()+"\n\n"+"\n\n"+emp.getDireccion()+emp.getCuentasCorrientes().get(0).getCbu());
+
 	}
 
 	public void altaProducto(String tipo, String descripcion, String cuit) {
@@ -208,25 +190,36 @@ public class Sistema {
 		DAOCliente.getInstance().update(empresa);
 
 	}
-	
+
+	public EmpresaPersistencia buscarClienteEmpresa(String cuit)
+	{
+		return DAOCliente.getInstance().getClienteEmpresa(cuit);
+
+	}
+	public ParticularPersistencia buscarClienteParticular(String dni)
+	{
+		return DAOCliente.getInstance().getClienteParticular(dni);
+
+	}
 	public void altaPedido(String manifiesto, String dirDestino,
 			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
 			String condEspeciales, Date horarioDeEntregaDesde,
 			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
-			int prioridad, String sucursal, String cliente, String tipoC) 
+			int prioridad, String estado, String sucursal, String cliente, String tipoC) 
 	{
 		ClientePersistencia c=null;
-		if(tipoC=="cuit")
+		if(tipoC.equals("cuit"))
 		{
 			c=DAOCliente.getInstance().getClienteEmpresa(cliente);
 		}
-		if(tipoC=="dni")
+		if(tipoC.equals("dni"))
 		{
 			c=DAOCliente.getInstance().getClienteParticular(cliente);
 		}
-		
+
 		SucursalPersistencia suc=DAOSucursal.getInstance().getSucursal(sucursal);
-		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, suc, c);
+		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, c);
+		DAOPedido.getInstance().persistir(pedido);
 	}
 
 	private Particular convertParticularPersistenciaToCliente(ParticularPersistencia pP)
@@ -239,8 +232,7 @@ public class Sistema {
 		p.setTelefono(pP.getTelefono());
 		return p;
 	}
-	//*****************************************************************
-	//Sin terminar
+
 	private Empresa convertEmpresaPersistenciaToNegocio(EmpresaPersistencia eP)
 	{
 		Empresa emp = new Empresa();
@@ -316,7 +308,7 @@ public class Sistema {
 		return p;
 	}
 
-	
+
 
 
 
