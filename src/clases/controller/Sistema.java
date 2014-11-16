@@ -339,8 +339,9 @@ public class Sistema {
 	}
 
 	public List<PedidoBean> getPedidosPorEstado(String estado) {
-		List<PedidoPersistencia> pedidos=DAOPedido.getInstance().getPedidosPorEstado(estado);
-		List<PedidoBean> pedidosBean=convertPedidoPersistenciaToBean(pedidos);
+		List<PedidoPersistencia> pedEstado=new ArrayList<PedidoPersistencia>();
+		pedEstado=DAOPedido.getInstance().getPedidosPorEstado(estado);
+		List<PedidoBean> pedidosBean=convertPedidoPersistenciaToBean(pedEstado);
 		return pedidosBean;
 	}
 

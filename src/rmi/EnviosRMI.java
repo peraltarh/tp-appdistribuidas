@@ -89,7 +89,7 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public List<PedidoBean> getMesasPorEstado(String estado) throws RemoteException {
+	public List<PedidoBean> getPedidosPorEstado(String estado) throws RemoteException {
 		List<PedidoBean> pedidos=new ArrayList<PedidoBean>();
 		pedidos= sistema.getPedidosPorEstado(estado);
 		return pedidos;
