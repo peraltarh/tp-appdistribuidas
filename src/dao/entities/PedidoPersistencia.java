@@ -26,6 +26,7 @@ public class PedidoPersistencia {
 	private String condEspeciales;
 	private Date horarioDeEntregaDesde;
 	private Date horarioDeEntregahasta;
+	private String estado;
 	private String dirDeRetiroSoloEmpresa;
 	private int prioridad;
 	private ClientePersistencia cliente;
@@ -207,6 +208,14 @@ public class PedidoPersistencia {
 
 	public void setCliente(ClientePersistencia cliente) {
 		this.cliente = cliente;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 
 	

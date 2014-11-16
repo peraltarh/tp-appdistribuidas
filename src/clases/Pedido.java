@@ -13,6 +13,7 @@ public class Pedido {
 	private Date horarioDeEntregaDesde;
 	private Date horarioDeEntregahasta;
 	private String dirDeRetiroSoloEmpresa;
+	private String estado;
 	private int prioridad;
 	private ArrayList<Mercaderia> mercaderias;
 	private ArrayList<Destinatario> destinatarios;
@@ -154,6 +155,27 @@ public class Pedido {
 		}
 		return volumenTotal;
 	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		estado = estado;
+	}
+
+	public void setMercaderias(ArrayList<Mercaderia> mercaderias) {
+		this.mercaderias = mercaderias;
+	}
+
+	public void setDestinatarios(ArrayList<Destinatario> destinatarios) {
+		this.destinatarios = destinatarios;
+	}
+
+	public void setConsideraciones(ArrayList<ConsideracionEspecial> consideraciones) {
+		this.consideraciones = consideraciones;
+	}
+	
 	
 	
 	
