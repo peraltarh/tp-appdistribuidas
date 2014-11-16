@@ -17,6 +17,7 @@ import dao.entities.EmpresaPersistencia;
 import dao.entities.EmpresaDirValidasPersistencia;
 import dao.entities.MovimientoCuentaPersistencia;
 import dao.entities.ParticularPersistencia;
+import dao.entities.PedidoPersistencia;
 import dao.entities.ProductoPersistencia;
 import dao.entities.SucursalPersistencia;
 
@@ -207,6 +208,26 @@ public class Sistema {
 		DAOCliente.getInstance().update(empresa);
 
 	}
+	
+	public void altaPedido(String manifiesto, String dirDestino,
+			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
+			String condEspeciales, Date horarioDeEntregaDesde,
+			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
+			int prioridad, String sucursal, String cliente, String tipoC) 
+	{
+		ClientePersistencia c=null;
+		if(tipoC=="cuit")
+		{
+			c=DAOCliente.getInstance().getClienteEmpresa(cliente);
+		}
+		if(tipoC=="dni")
+		{
+			c=DAOCliente.getInstance().getClienteParticular(cliente);
+		}
+		
+		SucursalPersistencia suc=DAOSucursal.getInstance().getSucursal(sucursal);
+		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, suc, c);
+	}
 
 	private Particular convertParticularPersistenciaToCliente(ParticularPersistencia pP)
 	{
@@ -294,6 +315,8 @@ public class Sistema {
 		p.setTipo(pp.getTipo());
 		return p;
 	}
+
+	
 
 
 
