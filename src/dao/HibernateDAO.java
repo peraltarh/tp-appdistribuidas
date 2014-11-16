@@ -53,10 +53,18 @@ public class HibernateDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<?> getList(String className, String columna,int value)
+	public List<?> getListInt(String className, String columna,int value)
 	{
 		Session session=getSession();
 		List<?> list = session.createQuery("from "+className + " s where s. "+ columna + " =?").setInteger(0, value).list();
+
+		return list;
+	}
+	
+	public List<?> getListString(String className, String columna,String value)
+	{
+		Session session=getSession();
+		List<?> list = session.createQuery("from "+className + " s where s. "+ columna + " =?").setString(0, value).list();
 
 		return list;
 	}

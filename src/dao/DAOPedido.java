@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import clases.Pedido;
 import dao.entities.PedidoPersistencia;
 
@@ -18,8 +20,8 @@ public class DAOPedido
 		HibernateDAO.getInstancia().save(pedido);
 	}
 	
-	public PedidoPersistencia getPedidoPorEstado(String estado)
+	public List<PedidoPersistencia> getPedidosPorEstado(String estado)
 	{
-		return (PedidoPersistencia)HibernateDAO.getInstancia().getObjectWithString("PedidoPersistencia", "estado", estado);
+		return (List<PedidoPersistencia>) HibernateDAO.getInstancia().getListString("PedidoPersistencia", "estado", estado);
 	}
 }

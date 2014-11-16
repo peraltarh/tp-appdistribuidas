@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import beans.PedidoBean;
 import clases.*;
 import dao.DAOCliente;
 import dao.DAOCuentaCorriente;
@@ -306,6 +307,41 @@ public class Sistema {
 		p.setDescripcion(pp.getDescripcion());
 		p.setTipo(pp.getTipo());
 		return p;
+	}
+	
+	//FALTA TERMINAR EL CONVERT DE CLIENTE, SUCURSAL Y LAS 3 LISTAS.
+	private List<PedidoBean> convertPedidoPersistenciaToBean(List<PedidoPersistencia> list)
+	{
+		List<PedidoBean>listaPedidoBean=new ArrayList<PedidoBean>();
+		for (PedidoPersistencia pP : list) 
+		{
+			PedidoBean pBean=new PedidoBean();
+			pBean.setManifiesto(pP.getManifiesto());
+			pBean.setIdPedido(pP.getIdPedido());
+			pBean.setDirDestino(pP.getDirDestino());
+			pBean.setFechaEnregaMaxima(pP.getFechaEnregaMaxima());
+			pBean.setFechaEnregaMaxima(pP.getFechaEntregaEstimada());
+			pBean.setCondEspeciales(pP.getCondEspeciales());
+			pBean.setHorarioDeEntregaDesde(pP.getHorarioDeEntregaDesde());
+			pBean.setHorarioDeEntregahasta(pP.getHorarioDeEntregahasta());
+			pBean.setEstado(pP.getEstado());
+			pBean.setDirDeRetiroSoloEmpresa(pP.getDirDeRetiroSoloEmpresa());
+			pBean.setPrioridad(pP.getPrioridad());
+			pBean.setCliente(null);
+			pBean.setSucursal(null);
+			pBean.setMercaderias(null);
+			pBean.setDestinatarios(null);
+			pBean.setConsideraciones(null);
+
+			listaPedidoBean.add(pBean);
+		}
+		return listaPedidoBean;
+	}
+
+	public List<PedidoBean> getPedidosPorEstado(String estado) {
+		List<PedidoPersistencia> pedidos=DAOPedido.getInstance().getPedidosPorEstado(estado);
+		List<PedidoBean> pedidosBean=convertPedidoPersistenciaToBean(pedidos);
+		return pedidosBean;
 	}
 
 

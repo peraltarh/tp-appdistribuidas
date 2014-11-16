@@ -6,7 +6,10 @@ import interfaz.InterfazEnvios;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import beans.PedidoBean;
 import clases.controller.Sistema;
 
 
@@ -83,6 +86,13 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	{
 		sistema.altaPedido( manifiesto,  dirDestino, fechaEnregaMaxima,  fechaEntregaEstimada, condEspeciales,  horarioDeEntregaDesde, horarioDeEntregahasta,  dirDeRetiroSoloEmpresa, prioridad,estado,  sucursal,  cliente, tipoC);
 		
+	}
+
+	@Override
+	public List<PedidoBean> getMesasPorEstado(String estado) throws RemoteException {
+		List<PedidoBean> pedidos=new ArrayList<PedidoBean>();
+		pedidos= sistema.getPedidosPorEstado(estado);
+		return pedidos;
 	}
 	
 	
