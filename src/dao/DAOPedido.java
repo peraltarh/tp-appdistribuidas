@@ -13,9 +13,9 @@ public class DAOPedido
         return instance_;
     }
 	
-	public void persistir(Pedido _pedido) 
+	public void persistir(PedidoPersistencia pedido) 
 	{
-		HibernateDAO.getInstancia().save(_pedido);
+		HibernateDAO.getInstancia().save(pedido);
 	}
 	
 	public PedidoPersistencia getPedidoPorEstado(String estado)

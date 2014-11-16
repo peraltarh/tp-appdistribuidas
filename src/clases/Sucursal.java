@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import clases.controller.Sistema;
 import dao.DAOCliente;
 import dao.DAOPedido;
+import dao.entities.MercaderiaPersistencia;
+import dao.entities.PedidoPersistencia;
 
 public class Sucursal {
 	
@@ -97,42 +99,42 @@ public class Sucursal {
 	}
 	
 	// Recibe un cliente nuevo o el Id del cliente(si ya existe), mas un pedido completo
-	public String RegistrarPedido(Cliente _cliente, Pedido _pedido)
-	{
-		String resultado = "";
-		Cliente clienteBD = null;// TODO: Reemplazar null por busqueda en la BBDD (DAOCliente)
-		// Esta el cliente en la BBDD?
-		if(clienteBD == null)
-		{
-			// [No]->Dar de alta.
-			// comprobar que esten todos los datos necesarios y que no haya errores.
-			resultado = validarCliente(_cliente);
-			// Paso la validación?
-			if(!resultado.isEmpty())
-			{
-				// [No]-> Devolver resultado de la validación.
-				return resultado;
-			}else{
-				// Alta de cliente
-				if(_cliente.getClass()==Particular.class)
-					DAOCliente.getInstance().persistirParticular(((Particular)_cliente).getEntity());
-				else
-					DAOCliente.getInstance().persistirEmpresa(((Empresa)_cliente).getEntity());
-			}
-		}
-		// Cliente[Ok]-> Validar y persistir pedido.
-		// Validar mercaderias
-		for(Mercaderia mercaderia :_pedido.getMercaderias())
-		{
-			resultado += validarMercaderia(clienteBD, mercaderia);			
-		}
-		if(!resultado.isEmpty())
-			return resultado;
-		// Mercaderias[Ok]
-		DAOPedido.getInstance().persistir(_pedido);
-		
-		return resultado;// Operación finalizada con éxito
-	}
+//	public String RegistrarPedido(Cliente _cliente, PedidoPersistencia _pedido)
+//	{
+//		String resultado = "";
+//		Cliente clienteBD = null;// TODO: Reemplazar null por busqueda en la BBDD (DAOCliente)
+//		// Esta el cliente en la BBDD?
+//		if(clienteBD == null)
+//		{
+//			// [No]->Dar de alta.
+//			// comprobar que esten todos los datos necesarios y que no haya errores.
+//			resultado = validarCliente(_cliente);
+//			// Paso la validación?
+//			if(!resultado.isEmpty())
+//			{
+//				// [No]-> Devolver resultado de la validación.
+//				return resultado;
+//			}else{
+//				// Alta de cliente
+//				if(_cliente.getClass()==Particular.class)
+//					DAOCliente.getInstance().persistirParticular(((Particular)_cliente).getEntity());
+//				else
+//					DAOCliente.getInstance().persistirEmpresa(((Empresa)_cliente).getEntity());
+//			}
+//		}
+//		// Cliente[Ok]-> Validar y persistir pedido.
+//		// Validar mercaderias
+//		for(MercaderiaPersistencia mercaderia :_pedido.getMercaderias())
+//		{
+//			resultado += validarMercaderia(clienteBD, mercaderia);			
+//		}
+//		if(!resultado.isEmpty())
+//			return resultado;
+//		// Mercaderias[Ok]
+//		DAOPedido.getInstance().persistir(_pedido);
+//		
+//		return resultado;// Operación finalizada con éxito
+//	}
 	
 	// Comprueba que no falten completar datos del cliente
 	public String validarCliente(Cliente _cliente)

@@ -38,7 +38,7 @@ public class PedidoPersistencia {
 	public PedidoPersistencia(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
 			Date horarioDeEntregaDesde, Date horarioDeEntregahasta,
-			String dirDeRetiroSoloEmpresa, int prioridad, SucursalPersistencia sucursal,ClientePersistencia cliente) 
+			String dirDeRetiroSoloEmpresa, int prioridad, String estado,SucursalPersistencia sucursal,ClientePersistencia cliente) 
 	{
 		this.manifiesto = manifiesto;
 		this.dirDestino = dirDestino;
@@ -49,8 +49,10 @@ public class PedidoPersistencia {
 		this.horarioDeEntregahasta = horarioDeEntregahasta;
 		this.dirDeRetiroSoloEmpresa = dirDeRetiroSoloEmpresa;
 		this.prioridad = prioridad;
+		this.estado=estado;
 		this.mercaderias = new ArrayList<MercaderiaPersistencia>();
 		this.cliente=cliente;
+		this.sucursal=sucursal;
 		this.destinatarios = new ArrayList<DestinatarioPersistencia>();
 		this.consideraciones = new ArrayList<ConsideracionEspecialPersistencia>();
 	}
