@@ -27,4 +27,8 @@ public class DAOPedido
 
 		return lista;
 	}
+
+	public PedidoPersistencia getPedidoPorEstado(int numeroPedido) {
+ 		return (PedidoPersistencia)HibernateDAO.getInstancia().getObjectWithInt("PedidoPersistencia", "idPedido", numeroPedido);
+	}
 }
