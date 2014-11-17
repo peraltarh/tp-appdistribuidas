@@ -5,7 +5,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import beans.ClienteBean;
+import beans.DepositoBean;
+import beans.EmpresaBean;
+import beans.MercaderiaBean;
+import beans.MercaderiaPorPesoBean;
+import beans.MercaderiaPorVolumenBean;
+import beans.ParticularBean;
 import beans.PedidoBean;
+import beans.RemitoBean;
+import beans.SucursalBean;
 import clases.*;
 import dao.DAOCliente;
 import dao.DAOCuentaCorriente;
@@ -17,10 +26,14 @@ import dao.entities.CuentaCorrientePersistencia;
 import dao.entities.DepositoPersistencia;
 import dao.entities.EmpresaPersistencia;
 import dao.entities.EmpresaDirValidasPersistencia;
+import dao.entities.MercaderiaPersistencia;
+import dao.entities.MercaderiaPorPesoPersistencia;
+import dao.entities.MercaderiaPorVolumenPersistencia;
 import dao.entities.MovimientoCuentaPersistencia;
 import dao.entities.ParticularPersistencia;
 import dao.entities.PedidoPersistencia;
 import dao.entities.ProductoPersistencia;
+import dao.entities.RemitoPersistencia;
 import dao.entities.SucursalPersistencia;
 
 
@@ -308,9 +321,9 @@ public class Sistema {
 		p.setTipo(pp.getTipo());
 		return p;
 	}
-	
+
 	//FALTA TERMINAR EL CONVERT DE CLIENTE, SUCURSAL Y LAS 3 LISTAS.
-	private List<PedidoBean> convertPedidoPersistenciaToBean(List<PedidoPersistencia> list)
+	private List<PedidoBean> convertPedidosPersistenciaToBean(List<PedidoPersistencia> list)
 	{
 		List<PedidoBean>listaPedidoBean=new ArrayList<PedidoBean>();
 		for (PedidoPersistencia pP : list) 
@@ -327,9 +340,13 @@ public class Sistema {
 			pBean.setEstado(pP.getEstado());
 			pBean.setDirDeRetiroSoloEmpresa(pP.getDirDeRetiroSoloEmpresa());
 			pBean.setPrioridad(pP.getPrioridad());
-			pBean.setCliente(null);
-			pBean.setSucursal(null);
-			pBean.setMercaderias(null);
+			pBean.setCliente(this.convertClientePersistenciaToBean(pP.getCliente()));
+			pBean.setSucursal(this.convertSucursalPersistenciaToBean(pP.getSucursal()));
+			for(MercaderiaPersistencia mP : pP.getMercaderias())
+			{
+				MercaderiaBean mB=this.convertMercaderiaPersistenciaToBean(mP);
+				pBean.addMercaderia(mB);
+			}
 			pBean.setDestinatarios(null);
 			pBean.setConsideraciones(null);
 
@@ -338,14 +355,111 @@ public class Sistema {
 		return listaPedidoBean;
 	}
 
-	public List<PedidoBean> getPedidosPorEstado(String estado) {
-		List<PedidoPersistencia> pedEstado=new ArrayList<PedidoPersistencia>();
-		pedEstado=DAOPedido.getInstance().getPedidosPorEstado(estado);
-		List<PedidoBean> pedidosBean=convertPedidoPersistenciaToBean(pedEstado);
-		return pedidosBean;
+	private MercaderiaBean convertMercaderiaPersistenciaToBean(MercaderiaPersistencia mp)
+	{
+		MercaderiaBean mb=null;
+		if(mp.getClass().getName().equals(MercaderiaPorPesoPersistencia.class.getName()))
+			mb=new MercaderiaPorPesoBean();
+		if(mp.getClass().getName().equals(MercaderiaPorVolumenPersistencia.class.getName()))
+			mb=new MercaderiaPorVolumenBean();
+		mb.setAlto(mp.getAlto());
+		mb.setAncho(mp.getAncho());
+		mb.setCondDeViaje(mp.getCondDeViaje());
+		mb.setCoordenadasDestino(mp.getCoordenadasDestino());
+		mb.setDeposito(this.convertDepositoPersistenciaToBean(mp.getDeposito()));		
+		mb.setFragilidad(mp.getFragilidad());
+		mb.setIdMercaderia(mp.getIdMercaderia());
+		mb.setIndicacionesManpulacion(mp.getIndicacionesManpulacion());
+		mb.setProfundidad(mp.getProfundidad());
+		mb.setRemito(this.convertRemitoPersistenciaToBean(mp.getRemito()));
+		return mb;
+	}
+
+	private DepositoBean convertDepositoPersistenciaToBean(DepositoPersistencia dp)
+	{
+		DepositoBean db=new DepositoBean();
+		db.setIdDeposito(dp.getIdDeposito());
+		db.setCantidadMax(dp.getCantidadMax());
+		db.setEncargado(db.getEncargado());
+		db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
+		return db;
 	}
 
 
+	private RemitoBean convertRemitoPersistenciaToBean(RemitoPersistencia rp)
+	{
+		RemitoBean rb=new RemitoBean();
+		rb.setEstado(rp.getEstado());
+		rb.setNroRemito(rp.getNroRemito());
+		return rb;
+	}
+	private ClienteBean convertClientePersistenciaToBean(ClientePersistencia cP)
+	{
+		ClienteBean cB=null;
+		if(cP.getClass().getName().equals(EmpresaPersistencia.class.getName())){
+			cB=new EmpresaBean();
+		}
+		if(cP.getClass().getName().equals(ParticularPersistencia.class.getName())){
+			cB=new ParticularBean();
+		}
+		cB.setIdCliente(cP.getIdCliente());
+		cB.setDireccion(cP.getDireccion());
+		cB.setTelefono(cP.getTelefono());
+		return cB;
+	}
+
+	private SucursalBean convertSucursalPersistenciaToBean(SucursalPersistencia sp)
+	{
+		SucursalBean sb=new SucursalBean();
+		sb.setDir(sp.getDir());
+		sb.setEncDespacho(sp.getEncDespacho());
+		sb.setEncRecepcion(sp.getEncRecepcion());
+		sb.setGerente(sp.getGerente());
+		sb.setNombre(sp.getNombre());
+		sb.setNumeroSucursal(sp.getNumeroSucursal());
+
+		return sb;
+	}
+
+	public List<PedidoBean> getPedidosPorEstado(String estado) {
+		List<PedidoPersistencia> pedEstado=new ArrayList<PedidoPersistencia>();
+		pedEstado=DAOPedido.getInstance().getPedidosPorEstado(estado);
+		List<PedidoBean> pedidosBean=convertPedidosPersistenciaToBean(pedEstado);
+		return pedidosBean;
+	}
+
+	public PedidoBean getPedido(int numeroPedido) 
+	{
+		PedidoPersistencia pp=DAOPedido.getInstance().getPedidoPorEstado(numeroPedido);
+		PedidoBean pb=this.convertPedidoPersistenciaToBean(pp);		
+		return pb;
+	}
+
+	private PedidoBean convertPedidoPersistenciaToBean(PedidoPersistencia pP) {
+		PedidoBean pBean=new PedidoBean();
+		pBean.setManifiesto(pP.getManifiesto());
+		pBean.setIdPedido(pP.getIdPedido());
+		pBean.setDirDestino(pP.getDirDestino());
+		pBean.setFechaEnregaMaxima(pP.getFechaEnregaMaxima());
+		pBean.setFechaEnregaMaxima(pP.getFechaEntregaEstimada());
+		pBean.setCondEspeciales(pP.getCondEspeciales());
+		pBean.setHorarioDeEntregaDesde(pP.getHorarioDeEntregaDesde());
+		pBean.setHorarioDeEntregahasta(pP.getHorarioDeEntregahasta());
+		pBean.setEstado(pP.getEstado());
+		pBean.setDirDeRetiroSoloEmpresa(pP.getDirDeRetiroSoloEmpresa());
+		pBean.setPrioridad(pP.getPrioridad());
+		pBean.setCliente(this.convertClientePersistenciaToBean(pP.getCliente()));
+		pBean.setSucursal(this.convertSucursalPersistenciaToBean(pP.getSucursal()));
+		for(MercaderiaPersistencia mP : pP.getMercaderias())
+		{
+			MercaderiaBean mB=this.convertMercaderiaPersistenciaToBean(mP);
+			pBean.addMercaderia(mB);
+		}
+		pBean.setDestinatarios(null);
+		pBean.setConsideraciones(null);
+
+		return pBean;
+	}
 
 
 
