@@ -7,8 +7,8 @@ public class Particular extends Cliente{
 	private String dni;
 	
 	public Particular(String direccion, String telefono, String nombre,
-			String apellido, String dni) {
-		super(direccion, telefono);
+			String apellido, String dni, int idCliente) {
+		super(direccion, telefono, idCliente);
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.dni = dni;

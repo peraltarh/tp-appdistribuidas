@@ -4,10 +4,12 @@ public abstract class Cliente {
 
 	protected String direccion;
 	protected String telefono;
-	public Cliente(String direccion, String telefono) {
+	protected int idCliente;
+	public Cliente(String direccion, String telefono,int idCliente) {
 		super();
 		this.direccion = direccion;
 		this.telefono = telefono;
+		this.idCliente = idCliente;
 	}
 	public Cliente() {
 	}
@@ -24,5 +26,13 @@ public abstract class Cliente {
 		this.telefono = telefono;
 	}
 	public abstract boolean sosElCliente(String cuit);
+	public int getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+	
+	
 	
 }

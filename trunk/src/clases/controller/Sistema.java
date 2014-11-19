@@ -2,48 +2,13 @@ package clases.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import beans.ClienteBean;
-import beans.DepositoBean;
-import beans.EmpresaBean;
-import beans.MercaderiaBean;
-import beans.MercaderiaPorPesoBean;
-import beans.MercaderiaPorVolumenBean;
-import beans.ParticularBean;
-import beans.PedidoBean;
-import beans.RemitoBean;
-import beans.SucursalBean;
+import beans.*;
 import clases.*;
-import dao.DAOCliente;
-import dao.DAOCuentaCorriente;
-import dao.DAODeposito;
-import dao.DAOPedido;
-import dao.DAOSucursal;
-import dao.entities.CarrierPersistencia;
-import dao.entities.ClientePersistencia;
-import dao.entities.ConsideracionEspecialPersistencia;
-import dao.entities.CuentaCorrientePersistencia;
-import dao.entities.DepositoPersistencia;
-import dao.entities.DestinatarioPersistencia;
-import dao.entities.EmpresaPersistencia;
-import dao.entities.EmpresaDirValidasPersistencia;
-import dao.entities.MantenimientoRealizadoPersistencia;
-import dao.entities.MapaDeRutaPersistencia;
-import dao.entities.MercaderiaPersistencia;
-import dao.entities.MercaderiaPorPesoPersistencia;
-import dao.entities.MercaderiaPorVolumenPersistencia;
-import dao.entities.MovimientoCuentaPersistencia;
-import dao.entities.MovimientoPersistencia;
-import dao.entities.ParticularPersistencia;
-import dao.entities.PedidoPersistencia;
-import dao.entities.PlanDeMantenimientoPersistencia;
-import dao.entities.ProductoPersistencia;
-import dao.entities.RemitoPersistencia;
-import dao.entities.SucursalPersistencia;
-import dao.entities.VehiculoExternoPersistencia;
-import dao.entities.VehiculoPersistencia;
+import dao.*;
+import dao.entities.*;
+
 
 
 
@@ -153,6 +118,8 @@ public class Sistema {
 
 
 
+//ALTAS START
+	
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
@@ -164,12 +131,6 @@ public class Sistema {
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
 		DAOCliente.getInstance().persistirEmpresa(e);
 
-	}
-
-	public List<DepositoPersistencia> getDepositos(int idSucursal) {
-		List<DepositoPersistencia> depositos=new ArrayList<DepositoPersistencia>();
-		depositos=DAODeposito.getInstance().getDepositos(idSucursal);
-		return depositos;
 	}
 
 
@@ -214,7 +175,48 @@ public class Sistema {
 
 	}
 	
-	//Buscar en memoria Empresas
+	public void altaPedido(String manifiesto, String dirDestino,
+			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
+			String condEspeciales, Date horarioDeEntregaDesde,
+			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
+			int prioridad, String estado, String sucursal, String idCliente,
+			String tipoId)
+	{
+		Cliente cS = null;
+		ClientePersistencia cP=null;
+		if(tipoId.equals("cuit"))
+		{
+			cS = buscarClienteEmpresa(idCliente);
+			cP=convertEmpresaSistemaToPersistencia(cS);
+		}
+		if(tipoId.equals("dni"))
+		{
+			cS = buscarClienteParticular(idCliente);
+			cP=convertParticularSistemaToPersistencia(cS);
+		}
+
+		//TODO cambiar a buscarSucursal
+//		Sucursal sucS = buscarSucursal(sucursal);
+//		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
+		SucursalPersistencia suc=buscarSucursalEnBD(sucursal);
+		
+		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
+		DAOPedido.getInstance().persistir(pedido);
+	}
+	
+//ALTAS END
+	
+//BUSQUEDAS START
+	
+
+	//Buscar en BD Depositos de Scurusal
+	public List<DepositoPersistencia> buscarDepositosParaSucursalEnBd(int idSucursal) {
+		List<DepositoPersistencia> depositos=new ArrayList<DepositoPersistencia>();
+		depositos=DAODeposito.getInstance().getDepositos(idSucursal);
+		return depositos;
+	}
+	
+		//Buscar en memoria Empresas
 	public Empresa buscarClienteEmpresa(String cuit){
 		Empresa empT = null;
 		
@@ -234,15 +236,15 @@ public class Sistema {
 		return empT;
 	}
 	
-	//Buscar en BD Empresas
+		//Buscar en BD Empresas
 	public EmpresaPersistencia buscarClienteEmpresaEnDao(String cuit)
 	{
 		return DAOCliente.getInstance().getClienteEmpresa(cuit);
 
 	}
 	
-	//Buscar en memoria Particulares
-	public Particular buscarParticular (String dni){
+		//Buscar en memoria Particulares
+	public Particular buscarClienteParticular (String dni){
 		Particular parT = null;
 		
 		for (Cliente clienteT : clientes) {
@@ -254,21 +256,21 @@ public class Sistema {
 			}
 		}
 		if(parT==null){
-			parT = convertParticularPersistenciaToCliente(buscarClienteParticularEnDao(dni));
+			parT = convertParticularPersistenciaToNegocio(buscarClienteParticularEnDao(dni));
 			addCliente(parT);
 		}
 		
 		return parT;
 	}
 	
-	//Buscar en BD Particulares
+		//Buscar en BD Particulares
 	public ParticularPersistencia buscarClienteParticularEnDao(String dni)
 	{
 		return DAOCliente.getInstance().getClienteParticular(dni);
 
 	}
 	
-	//Buscar en memoria Sucursales
+		//Buscar en memoria Sucursales
 	public Sucursal buscarSucursal (String sucursal){
 		Sucursal sucT = null;
 		
@@ -287,42 +289,14 @@ public class Sistema {
 		return sucT;
 	}
 
-	//Buscar en BD Sucursales
+		//Buscar en BD Sucursales
 	public SucursalPersistencia buscarSucursalEnBD(String sucursal){
 		return DAOSucursal.getInstance().getSucursal(sucursal);
 	}
 	
+//BUSQUEDAS END
 
-	public void altaPedido(String manifiesto, String dirDestino,
-			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
-			String condEspeciales, Date horarioDeEntregaDesde,
-			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
-			int prioridad, String estado, String sucursal, String idCliente,
-			String tipoId)
-	{
-		Cliente cS = null;
-		ClientePersistencia cP=null;
-		if(tipoId.equals("cuit"))
-		{
-			cS = buscarClienteEmpresa(idCliente);
-			//TODO validar que ande la convercion
-			//cP=convertEmpresaSistemaToPersistencia(cS);
-			cP=DAOCliente.getInstance().getClienteEmpresa(idCliente);
-		}
-		if(tipoId.equals("dni"))
-		{
-			cS = buscarClienteEmpresa(idCliente);
-			//TODO validar que ande la convercion
-			//cP=convertParticularSistemaToPersistencia(cS);
-			cP=DAOCliente.getInstance().getClienteParticular(idCliente);
-		}
 
-		//TODO cambiar a buscarSucursal
-		SucursalPersistencia suc=buscarSucursalEnBD(sucursal);
-		
-		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
-		DAOPedido.getInstance().persistir(pedido);
-	}
 
 	//CONVERT CLIENTE NEGOCIO TO CLIENTE PERSISTENCIA START
 	
@@ -334,6 +308,7 @@ public class Sistema {
 										((Particular)cS).getNombre(),
 										((Particular)cS).getApellido(),
 										((Particular)cS).getDni());
+		cP.setIdCliente(cS.getIdCliente());
 		return cP;
 	}
 
@@ -345,6 +320,7 @@ public class Sistema {
 									((Empresa)cS).getCuit(),
 									((Empresa)cS).getRegularidad());
 		
+		cp.setIdCliente(cS.getIdCliente());
 		
 		for (CuentaCorriente ccTem : ((Empresa)cS).getCuentasCorrientes()) {
 			cp.addCuentaCorriente(convertCuentaCorrienteNegocioToPersistencia(ccTem, cp));	
@@ -396,7 +372,7 @@ public class Sistema {
 		return movP;
 	}
 
-	private Particular convertParticularPersistenciaToCliente(ParticularPersistencia pP)
+	private Particular convertParticularPersistenciaToNegocio(ParticularPersistencia pP)
 	{
 		Particular p=new Particular();
 		p.setApellido(pP.getApellido());
@@ -404,6 +380,7 @@ public class Sistema {
 		p.setDni(pP.getDni());
 		p.setNombre(pP.getNombre());
 		p.setTelefono(pP.getTelefono());
+		p.setIdCliente(pP.getIdCliente());
 		return p;
 	}
 
@@ -415,6 +392,7 @@ public class Sistema {
 		emp.setRegularidad(eP.getRegularidad());
 		emp.setDireccion(eP.getDireccion());
 		emp.setTelefono(eP.getTelefono());
+		emp.setIdCliente(eP.getIdCliente());
 		List<CuentaCorriente>cuentas=new ArrayList<CuentaCorriente>();
 		for (CuentaCorrientePersistencia cuentaCorrientePersistencia : eP.getCuentasCorrientes()) {
 			cuentas.add(convertCuentaCorrientePersistenciaToNegocio(cuentaCorrientePersistencia));
@@ -483,6 +461,59 @@ public class Sistema {
 	}
 
 	//CONVERT CLIENTE NEGOCIO TO CLIENTE PERSISTENCIA END
+	
+	//CONVERT SUCURSAL NEGOCIO TO SUCURSAL PERSISTENCIA START
+	
+	
+	private SucursalPersistencia convertSucursalNegocioToPersistencia(
+			Sucursal sucS) {
+		SucursalPersistencia sucP = new SucursalPersistencia();
+		sucP.setDir(sucS.getDir());
+		sucP.setEncDespacho(sucS.getEncDespacho());
+		sucP.setEncRecepcion(sucS.getEncRecepcion());
+		sucP.setGerente(sucS.getGerente());
+		sucP.setNombre(sucS.getNombre());
+		sucP.setNumeroSucursal(sucS.getNumero());
+		ArrayList<PedidoPersistencia> pedidosP = new ArrayList<PedidoPersistencia>();
+		for (Pedido pedidoS : sucS.getPedidos()) {
+			pedidosP.add(convertPedidoNegocioToPersistencia(pedidoS));
+		}
+		sucP.setPedidos(pedidosP);
+		ArrayList<MapaDeRutaPersistencia> rutasP = new ArrayList<MapaDeRutaPersistencia>();
+		for (MapaDeRuta mapaDeRutaS : sucS.getRutas()) {
+			//TODO
+//			rutasP.add(convertMapaRutaNegocioToPersistencia(mapaDeRutaS));
+		}
+		sucP.setRutas(rutasP);
+		ArrayList<VehiculoPersistencia> vehiculosP = new ArrayList<VehiculoPersistencia>();
+		for (Vehiculo vehiculoS : sucS.getVehiculos()) {
+			//TODO
+//			vehiculosP.add(convertVehiculoNegocioToPersistencia(vehiculoS));
+		}
+		sucP.setVehiculos(vehiculosP);
+		ArrayList<DepositoPersistencia> depositosP = new ArrayList<DepositoPersistencia>();
+		for (Deposito depositoS : sucS.getDepositos()) {
+			//TODO
+//			depositosP.add(convertDepositoNegocioToPersistencia(depositoS));
+		}
+		sucP.setDepositos(depositosP);
+		
+		return sucP;
+	}
+	
+	private PedidoPersistencia convertPedidoNegocioToPersistencia(
+			Pedido pedidoS) {
+		PedidoPersistencia pedP = new PedidoPersistencia();
+		//TODO
+//		pedP.setCliente(convertClienteNegocioToPersistencia(pedidoS.getCliente()));
+		
+		
+		
+		
+		return pedP;
+	}
+
+	//CONVERT SUCURSAL NEGOCIO TO SUCURSAL PERSISTENCIA END
 	
 	//CONVERT SUCURSAL PERSISTENCIA TO SUCURSAL NEGCIO START
 	
