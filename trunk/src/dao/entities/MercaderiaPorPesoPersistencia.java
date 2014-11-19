@@ -1,11 +1,13 @@
 package dao.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value="porPeso")
-public class MercaderiaPorPesoPersistencia extends MercaderiaPersistencia{
+public class MercaderiaPorPesoPersistencia extends MercaderiaPersistencia implements Serializable{
 
 	private float peso;
 

@@ -1,13 +1,19 @@
 package dao.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue(value="porVolumen")
 
-public class MercaderiaPorVolumenPersistencia extends MercaderiaPersistencia{
+public class MercaderiaPorVolumenPersistencia extends MercaderiaPersistencia implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float volumen;
 
 	public MercaderiaPorVolumenPersistencia(float alto, float ancho, float profundidad, String fragilidad, boolean aplicable, int cantApilable,

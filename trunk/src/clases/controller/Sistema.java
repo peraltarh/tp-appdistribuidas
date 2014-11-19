@@ -371,7 +371,7 @@ public class Sistema {
 		mb.setIdMercaderia(mp.getIdMercaderia());
 		mb.setIndicacionesManpulacion(mp.getIndicacionesManpulacion());
 		mb.setProfundidad(mp.getProfundidad());
-		mb.setRemito(this.convertRemitoPersistenciaToBean(mp.getRemito()));
+		mb.setRemito(null);
 		return mb;
 	}
 
@@ -450,9 +450,10 @@ public class Sistema {
 		pBean.setPrioridad(pP.getPrioridad());
 		pBean.setCliente(this.convertClientePersistenciaToBean(pP.getCliente()));
 		pBean.setSucursal(this.convertSucursalPersistenciaToBean(pP.getSucursal()));
+		MercaderiaBean mB=null;
 		for(MercaderiaPersistencia mP : pP.getMercaderias())
 		{
-			MercaderiaBean mB=this.convertMercaderiaPersistenciaToBean(mP);
+			mB=this.convertMercaderiaPersistenciaToBean(mP);
 			pBean.addMercaderia(mB);
 		}
 		pBean.setDestinatarios(null);
