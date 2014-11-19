@@ -306,18 +306,18 @@ public class Sistema {
 		{
 			cS = buscarClienteEmpresa(idCliente);
 			//TODO validar que ande la convercion
-			cP=convertEmpresaSistemaToPersistencia(cS);
-			//cP=DAOCliente.getInstance().getClienteEmpresa(idCliente);
+			//cP=convertEmpresaSistemaToPersistencia(cS);
+			cP=DAOCliente.getInstance().getClienteEmpresa(idCliente);
 		}
 		if(tipoId.equals("dni"))
 		{
 			cS = buscarClienteEmpresa(idCliente);
 			//TODO validar que ande la convercion
-			cP=convertParticularSistemaToPersistencia(cS);
-			//cP=DAOCliente.getInstance().getClienteParticular(idCliente);
+			//cP=convertParticularSistemaToPersistencia(cS);
+			cP=DAOCliente.getInstance().getClienteParticular(idCliente);
 		}
 
-		//TODO validar que ande la conversion
+		//TODO cambiar a buscarSucursal
 		SucursalPersistencia suc=buscarSucursalEnBD(sucursal);
 		
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
