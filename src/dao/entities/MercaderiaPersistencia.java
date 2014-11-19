@@ -1,5 +1,6 @@
 package dao.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -21,17 +23,21 @@ import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name="Mercaderia")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE.JOINED)
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="tipo",discriminatorType=DiscriminatorType.STRING)
 
-public abstract class MercaderiaPersistencia {
+public abstract class MercaderiaPersistencia implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected int idMercaderia;
 	protected float alto;
 	protected float ancho;
 	protected float profundidad;
 	protected String fragilidad;
-	protected boolean aplicable;
+	protected boolean apilable;
 	protected int cantApilable;
 	protected String condDeViaje;
 	protected String indicacionesManpulacion;
@@ -47,7 +53,7 @@ public abstract class MercaderiaPersistencia {
 		this.ancho = ancho;
 		this.profundidad = profundidad;
 		this.fragilidad = fragilidad;
-		this.aplicable = aplicable;
+		this.apilable= aplicable;
 		this.cantApilable = cantApilable;
 		this.condDeViaje = condDeViaje;
 		this.indicacionesManpulacion = indicacionesManpulacion;
@@ -85,7 +91,7 @@ public abstract class MercaderiaPersistencia {
 	}
 
 
-@OneToMany(cascade=CascadeType.ALL)
+@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 @JoinColumn(name="idMercaderia")
 	public List<MovimientoPersistencia> getMovimientos() {
 		return movimientos;
@@ -113,8 +119,8 @@ public abstract class MercaderiaPersistencia {
 		return fragilidad;
 	}
 
-	public boolean isAplicable() {
-		return aplicable;
+	public boolean isApilable() {
+		return apilable;
 	}
 
 	public int getCantApilable() {
@@ -149,8 +155,8 @@ public abstract class MercaderiaPersistencia {
 		this.fragilidad = fragilidad;
 	}
 
-	public void setAplicable(boolean aplicable) {
-		this.aplicable = aplicable;
+	public void setApilable(boolean aplicable) {
+		this.apilable= aplicable;
 	}
 
 	public void setCantApilable(int cantApilable) {
