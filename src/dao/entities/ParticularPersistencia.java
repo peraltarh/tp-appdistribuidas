@@ -37,7 +37,6 @@ public class ParticularPersistencia extends ClientePersistencia implements Seria
 		return apellido;
 	}
 
-	@Column(nullable=true)
 	public String getDni() {
 		return dni;
 	}

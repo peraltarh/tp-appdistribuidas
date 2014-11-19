@@ -62,12 +62,12 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 
 	@Override
 	public void buscarClienteParticular(String dni) {
-		sistema.buscarClienteParticular(dni);
+		sistema.buscarClienteParticularEnDao(dni);
 	}
 
 	@Override
 	public void buscarClienteEmpresa(String cuit) {
-		sistema.buscarClienteEmpresa(cuit);
+		sistema.buscarClienteEmpresaEnDao(cuit);
 	}
 
 	@Override
