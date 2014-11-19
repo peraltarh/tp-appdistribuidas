@@ -100,5 +100,10 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		return sistema.getPedido(numeroPedido);
 	}
 	
+	public List<PedidoBean> getPedidos() throws RemoteException {
+		List<PedidoBean> pedidos=new ArrayList<PedidoBean>();
+		pedidos= sistema.getPedidosDeBd();
+		return pedidos;
+	}
 	
 }

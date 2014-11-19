@@ -109,4 +109,12 @@ public class HibernateDAO {
 		session.getTransaction().commit();
 		session.flush();
 	}
+	public List<?> getList(String className)
+	{
+		Session session=getSession();
+		List<?> list = session.createQuery("from "+className).list();
+
+		return list;
+	}
+	
 }

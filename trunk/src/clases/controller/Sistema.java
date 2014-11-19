@@ -876,4 +876,11 @@ public class Sistema {
 
 
 
+	public List<PedidoBean> getPedidosDeBd() {
+		List<PedidoPersistencia> ped=new ArrayList<PedidoPersistencia>();
+		ped=DAOPedido.getInstance().getPedidos();
+		List<PedidoBean> pedidosBean=convertPedidosPersistenciaToBean(ped);
+		return pedidosBean;
+	}
+
 }
