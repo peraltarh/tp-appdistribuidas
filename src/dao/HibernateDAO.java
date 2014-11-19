@@ -75,13 +75,14 @@ public class HibernateDAO {
 
 		Session s = this.getSession();
 		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setString(0, value).uniqueResult();
-
+		s.flush();
 		return r;
 	}
 
 	public Object getObjectWithInt(String className, String campo, int value) {
 		Session s = this.getSession();
 		Object r = s.createQuery("from " + className + " s where s." + campo + " = ?").setInteger(0, value).uniqueResult();
+	s.flush();
 		return r;
 	}
 
@@ -90,6 +91,7 @@ public class HibernateDAO {
 		session.beginTransaction();
 		session.delete(obj);
 		session.getTransaction().commit();
+		session.flush();
 	}
 
 	public void update(Object obj) {
@@ -97,7 +99,7 @@ public class HibernateDAO {
 		session.beginTransaction();
 		session.update(obj);
 		session.getTransaction().commit();
-
+		session.flush();
 	}
 
 	public void save(Object obj) {
@@ -105,5 +107,6 @@ public class HibernateDAO {
 		session.beginTransaction();
 		session.save(obj);
 		session.getTransaction().commit();
+		session.flush();
 	}
 }

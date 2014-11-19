@@ -3,9 +3,6 @@ package clases;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.entities.CuentaCorrientePersistencia;
-import dao.entities.EmpresaDirValidasPersistencia;
-import dao.entities.ProductoPersistencia;
 
 public class Empresa extends Cliente {
 	
@@ -18,8 +15,8 @@ public class Empresa extends Cliente {
 	
 	
 	public Empresa(String direccion, String telefono, String razonSoial,
-			String cuit, String regularidad) {
-		super(direccion, telefono);
+			String cuit, String regularidad, int idCliente) {
+		super(direccion, telefono, idCliente);
 		this.razonSoial = razonSoial;
 		this.cuit = cuit;
 		this.regularidad = regularidad;
@@ -32,6 +29,9 @@ public class Empresa extends Cliente {
 	public Empresa()
 	{
 		super();
+		this.direccionesValidas = new ArrayList<EmpresaDirValidas>();
+		this.productosValidos = new ArrayList<Producto>();
+		this.cuentasCorrientes =  new ArrayList<CuentaCorriente>();
 	}
 
 
