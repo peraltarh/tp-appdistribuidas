@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import beans.MercaderiaBean;
 import beans.PedidoBean;
 import clases.controller.Sistema;
 
@@ -105,5 +106,12 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		pedidos= sistema.getPedidosDeBd();
 		return pedidos;
 	}
+	
+	public beans.MercaderiaBean getMercaderia(int idMercaderia) throws RemoteException
+	{
+//		return sistema.getMercaderiaDeDB(idMercaderia);
+		return null;
+	}
+	
 	
 }
