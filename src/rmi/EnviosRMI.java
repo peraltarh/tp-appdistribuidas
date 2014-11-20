@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-import beans.MercaderiaBean;
+
 import beans.PedidoBean;
 import clases.controller.Sistema;
 

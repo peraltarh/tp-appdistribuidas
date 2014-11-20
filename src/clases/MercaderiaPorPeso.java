@@ -13,6 +13,10 @@ public class MercaderiaPorPeso extends Mercaderia{
 		this.peso = peso;
 	}
 
+	public MercaderiaPorPeso() {
+		super();
+	}
+
 	public float getPeso() {
 		return peso;
 	}

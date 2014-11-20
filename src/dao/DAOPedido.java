@@ -2,8 +2,7 @@ package dao;
 
 import java.util.List;
 
-import clases.Pedido;
-import dao.entities.DepositoPersistencia;
+
 import dao.entities.PedidoPersistencia;
 
 public class DAOPedido 
@@ -21,6 +20,7 @@ public class DAOPedido
 		HibernateDAO.getInstancia().save(pedido);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<PedidoPersistencia> getPedidosPorEstado(String estado)
 	{
 		List<PedidoPersistencia> lista = (List<PedidoPersistencia>) HibernateDAO.getInstancia().getListString("PedidoPersistencia", "estado", estado);
@@ -32,6 +32,7 @@ public class DAOPedido
  		return (PedidoPersistencia)HibernateDAO.getInstancia().getObjectWithInt("PedidoPersistencia", "idPedido", numeroPedido);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<PedidoPersistencia> getPedidos()
 	{
 		List<PedidoPersistencia> lista = (List<PedidoPersistencia>) HibernateDAO.getInstancia().getList("PedidoPersistencia");

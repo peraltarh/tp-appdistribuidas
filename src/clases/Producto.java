@@ -4,6 +4,7 @@ public class Producto {
 	
 	private String tipo;
 	private String descripcion;
+	private int idProd;
 	public Producto(String tipo, String descripcion) {
 		super();
 		this.tipo = tipo;
@@ -23,6 +24,12 @@ public class Producto {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion= descripcion;
+	}
+	public int getIdProd() {
+		return idProd;
+	}
+	public void setIdProd(int idProd) {
+		this.idProd = idProd;
 	}
 	
 	

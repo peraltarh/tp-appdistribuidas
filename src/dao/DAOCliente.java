@@ -1,6 +1,4 @@
 package dao;
-import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
 
 import dao.entities.*;
 

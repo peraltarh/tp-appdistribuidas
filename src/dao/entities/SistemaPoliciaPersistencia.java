@@ -23,6 +23,7 @@ public class SistemaPoliciaPersistencia implements Observer
     }
     
 
+	@SuppressWarnings("unused")
 	public void update(Observable o, Object arg) 
 	{
 		// Buscar si estaba fuera de ruta.

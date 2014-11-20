@@ -8,8 +8,9 @@ public class Mercaderia {
 	private float ancho;
 	private float profundidad;
 	private String fragilidad;
-	private boolean aplicable;
+	private boolean aplilable;
 	private int cantApilable;
+	private int idMercaderia;
 	private String condDeViaje;
 	private String indicacionesManpulacion;
 	private String coordenadasDestino;
@@ -24,12 +25,15 @@ public class Mercaderia {
 		this.ancho = ancho;
 		this.profundidad = profundidad;
 		this.fragilidad = fragilidad;
-		this.aplicable = aplicable;
+		this.aplilable = aplicable;
 		this.cantApilable = cantApilable;
 		this.condDeViaje = condDeViaje;
 		this.indicacionesManpulacion = indicacionesManpulacion;
 		this.coordenadasDestino = coordenadasDestino;
 		this.movimientos = new ArrayList<Movimiento>();
+	}
+
+	public Mercaderia() {
 	}
 
 	public float getAlto() {
@@ -48,8 +52,8 @@ public class Mercaderia {
 		return fragilidad;
 	}
 
-	public boolean isAplicable() {
-		return aplicable;
+	public boolean isAplilable() {
+		return aplilable;
 	}
 
 	public int getCantApilable() {
@@ -88,8 +92,8 @@ public class Mercaderia {
 		this.fragilidad = fragilidad;
 	}
 
-	public void setAplicable(boolean aplicable) {
-		this.aplicable = aplicable;
+	public void setAplilable(boolean aplicable) {
+		this.aplilable = aplicable;
 	}
 
 	public void setCantApilable(int cantApilable) {
@@ -112,4 +116,17 @@ public class Mercaderia {
 		this.movimientos.add(movimiento);
 	}
 
+	public int getIdMercaderia() {
+		return idMercaderia;
+	}
+
+	public void setIdMercaderia(int idMercaderia) {
+		this.idMercaderia = idMercaderia;
+	}
+
+	public void setMovimientos(ArrayList<Movimiento> movimientos) {
+		this.movimientos = movimientos;
+	}
+
+	
 }

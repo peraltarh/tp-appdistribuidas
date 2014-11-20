@@ -12,6 +12,7 @@ public class MapaDeRuta implements Observer{
 	private int numSucDestino;
 	private float duracionHs;
 	private float costo;
+	private int idMapa;
 	private float distancia;
 	private ArrayList<String> recorridoEnCoord;
 	private ArrayList<Document> mensajesDeControl;
@@ -68,6 +69,14 @@ public class MapaDeRuta implements Observer{
 		mensajesDeControl.add((Document)arg);
 		// TODO: Guardar tambien en coordenadas o reemplazarlo?
 	}
+	public int getIdMapa() {
+		return idMapa;
+	}
+	public void setIdMapa(int idMapa) {
+		this.idMapa = idMapa;
+	}
+
+	
 	
 	
 

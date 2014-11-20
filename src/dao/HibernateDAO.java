@@ -5,8 +5,6 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import dao.entities.DepositoPersistencia;
-
 
 public class HibernateDAO {
 	protected static HibernateDAO instancia = null;
@@ -52,7 +50,7 @@ public class HibernateDAO {
 		session.getTransaction().commit();
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public List<?> getListInt(String className, String columna,int value)
 	{
 		Session session=getSession();

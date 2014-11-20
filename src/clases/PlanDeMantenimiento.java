@@ -4,6 +4,7 @@ public class PlanDeMantenimiento {
 	
 	private float cantKilometros;
 	private String tipo;
+	private int idPlan;
 	private String controlEspecial;
 	public PlanDeMantenimiento(float cantKilometros, String tipo,
 			String controlEspecial) {
@@ -30,6 +31,14 @@ public class PlanDeMantenimiento {
 	public void setControlEspecial(String controlEspecial) {
 		this.controlEspecial = controlEspecial;
 	}
+	public int getIdPlan() {
+		return idPlan;
+	}
+	public void setIdPlan(int idPlan) {
+		this.idPlan = idPlan;
+	}
+
+	
 	
 	
 

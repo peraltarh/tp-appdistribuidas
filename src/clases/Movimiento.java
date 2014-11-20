@@ -10,6 +10,7 @@ public class Movimiento {
 	private String destino;
 	private String condicionDeArribo;
 	private String estado;
+	private int idMovimiento;
 	
 	public Movimiento(Date fechaSalida, Date fechaLlegada, String origen,
 			String destino, String condicionDeArribo, String estado) {
@@ -69,6 +70,16 @@ public class Movimiento {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	public int getIdMovimiento() {
+		return idMovimiento;
+	}
+
+	public void setIdMovimiento(int idMovimiento) {
+		this.idMovimiento = idMovimiento;
+	}
+
+
 	
 	
 	

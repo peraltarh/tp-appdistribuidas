@@ -9,6 +9,10 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value="porPeso")
 public class MercaderiaPorPesoPersistencia extends MercaderiaPersistencia implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float peso;
 
 	public MercaderiaPorPesoPersistencia(float alto, float ancho, float profundidad, String fragilidad, boolean aplicable, int cantApilable,

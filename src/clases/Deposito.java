@@ -8,6 +8,7 @@ public class Deposito {
 	private String encargado;
 	private ArrayList<Area> areas;
 	private ArrayList<Mercaderia> mercaderias;
+	private int idDeposito;
 	
 	public Deposito(float cantidadMax, String encargado) {
 		super();
@@ -48,7 +49,15 @@ public class Deposito {
 	public void addMercaderia(Mercaderia mercaderia) {
 		this.mercaderias.add(mercaderia);
 	}
+
+	public int getIdDeposito() {
+		return idDeposito;
+	}
+
+	public void setIdDeposito(int idDeposito) {
+		this.idDeposito = idDeposito;
+	}
 	
-	
+
 
 }

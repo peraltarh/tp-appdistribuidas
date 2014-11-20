@@ -1,8 +1,6 @@
 package dao;
 import java.util.List;
 
-import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
 
 import dao.entities.*;
 
@@ -33,6 +31,7 @@ public class DAODeposito
 	
 	
 		
+	@SuppressWarnings("unchecked")
 	public List<DepositoPersistencia> getDepositos(int idSucursal)
 	{
 		List<DepositoPersistencia> lista = (List<DepositoPersistencia>) HibernateDAO.getInstancia().getListInt("DepositoPersistencia", "suc", idSucursal);

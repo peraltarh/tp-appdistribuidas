@@ -5,6 +5,7 @@ public class VehiculoExterno {
 	private String tipo;
 	private String identificacion;
 	private float capacidadCarga;
+	private int idVehiculoExterno;
 	public VehiculoExterno(String tipo, String identificacion,
 			float capacidadCarga) {
 		super();
@@ -30,7 +31,13 @@ public class VehiculoExterno {
 	public void setCapacidadCarga(float capacidadCarga) {
 		this.capacidadCarga = capacidadCarga;
 	}
-	
+	public int getIdVehiculoExterno() {
+		return idVehiculoExterno;
+	}
+	public void setIdVehiculoExterno(int idVehiculoExterno) {
+		this.idVehiculoExterno = idVehiculoExterno;
+	}
+
 	
 
 }

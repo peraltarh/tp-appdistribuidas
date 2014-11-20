@@ -3,7 +3,6 @@ package clases;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Observer;
 
 import xml.MensajeDeControl;
 
