@@ -215,6 +215,22 @@ public class Sistema {
 		return depositos;
 	}
 	
+	public ClienteBean getClienteBean (String tipo, String numero){
+		ClienteBean cB = null;
+		
+		if(tipo.equalsIgnoreCase("dni")){
+			Particular cN = buscarClienteParticular(numero);
+			cB = Converter.getInstance().convertParticularNegocioToBean(cN);
+			
+		}else if(tipo.equalsIgnoreCase("cuit")){
+			Empresa cN = buscarClienteEmpresa(numero);
+			cB = Converter.getInstance().convertEmpresaNegocioToBean(cN);
+		}
+		
+		return cB;
+	}
+	
+	
 		//Buscar en memoria Empresas
 	public Empresa buscarClienteEmpresa(String cuit){
 		Empresa empT = null;
@@ -403,7 +419,7 @@ public class Sistema {
 
 		List<EmpresaDirValidas>direcciones=new ArrayList<EmpresaDirValidas>();
 		for (EmpresaDirValidasPersistencia empresaDirValidasPersistencia : eP.getDireccionesValidas()) {
-			direcciones.add(convertEmpresaDirValidasToNegocio(empresaDirValidasPersistencia));
+			direcciones.add(convertEmpresaDirValidasPersistenciaToNegocio(empresaDirValidasPersistencia));
 		}
 		emp.setDireccionesValidas(direcciones);
 
@@ -445,7 +461,7 @@ public class Sistema {
 
 	}
 
-	private EmpresaDirValidas convertEmpresaDirValidasToNegocio (EmpresaDirValidasPersistencia eP)
+	private EmpresaDirValidas convertEmpresaDirValidasPersistenciaToNegocio (EmpresaDirValidasPersistencia eP)
 	{
 		EmpresaDirValidas e=new EmpresaDirValidas();
 		e.setDireccion(eP.getDireccion());
