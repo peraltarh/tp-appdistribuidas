@@ -2,9 +2,7 @@ package dao.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 
 

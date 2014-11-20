@@ -5,6 +5,7 @@ public class Carrier {
 	private String origen;
 	private String destino;
 	private float costo;
+	private int idCarrier;
 	public Carrier(String origen, String destino, float costo) {
 		super();
 		this.origen = origen;
@@ -29,7 +30,13 @@ public class Carrier {
 	public void setCosto(float costo) {
 		this.costo = costo;
 	}
-	
+	public int getIdCarrier() {
+		return idCarrier;
+	}
+	public void setIdCarrier(int idCarrier) {
+		this.idCarrier = idCarrier;
+	}
+
 	
 	
 

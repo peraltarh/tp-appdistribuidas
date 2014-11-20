@@ -1,6 +1,5 @@
 package clases;
 
-import dao.entities.EmpresaPersistencia;
 
 public class EmpresaDirValidas {
 	

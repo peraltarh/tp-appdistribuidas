@@ -1,10 +1,9 @@
 package dao.entities;
 
-import java.util.ArrayList;
+
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.annotation.Generated;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.w3c.dom.Document;
 
 @Entity
 @Table(name="MapaDeRuta")

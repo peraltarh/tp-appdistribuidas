@@ -52,6 +52,7 @@ public class Contrataciones
 	// Para estas tres, despues de obtener la lista de empresas que cumplen
 	// con los requisitos se muestran al usuario para que realice la reserva
 	// y complete los datos del vehiculo, etc.
+	@SuppressWarnings("unused")
 	private void solicitarAvionetaExterna(ConsideracionEspecial ce)
 	{
 		List<EmpresaSubContratada> empAereas;
@@ -61,6 +62,7 @@ public class Contrataciones
 		}	
 	}
 	
+	@SuppressWarnings("unused")
 	private void solicitarCarrierExterno(ConsideracionEspecial ce)
 	{
 		List<EmpresaSubContratada> carriers;
@@ -70,6 +72,7 @@ public class Contrataciones
 		}	
 	}
 	
+	@SuppressWarnings("unused")
 	private void solicitarVehiculoExterno(ConsideracionEspecial ce)
 	{
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )

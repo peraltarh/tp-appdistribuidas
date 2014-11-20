@@ -1,8 +1,4 @@
 package dao;
-import java.util.List;
-
-import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
 
 import dao.entities.*;
 

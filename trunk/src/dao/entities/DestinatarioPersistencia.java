@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -13,7 +12,7 @@ public class DestinatarioPersistencia {
 	
 	private String nombre;
 	private String apellido;
-	private int dni;
+	private long dni;
 	private PedidoPersistencia pedido;
 	
 	public DestinatarioPersistencia(String nombre, String apellido, int dni, PedidoPersistencia pedido) {
@@ -32,10 +31,10 @@ public class DestinatarioPersistencia {
 		return apellido;
 	}
 	@Id
-	public int getDni() {
+	public long getDni() {
 		return dni;
 	}
-	public void setDni(int dni) {
+	public void setDni(long dni) {
 		this.dni = dni;
 	}
 	public void setNombre(String nombre) {

@@ -7,6 +7,7 @@ public class MantenimientoRealizado {
 	private String descripcion;
 	private float costo;
 	private Date fecha;
+	private int idMantenimiento;
 	private float kilometrajeActual;
 	private float kilometrosRealizadosDesdeUltimoControl;
 	private String tipo;
@@ -58,6 +59,13 @@ public class MantenimientoRealizado {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	public int getIdMantenimiento() {
+		return idMantenimiento;
+	}
+	public void setIdMantenimiento(int idMantenimiento) {
+		this.idMantenimiento = idMantenimiento;
+	}
+
 	
 	
 

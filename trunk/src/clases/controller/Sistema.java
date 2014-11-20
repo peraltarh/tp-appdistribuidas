@@ -187,7 +187,7 @@ public class Sistema {
 		if(tipoId.equals("cuit"))
 		{
 			cS = buscarClienteEmpresa(idCliente);
-			cP=convertEmpresaSistemaToPersistencia(cS);
+			cP=convertEmpresaNegocioToPersistencia(cS);
 		}
 		if(tipoId.equals("dni"))
 		{
@@ -195,11 +195,10 @@ public class Sistema {
 			cP=convertParticularNegocioToPersistencia(cS);
 		}
 
-		//TODO cambiar a buscarSucursal
-//		Sucursal sucS = buscarSucursal(sucursal);
-//		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
-		SucursalPersistencia suc=buscarSucursalEnBD(sucursal);
-		
+
+		Sucursal sucS = buscarSucursal(sucursal);
+		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
+//		SucursalPersistencia suc=buscarSucursalEnBD(sucursal);
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
 		DAOPedido.getInstance().persistir(pedido);
 	}
@@ -297,30 +296,30 @@ public class Sistema {
 //BUSQUEDAS END
 
 
-
+//CONVERT NEGOCIO TO PERSISTENCIA START
+	
 	//CONVERT CLIENTE NEGOCIO TO CLIENTE PERSISTENCIA START
 	
 	private ParticularPersistencia convertParticularNegocioToPersistencia(
 			Cliente cS) {
-		ParticularPersistencia cP = new ParticularPersistencia(
-										cS.getDireccion(),
-										cS.getTelefono(),
-										((Particular)cS).getNombre(),
-										((Particular)cS).getApellido(),
-										((Particular)cS).getDni());
-		cP.setIdCliente(cS.getIdCliente());
+		ParticularPersistencia cP = new ParticularPersistencia();
+			cP.setApellido(((Particular)cS).getApellido());
+			cP.setDireccion(cS.getDireccion());
+			cP.setDni(((Particular)cS).getDni());
+			cP.setNombre(((Particular)cS).getNombre());
+			cP.setTelefono(cS.getTelefono());
+			cP.setIdCliente(cS.getIdCliente());
 		return cP;
 	}
 
-	private EmpresaPersistencia convertEmpresaSistemaToPersistencia(Cliente cS) {
-		EmpresaPersistencia cp= new EmpresaPersistencia(
-									cS.getDireccion(),
-									cS.getTelefono(),
-									((Empresa)cS).getRazonSoial(),
-									((Empresa)cS).getCuit(),
-									((Empresa)cS).getRegularidad());
-		
-		cp.setIdCliente(cS.getIdCliente());
+	private EmpresaPersistencia convertEmpresaNegocioToPersistencia(Cliente cS) {
+		EmpresaPersistencia cp= new EmpresaPersistencia();
+			cp.setCuit(((Empresa)cS).getCuit());
+			cp.setDireccion(cS.getDireccion());
+			cp.setRazonSoial(((Empresa)cS).getRazonSoial());
+			cp.setRegularidad(((Empresa)cS).getRegularidad());
+			cp.setTelefono(cS.getTelefono());
+			cp.setIdCliente(cS.getIdCliente());
 		
 		for (CuentaCorriente ccTem : ((Empresa)cS).getCuentasCorrientes()) {
 			cp.addCuentaCorriente(convertCuentaCorrienteNegocioToPersistencia(ccTem, cp));	
@@ -336,8 +335,11 @@ public class Sistema {
 
 	private ProductoPersistencia convertProductoValidoNegocioToPersistencia(
 			Producto prodTemp, EmpresaPersistencia ep) {
-		ProductoPersistencia prodP = new ProductoPersistencia(
-				prodTemp.getTipo(), prodTemp.getDescripcion(), ep);
+		ProductoPersistencia prodP = new ProductoPersistencia();
+			prodP.setDescripcion(prodTemp.getDescripcion());
+			prodP.setEmpresa(ep);
+			prodP.setTipo(prodTemp.getTipo());
+			prodP.setIdProd(prodTemp.getIdProd());
 		return prodP;
 	}
 
@@ -457,6 +459,7 @@ public class Sistema {
 		Producto p=new Producto();
 		p.setDescripcion(pp.getDescripcion());
 		p.setTipo(pp.getTipo());
+		p.setIdProd(pp.getIdProd());
 		return p;
 	}
 
@@ -481,17 +484,17 @@ public class Sistema {
 		sucP.setPedidos(pedidosP);
 		ArrayList<MapaDeRutaPersistencia> rutasP = new ArrayList<MapaDeRutaPersistencia>();
 		for (MapaDeRuta mapaDeRutaS : sucS.getRutas()) {
-			rutasP.add(convertMapaRutaNegocioToPersistencia(mapaDeRutaS));
+			rutasP.add(convertMapaRutaNegocioToPersistencia(mapaDeRutaS, sucP));
 		}
 		sucP.setRutas(rutasP);
 		ArrayList<VehiculoPersistencia> vehiculosP = new ArrayList<VehiculoPersistencia>();
 		for (Vehiculo vehiculoS : sucS.getVehiculos()) {
-			vehiculosP.add(convertVehiculoNegocioToPersistencia(vehiculoS));
+			vehiculosP.add(convertVehiculoNegocioToPersistencia(vehiculoS, sucP));
 		}
 		sucP.setVehiculos(vehiculosP);
 		ArrayList<DepositoPersistencia> depositosP = new ArrayList<DepositoPersistencia>();
 		for (Deposito depositoS : sucS.getDepositos()) {
-			depositosP.add(convertDepositoNegocioToPersistencia(depositoS));
+			depositosP.add(convertDepositoNegocioToPersistencia(depositoS, sucP));
 		}
 		sucP.setDepositos(depositosP);
 		
@@ -499,21 +502,127 @@ public class Sistema {
 	}
 	
 	private DepositoPersistencia convertDepositoNegocioToPersistencia(
-			Deposito depositoS) {
-		// TODO Auto-generated method stub
-		return null;
+			Deposito depositoS, SucursalPersistencia sucP) {
+		DepositoPersistencia depP = new DepositoPersistencia();
+
+		depP.setCantidadMax(depositoS.getCantidadMax());
+		depP.setEncargado(depositoS.getEncargado());
+		depP.setIdDeposito(depositoS.getIdDeposito());
+		ArrayList<MercaderiaPersistencia> mercaderiasL = new ArrayList<MercaderiaPersistencia>();
+		for (Mercaderia mercaderiaS : depositoS.getMercaderias()) {
+			mercaderiasL.add(convertMercaderiaNegocioToPersistencia(mercaderiaS,null,null ,depP));
+		}
+		depP.setMercaderias(mercaderiasL);
+		depP.setSuc(sucP);
+		ArrayList<AreaPersistencia> areasL = new ArrayList<AreaPersistencia>();
+		for (Area areaS : depositoS.getAreas()) {
+			areasL.add(convertAreaNegocioToPersistencia(areaS, depP));
+		}
+		depP.setAreas(areasL);
+		
+		return depP;
+	}
+
+
+	private AreaPersistencia convertAreaNegocioToPersistencia(Area areaS, DepositoPersistencia depP) {
+		AreaPersistencia AreaP = new AreaPersistencia();
+		AreaP.setCapacidadMaxima(areaS.getCapacidadMaxima());
+		AreaP.setDeposito(depP);
+		AreaP.setDescripcion(areaS.getDescripcion());
+		AreaP.setIdArea(areaS.getIdArea());
+		
+		return AreaP;
 	}
 
 	private VehiculoPersistencia convertVehiculoNegocioToPersistencia(
-			Vehiculo vehiculoS2) {
-		// TODO Auto-generated method stub
-		return null;
+			Vehiculo vehiculoS2, SucursalPersistencia sucP) {
+			VehiculoPersistencia vehP = new VehiculoPersistencia();
+			vehP.setCondEspeciales(vehiculoS2.getCondEspeciales());
+			vehP.setCoordenadaActual(vehiculoS2.getCoordenadaActual());
+			vehP.setEstado(vehiculoS2.getEstado());
+			vehP.setExpiracionGarantia(vehiculoS2.getExpiracionGarantia());
+			vehP.setKilometrajemaximo(vehiculoS2.getKilometrajemaximo());
+			vehP.setKilometrakeActual(vehiculoS2.getKilometrakeActual());
+			vehP.setModelo(vehiculoS2.getModelo());
+			vehP.setNroChasis(Integer.valueOf(vehiculoS2.getNroChasis()));
+			vehP.setPatente(vehiculoS2.getPatente());
+			vehP.setPesoMax(vehiculoS2.getPesoMax());
+			vehP.setTara(vehiculoS2.getTara());
+			vehP.setTipo(vehiculoS2.getTipo());
+			vehP.setVolumenMax(vehiculoS2.getVolumenMax());
+			vehP.setSucursal(sucP);
+			ArrayList<MantenimientoRealizadoPersistencia> mantL = new ArrayList<MantenimientoRealizadoPersistencia>();
+			for (MantenimientoRealizado mantenimientoRealizadoS : vehiculoS2.getMantenimientosRealizados()) {
+				mantL.add(convertMantenimientoRealizadoNegocioToPersistencia(mantenimientoRealizadoS,vehP));
+			}
+			vehP.setMantenimientosRealizados(mantL);
+			ArrayList<PlanDeMantenimientoPersistencia> mantPlanL = new ArrayList<PlanDeMantenimientoPersistencia>();
+			for (PlanDeMantenimiento planDeMantenimientoS : vehiculoS2.getMantenimientosPlaneados()) {
+				mantPlanL.add(convertPlanDeMantenimientoNegocioToPersistencia(planDeMantenimientoS, vehP));
+			}
+			vehP.setMantenimientosPlaneados(mantPlanL);
+			ArrayList<RemitoPersistencia> remL = new ArrayList<RemitoPersistencia>();
+			for (Remito remitoS : vehiculoS2.getRemitos()) {
+				remL.add(convertRemitoNegocioToPersistencia(remitoS, vehP));
+			}
+			
+			vehP.setRemitos(remL);
+
+		return vehP;
+	}
+
+	private RemitoPersistencia convertRemitoNegocioToPersistencia(
+			Remito remitoS, VehiculoPersistencia vehP) {
+		RemitoPersistencia rempP = new RemitoPersistencia();
+		rempP.setEstado(remitoS.getEstado());
+		rempP.setNroRemito(remitoS.getNroRemito());
+		rempP.setVehiculo(vehP);
+		ArrayList<MercaderiaPersistencia> mercaderiasL = new ArrayList<MercaderiaPersistencia>();
+		for (Mercaderia mercaderiaS : remitoS.getMercaderias()) {
+			mercaderiasL.add(convertMercaderiaNegocioToPersistencia(mercaderiaS,null, rempP, null));
+		}
+		rempP.setMercaderias(mercaderiasL);
+		
+		return rempP;
+	}
+
+
+	private PlanDeMantenimientoPersistencia convertPlanDeMantenimientoNegocioToPersistencia(
+			PlanDeMantenimiento planDeMantenimientoS, VehiculoPersistencia vehP) {
+				PlanDeMantenimientoPersistencia planMP = new PlanDeMantenimientoPersistencia();
+				planMP.setCantKilometros(planDeMantenimientoS.getCantKilometros());
+				planMP.setControlEspecial(planDeMantenimientoS.getControlEspecial());
+				planMP.setIdPlan(planDeMantenimientoS.getIdPlan());
+				planMP.setTipo(planDeMantenimientoS.getTipo());
+				planMP.setVehiculo(vehP);
+		return planMP;
+	}
+
+	private MantenimientoRealizadoPersistencia convertMantenimientoRealizadoNegocioToPersistencia(
+			MantenimientoRealizado mantenimientoRealizadoS, VehiculoPersistencia vehP) {
+				MantenimientoRealizadoPersistencia mantReaP = new MantenimientoRealizadoPersistencia();
+				mantReaP.setCosto(mantenimientoRealizadoS.getCosto());
+				mantReaP.setDescripcion(mantenimientoRealizadoS.getDescripcion());
+				mantReaP.setFecha(mantenimientoRealizadoS.getFecha());
+				mantReaP.setIdMantenimiento(mantenimientoRealizadoS.getIdMantenimiento());
+				mantReaP.setKilometrajeActual(mantenimientoRealizadoS.getKilometrajeActual());
+				mantReaP.setKilometrosRealizadosDesdeUltimoControl(mantenimientoRealizadoS.getKilometrosRealizadosDesdeUltimoControl());
+				mantReaP.setTipo(mantenimientoRealizadoS.getTipo());
+				mantReaP.setVehiculo(vehP);
+		return mantReaP;
 	}
 
 	private MapaDeRutaPersistencia convertMapaRutaNegocioToPersistencia(
-			MapaDeRuta mapaDeRutaS) {
-		// TODO Auto-generated method stub
-		return null;
+			MapaDeRuta mapaDeRutaS, SucursalPersistencia sucP) {
+		MapaDeRutaPersistencia mapaRutaP = new MapaDeRutaPersistencia();
+			mapaRutaP.setCosto(mapaDeRutaS.getCosto());
+			mapaRutaP.setDistancia(mapaDeRutaS.getDistancia());
+			mapaRutaP.setDuracionHs(mapaDeRutaS.getDuracionHs());
+			mapaRutaP.setIdMapa(mapaDeRutaS.getIdMapa());
+			mapaRutaP.setNumSucDestino(mapaDeRutaS.getNumSucDestino());
+			mapaRutaP.setNumSucOrigen(mapaDeRutaS.getNumSucOrigen());
+			mapaRutaP.setSucursal(sucP);
+		return mapaRutaP;
 	}
 
 	private PedidoPersistencia convertPedidoNegocioToPersistencia(
@@ -541,12 +650,12 @@ public class Sistema {
 		pedP.setConsideraciones(consideraciones);
 		ArrayList<DestinatarioPersistencia> destinatarios = new ArrayList<DestinatarioPersistencia>();
 		for (Destinatario destS : pedidoS.getDestinatarios()) {
-			destinatarios.add(convertDestinatarioNegocioToPersistencia(destS));
+			destinatarios.add(convertDestinatarioNegocioToPersistencia(destS, pedP));
 		}
 		pedP.setDestinatarios(destinatarios);
 		ArrayList<MercaderiaPersistencia> mercaderias = new ArrayList<MercaderiaPersistencia>();
 		for (Mercaderia mercS : pedidoS.getMercaderias()) {
-			mercaderias.add(convertMercaderiaNegocioToPersistencia(mercS));
+			mercaderias.add(convertMercaderiaNegocioToPersistencia(mercS, pedP, null ,null));
 		}
 		pedP.setMercaderias(mercaderias);
 		pedP.setCliente(convertClienteNegocioToPersistencia(pedidoS.getClinete()));
@@ -554,22 +663,114 @@ public class Sistema {
 		return pedP;
 	}
 	
+	
+	
 	private ClientePersistencia convertClienteNegocioToPersistencia(
 			Cliente clinete) {
-		// TODO Auto-generated method stub
-		return null;
+		ClientePersistencia clienteP = null;
+		
+		if(clinete instanceof Empresa){
+		clienteP = convertEmpresaNegocioToPersistencia(clinete);
+		}
+		if(clinete instanceof Particular){
+		clienteP = convertParticularNegocioToPersistencia(clinete);
+		}
+			
+		return clienteP;
 	}
 
 	private MercaderiaPersistencia convertMercaderiaNegocioToPersistencia(
-			Mercaderia mercS) {
-		// TODO Auto-generated method stub
-		return null;
+			Mercaderia mercS, PedidoPersistencia pedP, RemitoPersistencia rempP, DepositoPersistencia depP) {
+		
+		MercaderiaPersistencia mercP = null;
+		
+		if(mercS instanceof MercaderiaPorPeso)
+		mercP = convertMercaderiaPorPesoNegocioToPersistencia((MercaderiaPorPeso)mercS, pedP,rempP,depP);
+		
+		if(mercS instanceof MercaderiaPorVolumen)
+		mercP = convertMercaderiaPorVolumentNegocioToPersistencia((MercaderiaPorVolumen)mercS, pedP,rempP,depP);
+		
+		return mercP;
+	}
+	
+
+	private MercaderiaPorVolumenPersistencia convertMercaderiaPorVolumentNegocioToPersistencia(
+			MercaderiaPorVolumen mercS, PedidoPersistencia pedP, RemitoPersistencia rempP, DepositoPersistencia depP) {
+			MercaderiaPorVolumenPersistencia mercP = new MercaderiaPorVolumenPersistencia();
+				mercP.setAlto(mercS.getAlto());
+				mercP.setAncho(mercS.getAncho());
+				mercP.setApilable(mercS.isAplilable());
+				mercP.setCantApilable(mercS.getCantApilable());
+				mercP.setCondDeViaje(mercS.getCondDeViaje());
+				mercP.setCoordenadasDestino(mercS.getCoordenadasDestino());
+				mercP.setDeposito(depP);
+				mercP.setFragilidad(mercS.getFragilidad());
+				mercP.setIdMercaderia(mercS.getIdMercaderia());
+				mercP.setIndicacionesManpulacion(mercS.getIndicacionesManpulacion());
+				mercP.setPedido(pedP);
+				mercP.setProfundidad(mercS.getProfundidad());
+				mercP.setRemito(rempP);
+				mercP.setVolumen(mercS.getVolumen());
+				ArrayList<MovimientoPersistencia> movL = new ArrayList<MovimientoPersistencia>();
+				for (Movimiento movimientoS : mercS.getMovimientos()) {
+					movL.add(convertMovimientomercaderiaNegocioToPersistencia(movimientoS,mercP));
+				}
+				mercP.setMovimientos(movL);
+				
+				
+		return mercP;
+	}
+
+
+
+	private MercaderiaPorPesoPersistencia convertMercaderiaPorPesoNegocioToPersistencia(
+			MercaderiaPorPeso mercS, PedidoPersistencia pedP, RemitoPersistencia rempP, DepositoPersistencia depP) {
+			MercaderiaPorPesoPersistencia mercP = new MercaderiaPorPesoPersistencia();
+				mercP.setAlto(mercS.getAlto());
+				mercP.setAncho(mercS.getAncho());
+				mercP.setApilable(mercS.isAplilable());
+				mercP.setCantApilable(mercS.getCantApilable());
+				mercP.setCondDeViaje(mercS.getCondDeViaje());
+				mercP.setCoordenadasDestino(mercS.getCoordenadasDestino());
+				mercP.setDeposito(depP);
+				mercP.setFragilidad(mercS.getFragilidad());
+				mercP.setIdMercaderia(mercS.getIdMercaderia());
+				mercP.setIndicacionesManpulacion(mercS.getIndicacionesManpulacion());
+				mercP.setPedido(pedP);
+				mercP.setProfundidad(mercS.getProfundidad());
+				mercP.setRemito(rempP);
+				mercP.setPeso(mercS.getPeso());
+				ArrayList<MovimientoPersistencia> movL = new ArrayList<MovimientoPersistencia>();
+				for (Movimiento movimientoS : mercS.getMovimientos()) {
+					movL.add(convertMovimientomercaderiaNegocioToPersistencia(movimientoS, mercP));
+				}
+				mercP.setMovimientos(movL);
+				
+		return mercP;
+	}
+	
+	private MovimientoPersistencia convertMovimientomercaderiaNegocioToPersistencia(
+			Movimiento movimientoS, MercaderiaPersistencia mercP) {
+		MovimientoPersistencia movP = new MovimientoPersistencia();
+			movP.setCondicionDeArribo(movimientoS.getCondicionDeArribo());
+			movP.setDestino(movimientoS.getDestino());
+			movP.setEstado(movimientoS.getEstado());
+			movP.setFechaLlegada(movimientoS.getFechaLlegada());
+			movP.setFechaSalida(movimientoS.getFechaSalida());
+			movP.setIdMovimiento(movimientoS.getIdMovimiento());
+			movP.setMercaderia(mercP);
+			movP.setOrigen(movimientoS.getOrigen());
+		return movP;
 	}
 
 	private DestinatarioPersistencia convertDestinatarioNegocioToPersistencia(
-			Destinatario destS) {
-		// TODO Auto-generated method stub
-		return null;
+			Destinatario destS, PedidoPersistencia pedP) {
+			DestinatarioPersistencia detP = new DestinatarioPersistencia();
+			detP.setApellido(destS.getApellido());
+			detP.setDni(destS.getDni());
+			detP.setNombre(destS.getNombre());
+			detP.setPedido(pedP);
+		return detP;
 	}
 
 	private ConsideracionEspecialPersistencia convertConsideracionEspecialNegocioToPersistenacia(
@@ -585,7 +786,7 @@ public class Sistema {
 			consEP.setRequiereCamionExterno(consideracionEspecialS.isRequiereCamionExterno());
 			ArrayList<VehiculoExternoPersistencia> vehiculosExternos = new ArrayList<VehiculoExternoPersistencia>();
 			for (VehiculoExterno vehiculoExternoS : consideracionEspecialS.getvExternos()) {
-				vehiculosExternos.add(convertVehiculoExternoNegocioToPersistencia(vehiculoExternoS));
+				vehiculosExternos.add(convertVehiculoExternoNegocioToPersistencia(vehiculoExternoS, consEP));
 			}
 			consEP.setvExternos(vehiculosExternos);
 			ArrayList<CarrierPersistencia> carriers = new ArrayList<CarrierPersistencia>();
@@ -598,22 +799,29 @@ public class Sistema {
 	
 	private CarrierPersistencia convertCarrierNegocioToPersistencia(
 			Carrier carrierS) {
-		// TODO Auto-generated method stub
-		return null;
+		CarrierPersistencia carrierP = new CarrierPersistencia();
+			carrierP.setConsideracionEspecial(null);
+			carrierP.setCosto(carrierS.getCosto());
+			carrierP.setDestino(carrierS.getDestino());
+			carrierP.setIdCarrier(carrierS.getIdCarrier());
+			carrierP.setOrigen(carrierS.getOrigen());
+		return carrierP;
 	}
 
 	private VehiculoExternoPersistencia convertVehiculoExternoNegocioToPersistencia(
-			VehiculoExterno vehiculoExternoS) {
-		// TODO Auto-generated method stub
-		return null;
+			VehiculoExterno vehiculoExternoS, ConsideracionEspecialPersistencia conEP) {
+			VehiculoExternoPersistencia vehExP = new VehiculoExternoPersistencia();
+			vehExP.setCapacidadCarga(vehiculoExternoS.getCapacidadCarga());
+			vehExP.setConsideracionEspecial(conEP);
+			vehExP.setIdentificacion(vehiculoExternoS.getIdentificacion());
+			vehExP.setIdVehiculoExterno(vehiculoExternoS.getIdVehiculoExterno());
+			vehExP.setTipo(vehiculoExternoS.getTipo());
+		return vehExP;
 	}
 
 	//CONVERT SUCURSAL NEGOCIO TO SUCURSAL PERSISTENCIA END
 	
 	//CONVERT SUCURSAL PERSISTENCIA TO SUCURSAL NEGCIO START
-	
-
-
 
 
 	private Sucursal convertSucursalPersistenciaToNegocio(
@@ -654,18 +862,27 @@ public class Sistema {
 		for (MercaderiaPersistencia mercP : depP.getMercaderias()) {
 			depN.addMercaderia(convertMercaderiaPersistenciaToNegocio(mercP));
 		}
-		
-		depP.getAreas();
-		
-		
+
+		for (AreaPersistencia areaP : depP.getAreas()) {
+			depN.addAreas(convertAreaPersistenciaToNegocio(areaP));
+		}
 		return depN;
 	}
 	
+	private Area convertAreaPersistenciaToNegocio(AreaPersistencia areaP) {
+		Area areaS = new Area();
+			areaS.setCapacidadMaxima(areaP.getCapacidadMaxima());
+			areaS.setDescripcion(areaP.getDescripcion());
+			areaS.setIdArea(areaP.getIdArea());
+		return areaS;
+	}
 
 
 	//CONVERT SUCURSAL PERSISTENCIA TO SUCURSAL NEGOCIO END
 	
 	//CONVERT VEHICLULO PERSISTENCIA TO VEHICLULO NEGOCIO START
+
+
 
 	private Vehiculo convertVehiculoPersistenciaToNegocio(
 			VehiculoPersistencia vehP) {
@@ -815,24 +1032,59 @@ public class Sistema {
 
 	private Mercaderia convertMercaderiaPersistenciaToNegocio(
 			MercaderiaPersistencia mercP) {
-		Mercaderia mercN = new Mercaderia(
-				mercP.getAlto(),
-				mercP.getAncho(),
-				mercP.getProfundidad(),
-				mercP.getFragilidad(),
-				mercP.isApilable(),
-				mercP.getCantApilable(),
-				mercP.getCondDeViaje(),
-				mercP.getIndicacionesManpulacion(),
-				mercP.getCoordenadasDestino());
-
-		for (MovimientoPersistencia movP : mercP.getMovimientos()) {
-			mercN.addMovimiento(convertMovimientoMercaderiaPersistenciaToNegocio(movP));
-		};
+		Mercaderia mercN = null;
+		
+		if(mercP instanceof MercaderiaPorPesoPersistencia) 
+			mercN = convertMercaderiaPorPesoPersistenciaToNegocio((MercaderiaPorPesoPersistencia) mercP);
+		
+		if(mercP instanceof MercaderiaPorVolumenPersistencia)
+			mercN = convertMercaderiaPorVolumenPersistenciaToNegocio((MercaderiaPorVolumenPersistencia) mercP);
 		
 		return mercN;
 	}
 	
+	private Mercaderia convertMercaderiaPorVolumenPersistenciaToNegocio(
+			MercaderiaPorVolumenPersistencia mercP) {
+
+		MercaderiaPorVolumen mercS = new MercaderiaPorVolumen();
+		mercS.setAlto(mercP.getAlto());
+		mercS.setAncho(mercP.getAncho());
+		mercS.setAplilable(mercP.isApilable());
+		mercS.setCantApilable(mercP.getCantApilable());
+		mercS.setCondDeViaje(mercP.getCondDeViaje());
+		mercS.setCoordenadasDestino(mercP.getCoordenadasDestino());
+		mercS.setFragilidad(mercP.getFragilidad());
+		mercS.setIdMercaderia(mercP.getIdMercaderia());
+		mercS.setIndicacionesManpulacion(mercP.getIndicacionesManpulacion());
+		mercS.setProfundidad(mercP.getProfundidad());
+		mercS.setVolumen(mercP.getVolumen());
+		for (MovimientoPersistencia movP : mercP.getMovimientos()) {
+			mercS.addMovimiento(convertMovimientoMercaderiaPersistenciaToNegocio(movP));
+		}
+		return mercS;
+	}
+
+	private Mercaderia convertMercaderiaPorPesoPersistenciaToNegocio(
+			MercaderiaPorPesoPersistencia mercP) {
+		
+		MercaderiaPorPeso mercS = new MercaderiaPorPeso();
+		mercS.setAlto(mercP.getAlto());
+		mercS.setAncho(mercP.getAncho());
+		mercS.setAplilable(mercP.isApilable());
+		mercS.setCantApilable(mercP.getCantApilable());
+		mercS.setCondDeViaje(mercP.getCondDeViaje());
+		mercS.setCoordenadasDestino(mercP.getCoordenadasDestino());
+		mercS.setFragilidad(mercP.getFragilidad());
+		mercS.setIdMercaderia(mercP.getIdMercaderia());
+		mercS.setIndicacionesManpulacion(mercP.getIndicacionesManpulacion());
+		mercS.setProfundidad(mercP.getProfundidad());
+		mercS.setPeso(mercP.getPeso());
+		for (MovimientoPersistencia movP : mercP.getMovimientos()) {
+			mercS.addMovimiento(convertMovimientoMercaderiaPersistenciaToNegocio(movP));
+		}
+		return mercS;
+	}
+
 	private Movimiento convertMovimientoMercaderiaPersistenciaToNegocio(
 			MovimientoPersistencia movP) {
 		Movimiento movN = new Movimiento(
@@ -911,6 +1163,7 @@ public class Sistema {
 	}
 
 
+	@SuppressWarnings("unused")
 	private RemitoBean convertRemitoPersistenciaToBean(RemitoPersistencia rp)
 	{
 		RemitoBean rb=new RemitoBean();
