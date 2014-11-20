@@ -36,6 +36,9 @@ public class EmpresaPersistencia extends ClientePersistencia implements Serializ
 
 	public EmpresaPersistencia() {
 		super();
+		this.direccionesValidas = new ArrayList<EmpresaDirValidasPersistencia>();
+		this.productosValidos = new ArrayList<ProductoPersistencia>();
+		this.cuentasCorrientes =  new ArrayList<CuentaCorrientePersistencia>();
 	}
 
 	public String getRazonSoial() {
