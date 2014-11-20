@@ -9,6 +9,7 @@ public class ConsideracionEspecial {
 	private boolean autorizacionAvioneta;
 	private boolean requiereCamionExterno;
 	private float costoExtra;
+	private int idConsideracionEspecial;
 	private ArrayList<Carrier> carriers;
 	private ArrayList<VehiculoExterno> vExternos;
 	
@@ -96,8 +97,19 @@ public class ConsideracionEspecial {
 	public void addvExterno(VehiculoExterno vehiculo) {
 		this.vExternos.add(vehiculo);
 	}
-	
-	
+
+
+	public int getIdConsideracionEspecial() {
+		return idConsideracionEspecial;
+	}
+
+
+	public void setIdConsideracionEspecial(int idConsideracionEspecial) {
+		this.idConsideracionEspecial = idConsideracionEspecial;
+	}
+
+
+
 	
 
 }

@@ -15,6 +15,8 @@ public class Pedido {
 	private String dirDeRetiroSoloEmpresa;
 	private String estado;
 	private int prioridad;
+	private int idPedido;
+	private Cliente clinete;
 	private ArrayList<Mercaderia> mercaderias;
 	private ArrayList<Destinatario> destinatarios;
 	private ArrayList<ConsideracionEspecial> consideraciones;
@@ -22,7 +24,7 @@ public class Pedido {
 	public Pedido(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
 			Date horarioDeEntregaDesde, Date horarioDeEntregahasta,
-			String dirDeRetiroSoloEmpresa, int prioridad) {
+			String dirDeRetiroSoloEmpresa, int prioridad, Cliente cliente) {
 		super();
 		this.manifiesto = manifiesto;
 		this.dirDestino = dirDestino;
@@ -36,8 +38,20 @@ public class Pedido {
 		this.mercaderias = new ArrayList<Mercaderia>();
 		this.destinatarios = new ArrayList<Destinatario>();
 		this.consideraciones = new ArrayList<ConsideracionEspecial>();
+		this.clinete = cliente;
 		
 	}
+	
+
+	public Cliente getClinete() {
+		return clinete;
+	}
+
+
+	public void setClinete(Cliente clinete) {
+		this.clinete = clinete;
+	}
+
 
 	public String getManifiesto() {
 		return manifiesto;
@@ -161,7 +175,7 @@ public class Pedido {
 	}
 
 	public void setEstado(String estado) {
-		estado = estado;
+		this.estado = estado;
 	}
 
 	public void setMercaderias(ArrayList<Mercaderia> mercaderias) {
@@ -175,7 +189,15 @@ public class Pedido {
 	public void setConsideraciones(ArrayList<ConsideracionEspecial> consideraciones) {
 		this.consideraciones = consideraciones;
 	}
-	
+
+	public int getIdPedido() {
+		return idPedido;
+	}
+
+	public void setIdPedido(int idPedido) {
+		this.idPedido = idPedido;
+	}
+
 	
 	
 	
