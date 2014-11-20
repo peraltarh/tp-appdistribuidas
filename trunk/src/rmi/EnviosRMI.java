@@ -64,7 +64,7 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 
 	@Override
 	public ClienteBean getCliente(String tipo,String nro) {
-		return sistema.getCliente(tipo,nro);
+		return sistema.getClienteBean(tipo,nro);
 	}
 
 	@Override
