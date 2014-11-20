@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+import beans.ClienteBean;
 import beans.PedidoBean;
 import clases.controller.Sistema;
 
@@ -60,15 +62,9 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		
 	}
 
-
 	@Override
-	public void buscarClienteParticular(String dni) {
-		sistema.buscarClienteParticularEnDao(dni);
-	}
-
-	@Override
-	public void buscarClienteEmpresa(String cuit) {
-		sistema.buscarClienteEmpresaEnDao(cuit);
+	public ClienteBean getCliente(String tipo,String nro) {
+		return sistema.getCliente(tipo,nro);
 	}
 
 	@Override
