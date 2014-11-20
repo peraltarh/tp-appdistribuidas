@@ -192,7 +192,7 @@ public class Sistema {
 		if(tipoId.equals("dni"))
 		{
 			cS = buscarClienteParticular(idCliente);
-			cP=convertParticularSistemaToPersistencia(cS);
+			cP=convertParticularNegocioToPersistencia(cS);
 		}
 
 		//TODO cambiar a buscarSucursal
@@ -300,7 +300,7 @@ public class Sistema {
 
 	//CONVERT CLIENTE NEGOCIO TO CLIENTE PERSISTENCIA START
 	
-	private ParticularPersistencia convertParticularSistemaToPersistencia(
+	private ParticularPersistencia convertParticularNegocioToPersistencia(
 			Cliente cS) {
 		ParticularPersistencia cP = new ParticularPersistencia(
 										cS.getDireccion(),
@@ -476,47 +476,146 @@ public class Sistema {
 		sucP.setNumeroSucursal(sucS.getNumero());
 		ArrayList<PedidoPersistencia> pedidosP = new ArrayList<PedidoPersistencia>();
 		for (Pedido pedidoS : sucS.getPedidos()) {
-			pedidosP.add(convertPedidoNegocioToPersistencia(pedidoS));
+			pedidosP.add(convertPedidoNegocioToPersistencia(pedidoS,sucP));
 		}
 		sucP.setPedidos(pedidosP);
 		ArrayList<MapaDeRutaPersistencia> rutasP = new ArrayList<MapaDeRutaPersistencia>();
 		for (MapaDeRuta mapaDeRutaS : sucS.getRutas()) {
-			//TODO
-//			rutasP.add(convertMapaRutaNegocioToPersistencia(mapaDeRutaS));
+			rutasP.add(convertMapaRutaNegocioToPersistencia(mapaDeRutaS));
 		}
 		sucP.setRutas(rutasP);
 		ArrayList<VehiculoPersistencia> vehiculosP = new ArrayList<VehiculoPersistencia>();
 		for (Vehiculo vehiculoS : sucS.getVehiculos()) {
-			//TODO
-//			vehiculosP.add(convertVehiculoNegocioToPersistencia(vehiculoS));
+			vehiculosP.add(convertVehiculoNegocioToPersistencia(vehiculoS));
 		}
 		sucP.setVehiculos(vehiculosP);
 		ArrayList<DepositoPersistencia> depositosP = new ArrayList<DepositoPersistencia>();
 		for (Deposito depositoS : sucS.getDepositos()) {
-			//TODO
-//			depositosP.add(convertDepositoNegocioToPersistencia(depositoS));
+			depositosP.add(convertDepositoNegocioToPersistencia(depositoS));
 		}
 		sucP.setDepositos(depositosP);
 		
 		return sucP;
 	}
 	
+	private DepositoPersistencia convertDepositoNegocioToPersistencia(
+			Deposito depositoS) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private VehiculoPersistencia convertVehiculoNegocioToPersistencia(
+			Vehiculo vehiculoS2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private MapaDeRutaPersistencia convertMapaRutaNegocioToPersistencia(
+			MapaDeRuta mapaDeRutaS) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private PedidoPersistencia convertPedidoNegocioToPersistencia(
-			Pedido pedidoS) {
+			Pedido pedidoS, SucursalPersistencia suc) {
 		PedidoPersistencia pedP = new PedidoPersistencia();
-		//TODO
-//		pedP.setCliente(convertClienteNegocioToPersistencia(pedidoS.getCliente()));
 		
+		pedP.setCondEspeciales(pedidoS.getCondEspeciales());
+		pedP.setDirDeRetiroSoloEmpresa(pedidoS.getDirDeRetiroSoloEmpresa());
+		pedP.setDirDestino(pedidoS.getDirDestino());
+		pedP.setEstado(pedidoS.getEstado());
+		pedP.setFechaEnregaMaxima(pedidoS.getFechaEnregaMaxima());
+		pedP.setFechaEntregaEstimada(pedidoS.getFechaEntregaEstimada());
+		pedP.setHorarioDeEntregaDesde(pedidoS.getHorarioDeEntregaDesde());
+		pedP.setHorarioDeEntregahasta(pedidoS.getHorarioDeEntregahasta());
+		pedP.setIdPedido(pedidoS.getIdPedido());
+		pedP.setManifiesto(pedidoS.getManifiesto());
+		pedP.setPrioridad(pedidoS.getPrioridad());
+		pedP.setSucursal(suc);
 		
-		
+		ArrayList<ConsideracionEspecialPersistencia> consideraciones = new ArrayList<ConsideracionEspecialPersistencia>();
+		for (ConsideracionEspecial consideracionEspecialS : pedidoS.getConsideraciones()) {
+
+			consideraciones.add(convertConsideracionEspecialNegocioToPersistenacia(consideracionEspecialS,pedP));
+		}
+		pedP.setConsideraciones(consideraciones);
+		ArrayList<DestinatarioPersistencia> destinatarios = new ArrayList<DestinatarioPersistencia>();
+		for (Destinatario destS : pedidoS.getDestinatarios()) {
+			destinatarios.add(convertDestinatarioNegocioToPersistencia(destS));
+		}
+		pedP.setDestinatarios(destinatarios);
+		ArrayList<MercaderiaPersistencia> mercaderias = new ArrayList<MercaderiaPersistencia>();
+		for (Mercaderia mercS : pedidoS.getMercaderias()) {
+			mercaderias.add(convertMercaderiaNegocioToPersistencia(mercS));
+		}
+		pedP.setMercaderias(mercaderias);
+		pedP.setCliente(convertClienteNegocioToPersistencia(pedidoS.getClinete()));
 		
 		return pedP;
+	}
+	
+	private ClientePersistencia convertClienteNegocioToPersistencia(
+			Cliente clinete) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private MercaderiaPersistencia convertMercaderiaNegocioToPersistencia(
+			Mercaderia mercS) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private DestinatarioPersistencia convertDestinatarioNegocioToPersistencia(
+			Destinatario destS) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private ConsideracionEspecialPersistencia convertConsideracionEspecialNegocioToPersistenacia(
+			ConsideracionEspecial consideracionEspecialS,PedidoPersistencia pedP ) {
+		ConsideracionEspecialPersistencia consEP = new ConsideracionEspecialPersistencia();
+			
+			consEP.setAutorizacionAvioneta(consideracionEspecialS.isAutorizacionAvioneta());
+			consEP.setCostoExtra(consideracionEspecialS.getCostoExtra());
+			consEP.setEntregaInmediata(consideracionEspecialS.isEntregaInmediata());
+			consEP.setIdConsideracionEspecial(consideracionEspecialS.getIdConsideracionEspecial());
+			consEP.setPedido(pedP);
+			consEP.setRequiereAvioneta(consideracionEspecialS.isRequiereAvioneta());
+			consEP.setRequiereCamionExterno(consideracionEspecialS.isRequiereCamionExterno());
+			ArrayList<VehiculoExternoPersistencia> vehiculosExternos = new ArrayList<VehiculoExternoPersistencia>();
+			for (VehiculoExterno vehiculoExternoS : consideracionEspecialS.getvExternos()) {
+				vehiculosExternos.add(convertVehiculoExternoNegocioToPersistencia(vehiculoExternoS));
+			}
+			consEP.setvExternos(vehiculosExternos);
+			ArrayList<CarrierPersistencia> carriers = new ArrayList<CarrierPersistencia>();
+			for (Carrier carrierS : consideracionEspecialS.getCarriers()) {
+				carriers.add(convertCarrierNegocioToPersistencia(carrierS));
+			}
+			consEP.setCarriers(carriers);
+		return consEP;
+	}
+	
+	private CarrierPersistencia convertCarrierNegocioToPersistencia(
+			Carrier carrierS) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private VehiculoExternoPersistencia convertVehiculoExternoNegocioToPersistencia(
+			VehiculoExterno vehiculoExternoS) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	//CONVERT SUCURSAL NEGOCIO TO SUCURSAL PERSISTENCIA END
 	
 	//CONVERT SUCURSAL PERSISTENCIA TO SUCURSAL NEGCIO START
 	
+
+
+
+
 	private Sucursal convertSucursalPersistenciaToNegocio(
 			SucursalPersistencia sucBd) {
 		
@@ -642,7 +741,9 @@ public class Sistema {
 				pedP.getHorarioDeEntregaDesde(),
 				pedP.getHorarioDeEntregahasta(),
 				pedP.getDirDeRetiroSoloEmpresa(),
-				pedP.getPrioridad());
+				pedP.getPrioridad(),
+				convertClientePersistenciaToNegocio(pedP.getCliente()));
+		pedP.setIdPedido(pedP.getIdPedido());
 		
 		for (ConsideracionEspecialPersistencia condEsP : pedP.getConsideraciones()) {
 			pedN.addConsideraciones(convertConsideracionEspecialPersistenciaToNegocio(condEsP));
@@ -655,6 +756,18 @@ public class Sistema {
 		}
 
 		return pedN;
+	}
+
+	private Cliente convertClientePersistenciaToNegocio(
+			ClientePersistencia cliente) {
+		if(cliente!=null)
+			if(cliente instanceof EmpresaPersistencia){
+				return convertEmpresaPersistenciaToNegocio((EmpresaPersistencia) cliente);
+			}
+			else if(cliente instanceof ParticularPersistencia){
+				return convertParticularPersistenciaToNegocio((ParticularPersistencia) cliente);
+			}
+		return null;
 	}
 
 	private Destinatario convertDestinatarioPersistenciaToNegocio(
