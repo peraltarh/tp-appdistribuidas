@@ -245,6 +245,7 @@ public class Sistema {
 		}
 		if(empT==null){
 			empT = convertEmpresaPersistenciaToNegocio(buscarClienteEmpresaEnDao(cuit));
+			if (empT == null)return null; //Validar que se econtro
 			this.clientes.add(empT);
 		}
 		
@@ -272,6 +273,7 @@ public class Sistema {
 		}
 		if(parT==null){
 			parT = convertParticularPersistenciaToNegocio(buscarClienteParticularEnDao(dni));
+			if (parT == null)return null; //Validar que se econtro
 			addCliente(parT);
 		}
 		
@@ -392,6 +394,7 @@ public class Sistema {
 
 	private Particular convertParticularPersistenciaToNegocio(ParticularPersistencia pP)
 	{
+		if(pP == null)return null;
 		Particular p=new Particular();
 		p.setApellido(pP.getApellido());
 		p.setDireccion(pP.getDireccion());
@@ -404,6 +407,7 @@ public class Sistema {
 
 	private Empresa convertEmpresaPersistenciaToNegocio(EmpresaPersistencia eP)
 	{
+		if(eP == null)return null;
 		Empresa emp = new Empresa();
 		emp.setCuit(eP.getCuit());
 		emp.setRazonSoial(eP.getRazonSoial());

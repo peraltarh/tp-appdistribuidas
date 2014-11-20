@@ -15,19 +15,14 @@ public class HibernateFactory
         try
         {
         	 AnnotationConfiguration config = new AnnotationConfiguration();
-//        	 config.addAnnotatedClass(Sistema.class);
         	 config.addAnnotatedClass(AreaPersistencia.class);
-//        	 config.addAnnotatedClass(Armas.class);
         	 config.addAnnotatedClass(CarrierPersistencia.class);
         	 config.addAnnotatedClass(ClientePersistencia.class);
-//        	 config.addAnnotatedClass(Combustibles.class);
         	 config.addAnnotatedClass(ConsideracionEspecialPersistencia.class);
         	 config.addAnnotatedClass(CuentaCorrientePersistencia.class);
         	 config.addAnnotatedClass(DepositoPersistencia.class);
         	 config.addAnnotatedClass(DestinatarioPersistencia.class);
         	 config.addAnnotatedClass(EmpresaPersistencia.class);
-//        	 config.addAnnotatedClass(EmpresaSubContratada.class);
-//        	 config.addAnnotatedClass(Explosivos.class);
         	 config.addAnnotatedClass(FacturaPersistencia.class);
         	 config.addAnnotatedClass(ItemFacturaPersistencia.class);
         	 config.addAnnotatedClass(MantenimientoRealizadoPersistencia.class);
@@ -41,10 +36,7 @@ public class HibernateFactory
         	 config.addAnnotatedClass(EmpresaDirValidasPersistencia.class);
         	 config.addAnnotatedClass(PedidoPersistencia.class);
         	 config.addAnnotatedClass(PlanDeMantenimientoPersistencia.class);
-//        	 config.addAnnotatedClass(PoliticasDeEnvio.class);
-//        	 config.addAnnotatedClass(PorGranel.class); 
         	 config.addAnnotatedClass(ProductoPersistencia.class);
-//        	 config.addAnnotatedClass(QuimicosToxicos.class);
         	 config.addAnnotatedClass(RemitoPersistencia.class);
         	 config.addAnnotatedClass(SucursalPersistencia.class);
         	 config.addAnnotatedClass(VehiculoPersistencia.class);

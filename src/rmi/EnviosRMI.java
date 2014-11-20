@@ -11,16 +11,18 @@ import java.util.List;
 
 
 
+
 import beans.ClienteBean;
 import beans.PedidoBean;
 import clases.controller.Sistema;
+import dao.HibernateFactory;
 
 
 public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 {
 	Sistema sistema = new Sistema();
 	public EnviosRMI() throws RemoteException {
-//		super();
+		HibernateFactory.getSessionFactory(); //Para que arranque Hibernate al iniciar Server
 	}
 
 	private static final long serialVersionUID = 1L;
