@@ -122,19 +122,23 @@ public class Sistema {
 	
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
+		//TODO buscar en memoria
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
-		DAOCliente.getInstance().persistirParticular(p);
+		ClientePersistencia cP = DAOCliente.getInstance().persistirParticular(p);
+		this.clientes.add(convertClientePersistenciaToNegocio(cP));
 
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
+		//TODO buscar en memoria
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
-		DAOCliente.getInstance().persistirEmpresa(e);
-
+		ClientePersistencia cP = DAOCliente.getInstance().persistirEmpresa(e);
+		this.clientes.add(convertClientePersistenciaToNegocio(cP));
 	}
 
 
 	public void altaCuentaCorriente(int cbu, float saldoActual, float minimoPermitidoSinAuth, String cuit) {
+		//TODO buscar empresa en memoria y actualizarla o agregarla si no esta
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
@@ -143,6 +147,7 @@ public class Sistema {
 	}
 
 	public void altaProducto(String tipo, String descripcion, String cuit) {
+		//TODO buscar empresa en memoria y actualizarla o agregarla si no esta
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		ProductoPersistencia p=new ProductoPersistencia(tipo, descripcion, empresa);
 		empresa.addProductoValido(p);
@@ -150,12 +155,14 @@ public class Sistema {
 	}
 
 	public void altaSucursal(String nombre, String dir, String gerente, String encDespacho, String encRecepcion) {
-
+		//TODO buscar en memoria
 		SucursalPersistencia suc=new SucursalPersistencia(nombre, dir, gerente, encDespacho, encRecepcion);
-		DAOSucursal.getInstance().persistirSucursal(suc);
+		SucursalPersistencia sucP = DAOSucursal.getInstance().persistirSucursal(suc);
+		this.sucursales.add(convertSucursalPersistenciaToNegocio(sucP));
 	}
 
 	public void altaDeposito(float cantidadMax, String encargado, String sucursal) {
+		//TODO buscar sucursal en memoria y actualizarla o agregarla si no esta
 		SucursalPersistencia suc=DAOSucursal.getInstance().getSucursal(sucursal);
 		DepositoPersistencia dep=new DepositoPersistencia(cantidadMax, encargado, suc);
 		DAODeposito.getInstance().persistirDeposito(dep);
@@ -168,6 +175,7 @@ public class Sistema {
 	}
 
 	public void agregarEmpresaDireccionValida(String direccion, String tel,String cuit) {
+		//TODO buscar empresa en memoria y actualizarla o agregarla si no esta
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		EmpresaDirValidasPersistencia dir=new EmpresaDirValidasPersistencia(direccion, tel, empresa);
 		empresa.addDireccionValida(dir);
@@ -175,7 +183,7 @@ public class Sistema {
 
 	}
 	
-	public void altaPedido(String manifiesto, String dirDestino,
+	public int altaPedido(String manifiesto, String dirDestino,
 			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
 			String condEspeciales, Date horarioDeEntregaDesde,
 			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
@@ -198,9 +206,10 @@ public class Sistema {
 
 		Sucursal sucS = buscarSucursal(sucursal);
 		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
-//		SucursalPersistencia suc=buscarSucursalEnBD(sucursal);
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
-		DAOPedido.getInstance().persistir(pedido);
+		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
+		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
+		return pedP.getIdPedido();
 	}
 	
 //ALTAS END
@@ -310,6 +319,11 @@ public class Sistema {
 	public SucursalPersistencia buscarSucursalEnBD(String sucursal){
 		return DAOSucursal.getInstance().getSucursal(sucursal);
 	}
+	
+	//TODO buscar Vehiculos
+	
+	//TODO buscar VehiculosExternos
+	
 	
 //BUSQUEDAS END
 

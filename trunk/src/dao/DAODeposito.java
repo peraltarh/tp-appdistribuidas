@@ -16,9 +16,9 @@ public class DAODeposito
         return instance_;
     }
 	
-	public void persistirDeposito(DepositoPersistencia obj)
+	public DepositoPersistencia persistirDeposito(DepositoPersistencia obj)
 	{
-		HibernateDAO.getInstancia().save(obj);
+		return (DepositoPersistencia)HibernateDAO.getInstancia().save(obj);
 		
 	}
 	

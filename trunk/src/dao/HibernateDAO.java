@@ -100,12 +100,13 @@ public class HibernateDAO {
 		session.flush();
 	}
 
-	public void save(Object obj) {
+	public Object save(Object obj) {
 		Session session = getSession();
 		session.beginTransaction();
 		session.save(obj);
 		session.getTransaction().commit();
 		session.flush();
+		return obj;
 	}
 	public List<?> getList(String className)
 	{
