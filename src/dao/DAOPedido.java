@@ -15,9 +15,9 @@ public class DAOPedido
         return instance_;
     }
 	
-	public void persistir(PedidoPersistencia pedido) 
+	public PedidoPersistencia persistir(PedidoPersistencia pedido) 
 	{
-		HibernateDAO.getInstancia().save(pedido);
+		return (PedidoPersistencia)HibernateDAO.getInstancia().save(pedido);
 	}
 	
 	@SuppressWarnings("unchecked")

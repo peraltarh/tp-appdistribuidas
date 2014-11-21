@@ -81,9 +81,9 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public void altaPedido(String manifiesto, String dirDestino,Date fechaEnregaMaxima, Date fechaEntregaEstimada,String condEspeciales, Date horarioDeEntregaDesde,Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,int prioridad, String estado, String sucursal, String cliente, String tipoC)
+	public int altaPedido(String manifiesto, String dirDestino,Date fechaEnregaMaxima, Date fechaEntregaEstimada,String condEspeciales, Date horarioDeEntregaDesde,Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,int prioridad, String estado, String sucursal, String cliente, String tipoC)
 	{
-		sistema.altaPedido( manifiesto,  dirDestino, fechaEnregaMaxima,  fechaEntregaEstimada, condEspeciales,  horarioDeEntregaDesde, horarioDeEntregahasta,  dirDeRetiroSoloEmpresa, prioridad,estado,  sucursal,  cliente, tipoC);
+		return sistema.altaPedido( manifiesto,  dirDestino, fechaEnregaMaxima,  fechaEntregaEstimada, condEspeciales,  horarioDeEntregaDesde, horarioDeEntregahasta,  dirDeRetiroSoloEmpresa, prioridad,estado,  sucursal,  cliente, tipoC);
 		
 	}
 

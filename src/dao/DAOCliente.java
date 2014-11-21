@@ -14,15 +14,15 @@ public class DAOCliente
         return instance_;
     }
 	
-	public void persistirEmpresa(EmpresaPersistencia empresa)
+	public EmpresaPersistencia persistirEmpresa(EmpresaPersistencia empresa)
 	{
-		HibernateDAO.getInstancia().save(empresa);
+		return (EmpresaPersistencia)HibernateDAO.getInstancia().save(empresa);
 		
 	}
 	
-	public void persistirParticular(ParticularPersistencia particular)
+	public ParticularPersistencia persistirParticular(ParticularPersistencia particular)
 	{
-		HibernateDAO.getInstancia().save(particular);
+		return (ParticularPersistencia)HibernateDAO.getInstancia().save(particular);
 	}
 	
 	public void update(ParticularPersistencia particular)

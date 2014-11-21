@@ -14,9 +14,9 @@ public class DAOSucursal
         return instance_;
     }
 	
-	public void persistirSucursal(SucursalPersistencia obj)
+	public SucursalPersistencia persistirSucursal(SucursalPersistencia obj)
 	{
-		HibernateDAO.getInstancia().save(obj);
+		return (SucursalPersistencia)HibernateDAO.getInstancia().save(obj);
 		
 	}
 	
