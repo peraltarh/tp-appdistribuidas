@@ -209,6 +209,7 @@ public class Sistema {
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
+		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
 		return pedP.getIdPedido();
 	}
 	
@@ -320,9 +321,9 @@ public class Sistema {
 		return DAOSucursal.getInstance().getSucursal(sucursal);
 	}
 	
-	//TODO buscar Vehiculos
+	//TODO buscar Vehiculos en memoria y en BD
 	
-	//TODO buscar VehiculosExternos
+	//TODO buscar VehiculosExternos en memoria y en BD
 	
 	
 //BUSQUEDAS END
