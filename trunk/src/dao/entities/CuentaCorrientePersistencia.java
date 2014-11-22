@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import clases.CuentaCorriente;
+
 @Entity
 @Table(name="CuentaCorriente")
 public class CuentaCorrientePersistencia {
@@ -95,6 +97,18 @@ public class CuentaCorrientePersistencia {
 
 	public void setEmpresa(EmpresaPersistencia empresa) {
 		this.empresa = empresa;
+	}
+
+	public CuentaCorriente toNegocio() 
+	{
+		CuentaCorriente cc = new CuentaCorriente();
+		cc.setCbu(cbu);
+		cc.setEstado(estado);
+		cc.setMinimoPermitidoSinAuth(minimoPermitidoSinAuth);
+		cc.setSaldoActual(saldoActual);
+		for(MovimientoCuentaPersistencia mcp : movimientos)
+			cc.getMovimientos().add(mcp.getEntity());
+		return cc;
 	}
 
 }
