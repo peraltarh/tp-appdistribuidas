@@ -65,7 +65,7 @@ public class MovimientoCuentaPersistencia {
 		this.monto = monto;
 	}
 
-	public MovimientoCuenta getEntity() 
+	public MovimientoCuenta toNegocio() 
 	{
 		MovimientoCuenta mc = new MovimientoCuenta();
 		mc.setFecha(fecha);

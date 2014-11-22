@@ -107,7 +107,7 @@ public class CuentaCorrientePersistencia {
 		cc.setMinimoPermitidoSinAuth(minimoPermitidoSinAuth);
 		cc.setSaldoActual(saldoActual);
 		for(MovimientoCuentaPersistencia mcp : movimientos)
-			cc.getMovimientos().add(mcp.getEntity());
+			cc.getMovimientos().add(mcp.toNegocio());
 		return cc;
 	}
 
