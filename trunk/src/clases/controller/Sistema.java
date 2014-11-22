@@ -231,8 +231,7 @@ public class Sistema {
 			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
 			String condEspeciales, Date horarioDeEntregaDesde,
 			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
-			int prioridad, String estado, String sucursal, String idCliente,
-			String tipoId)
+			int prioridad, String estado, String sucursal, String idCliente, String tipoId)
 	{
 		Cliente cS = null;
 		ClientePersistencia cP=null;
@@ -251,6 +250,26 @@ public class Sistema {
 		Sucursal sucS = buscarSucursal(sucursal);
 		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
+		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
+		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
+		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
+		return pedP.getIdPedido();
+	}
+	
+	public int altaPedidoBean(PedidoBean pb)
+	{
+		Cliente cS = Converter.getInstance().convertClienteBeanToNegocio(pb.getCliente());
+		ClientePersistencia cP=convertClienteNegocioToPersistencia(cS);
+		
+		Sucursal sucS = buscarSucursal(pb.getSucursal().getNombre());
+		SucursalPersistencia sP=convertSucursalNegocioToPersistencia(sucS);
+		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
+		PedidoPersistencia pedido=new PedidoPersistencia(pb.getManifiesto(), pb.getDirDestino()
+				,pb.getFechaEnregaMaxima(),pb.getFechaEntregaEstimada()
+				,pb.getCondEspeciales(),pb.getHorarioDeEntregaDesde(),pb.getHorarioDeEntregahasta()
+				,pb.getDirDeRetiroSoloEmpresa()
+				,pb.getPrioridad(),pb.getEstado(),sP, cP);
+		
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
 		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
