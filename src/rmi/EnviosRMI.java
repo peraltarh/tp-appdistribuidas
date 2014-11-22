@@ -86,6 +86,12 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		return sistema.altaPedido( manifiesto,  dirDestino, fechaEnregaMaxima,  fechaEntregaEstimada, condEspeciales,  horarioDeEntregaDesde, horarioDeEntregahasta,  dirDeRetiroSoloEmpresa, prioridad,estado,  sucursal,  cliente, tipoC);
 		
 	}
+	
+	public int altaPedidoBean(PedidoBean pedido)
+	{
+		return sistema.altaPedidoBean(pedido);
+		
+	}
 
 	@Override
 	public List<PedidoBean> getPedidosPorEstado(String estado) throws RemoteException {
