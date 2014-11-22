@@ -122,15 +122,25 @@ public class Sistema {
 	
 	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
-		//TODO buscar en memoria
+		ClientePersistencia cP = null;
+		for(Cliente cliente: clientes)
+		{
+			if((cliente.getClass()==Particular.class)&&((Particular)cliente).getDni().equals(dni))
+				return;
+		}		
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
-		ClientePersistencia cP = DAOCliente.getInstance().persistirParticular(p);
+		cP = DAOCliente.getInstance().persistirParticular(p);
 		this.clientes.add(convertClientePersistenciaToNegocio(cP));
 
 	}
 
-	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) {
-		//TODO buscar en memoria
+	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) 
+	{
+		for(Cliente cliente: clientes)
+		{
+			if((cliente.getClass()==Empresa.class)&&((Empresa)cliente).getCuit().equals(cuit))
+				return;
+		}	
 		EmpresaPersistencia e=new EmpresaPersistencia(direccion,telefono,razonSocial,cuit,regularidad);
 		ClientePersistencia cP = DAOCliente.getInstance().persistirEmpresa(e);
 		this.clientes.add(convertClientePersistenciaToNegocio(cP));
@@ -138,34 +148,61 @@ public class Sistema {
 
 
 	public void altaCuentaCorriente(int cbu, float saldoActual, float minimoPermitidoSinAuth, String cuit) {
-		//TODO buscar empresa en memoria y actualizarla o agregarla si no esta
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		CuentaCorrientePersistencia cc=new CuentaCorrientePersistencia(cbu, saldoActual, minimoPermitidoSinAuth, true, empresa);
 		empresa.addCuentaCorriente(cc);
 		DAOCliente.getInstance().persistirEmpresa(empresa);
-
+		for(Cliente cliente: clientes)
+		{
+			if((cliente.getClass()==Empresa.class)&&((Empresa)cliente).getCuit().equals(cuit))
+			{
+				cliente = empresa.toNegocio();
+				return;
+			}
+		}
+		clientes.add(empresa.toNegocio());
 	}
 
 	public void altaProducto(String tipo, String descripcion, String cuit) {
-		//TODO buscar empresa en memoria y actualizarla o agregarla si no esta
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		ProductoPersistencia p=new ProductoPersistencia(tipo, descripcion, empresa);
 		empresa.addProductoValido(p);
 		DAOCliente.getInstance().update(empresa);
+		for(Cliente cliente: clientes)
+		{
+			if((cliente.getClass()==Empresa.class)&&((Empresa)cliente).getCuit().equals(cuit))
+			{
+				cliente = empresa.toNegocio();
+				return;
+			}
+		}
+		clientes.add(empresa.toNegocio());
 	}
 
 	public void altaSucursal(String nombre, String dir, String gerente, String encDespacho, String encRecepcion) {
-		//TODO buscar en memoria
+		for(Sucursal sucursal: sucursales)
+		{
+			if(sucursal.getNombre().equals(nombre))
+				return;
+		}	
 		SucursalPersistencia suc=new SucursalPersistencia(nombre, dir, gerente, encDespacho, encRecepcion);
 		SucursalPersistencia sucP = DAOSucursal.getInstance().persistirSucursal(suc);
 		this.sucursales.add(convertSucursalPersistenciaToNegocio(sucP));
 	}
 
 	public void altaDeposito(float cantidadMax, String encargado, String sucursal) {
-		//TODO buscar sucursal en memoria y actualizarla o agregarla si no esta
 		SucursalPersistencia suc=DAOSucursal.getInstance().getSucursal(sucursal);
 		DepositoPersistencia dep=new DepositoPersistencia(cantidadMax, encargado, suc);
 		DAODeposito.getInstance().persistirDeposito(dep);
+		for(Sucursal sucursal_mem: sucursales)
+		{
+			if(sucursal_mem.getNombre().equals(sucursal))
+			{
+				sucursal_mem = convertSucursalPersistenciaToNegocio(suc);
+				return;
+			}
+		}	
+		this.sucursales.add(convertSucursalPersistenciaToNegocio(suc));
 	}
 	public void altaMovimientoCuenta(Date fecha, float monto, int cbu) {
 		CuentaCorrientePersistencia cuenta=DAOCuentaCorriente.getInstance().getCuentaCorriente(cbu);
@@ -175,12 +212,19 @@ public class Sistema {
 	}
 
 	public void agregarEmpresaDireccionValida(String direccion, String tel,String cuit) {
-		//TODO buscar empresa en memoria y actualizarla o agregarla si no esta
 		EmpresaPersistencia empresa=DAOCliente.getInstance().getClienteEmpresa(cuit);
 		EmpresaDirValidasPersistencia dir=new EmpresaDirValidasPersistencia(direccion, tel, empresa);
 		empresa.addDireccionValida(dir);
 		DAOCliente.getInstance().update(empresa);
-
+		for(Cliente cliente: clientes)
+		{
+			if((cliente.getClass()==Empresa.class)&&((Empresa)cliente).getCuit().equals(cuit))
+			{
+				cliente = empresa.toNegocio();
+				return;
+			}
+		}
+		clientes.add(empresa.toNegocio());
 	}
 	
 	public int altaPedido(String manifiesto, String dirDestino,

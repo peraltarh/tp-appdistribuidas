@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clases.Producto;
+
 @Entity
 @Table(name="ProductosValidos")
 public class ProductoPersistencia {
@@ -60,6 +62,15 @@ public class ProductoPersistencia {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public Producto toNegocio() 
+	{
+		Producto p = new Producto();
+		p.setDescripcion(descripcion);
+		p.setIdProd(idProd);
+		p.setTipo(tipo);
+		return p;
 	}
 	
 	

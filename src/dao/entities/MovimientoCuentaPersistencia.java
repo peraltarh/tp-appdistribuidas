@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clases.MovimientoCuenta;
+
 @Entity
 @Table(name="MovimientoCuenta")
 public class MovimientoCuentaPersistencia {
@@ -61,6 +63,14 @@ public class MovimientoCuentaPersistencia {
 	}
 	public void setMonto(float monto) {
 		this.monto = monto;
+	}
+
+	public MovimientoCuenta getEntity() 
+	{
+		MovimientoCuenta mc = new MovimientoCuenta();
+		mc.setFecha(fecha);
+		mc.setMonto(monto);
+		return mc;
 	}
 	
 	

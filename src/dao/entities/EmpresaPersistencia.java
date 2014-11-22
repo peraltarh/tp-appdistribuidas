@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+import clases.Cliente;
+import clases.Empresa;
+
 
 @Entity
 @DiscriminatorValue("Empresa")
@@ -117,6 +120,24 @@ public class EmpresaPersistencia extends ClientePersistencia implements Serializ
 
 	public void addCuentaCorriente(CuentaCorrientePersistencia cuentaCorriente) {
 		this.cuentasCorrientes.add(cuentaCorriente);
+	}
+
+	public Empresa toNegocio() 
+	{
+		Empresa empresa = new Empresa();
+		empresa.setCuit(cuit);
+		empresa.setDireccion(direccion);
+		empresa.setRazonSoial(razonSoial);
+		empresa.setTelefono(telefono);
+		empresa.setRegularidad(regularidad);
+		empresa.setIdCliente(idCliente);
+		for(CuentaCorrientePersistencia ccp : cuentasCorrientes)
+			empresa.getCuentasCorrientes().add(ccp.toNegocio());
+		for(ProductoPersistencia pp : productosValidos)
+			empresa.getProductosValidos().add(pp.toNegocio());
+		for(EmpresaDirValidasPersistencia edvp : direccionesValidas)
+			empresa.getDireccionesValidas().add(edvp.toNegocio());
+		return empresa;
 	}
 
 

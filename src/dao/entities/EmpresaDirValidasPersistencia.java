@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clases.EmpresaDirValidas;
+
 @Entity
 @Table(name="DireccionesEmpresa")
 public class EmpresaDirValidasPersistencia {
@@ -59,6 +61,14 @@ public class EmpresaDirValidasPersistencia {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+
+	public EmpresaDirValidas toNegocio() 
+	{
+		EmpresaDirValidas edv = new EmpresaDirValidas();
+		edv.setDireccion(direccion);
+		edv.setTel(tel);
+		return edv;
 	}
 
 	

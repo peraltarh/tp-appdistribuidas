@@ -20,9 +20,9 @@ import javax.persistence.Table;
 public abstract class ClientePersistencia implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private int idCliente;
-	private String direccion;
-	private String telefono;
+	protected int idCliente;
+	protected String direccion;
+	protected String telefono;
 
 	
 	
