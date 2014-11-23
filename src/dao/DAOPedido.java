@@ -39,4 +39,9 @@ public class DAOPedido
 
 		return lista;
 	}
+	
+	public void update(PedidoPersistencia pedido) 
+	{
+		HibernateDAO.getInstancia().update(pedido);
+	}
 }

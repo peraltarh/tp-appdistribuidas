@@ -128,5 +128,10 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 		return sistema.getSucursalBean(sucursal);
 
 	}
+
+	@Override
+	public void actualizarPedido(PedidoBean pb) throws RemoteException {
+		sistema.actualizarPedido(pb);		
+	}
 	
 }
