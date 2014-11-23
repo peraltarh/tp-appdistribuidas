@@ -124,11 +124,9 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	@Override
 	
 	
-	public SucursalBean getSucursal(String nombre) throws RemoteException {
-//		return sistema.buscarSucursal(nombre);
-		return null;
+	public SucursalBean getSucursal(String sucursal) throws RemoteException {
+		return sistema.getSucursalBean(sucursal);
 
 	}
-	
 	
 }
