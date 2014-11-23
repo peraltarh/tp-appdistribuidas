@@ -267,6 +267,7 @@ public class Sistema {
 		
 		Sucursal sucS = buscarSucursal(pb.getSucursal().getNombre());
 		SucursalPersistencia sP=convertSucursalNegocioToPersistencia(sucS);
+		pb.setEstado("En Proceso");
 		PedidoPersistencia pedido=new PedidoPersistencia(pb.getManifiesto(), pb.getDirDestino()
 				,pb.getFechaEnregaMaxima(),pb.getFechaEntregaEstimada()
 				,pb.getCondEspeciales(),pb.getHorarioDeEntregaDesde(),pb.getHorarioDeEntregahasta()
@@ -308,6 +309,15 @@ public class Sistema {
 		return cB;
 	}
 	
+	public SucursalBean getSucursalBean (String sucursal){
+		SucursalBean cB = null;
+		
+			SucursalPersistencia sP = buscarSucursalEnBD(sucursal);
+			cB = convertSucursalPersistenciaToBean(sP);
+			
+		return cB;
+	}
+
 	
 		//Buscar en memoria Empresas
 	public Empresa buscarClienteEmpresa(String cuit){
