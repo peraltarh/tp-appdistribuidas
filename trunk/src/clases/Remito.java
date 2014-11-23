@@ -15,6 +15,8 @@ public class Remito {
 		this.mercaderias = new ArrayList<Mercaderia>();
 	}
 
+	public Remito() {}
+
 	public int getNroRemito() {
 		return nroRemito;
 	}

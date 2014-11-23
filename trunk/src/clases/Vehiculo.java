@@ -19,7 +19,7 @@ public class Vehiculo extends Observable {
 	private float kilometrajemaximo;
 	private Date modelo;
 	private String coordenadaActual;
-	private String estado;
+	private String estado;// Estados posibles: [Despachar] [Media Carga] [Disponible]
 	private long numeroPolizaSeguro;
 	private Date expiracionGarantia;
 	private ArrayList<PlanDeMantenimiento> mantenimientosPlaneados;
@@ -50,6 +50,8 @@ public class Vehiculo extends Observable {
 		this.mantenimientosRealizados = new ArrayList<MantenimientoRealizado>();
 		this.remitos = new ArrayList<Remito>();
 	}
+
+	public Vehiculo() {}
 
 	public float getPesoMax() {
 		return pesoMax;
@@ -203,10 +205,31 @@ public class Vehiculo extends Observable {
 		{
 			for(Mercaderia mercaderia: remito.getMercaderias())
 			{
-				volumenOcupado += ((MercaderiaPorVolumen)mercaderia).getVolumen();
+				if(mercaderia.getClass()==MercaderiaPorVolumen.class)
+					volumenOcupado += ((MercaderiaPorVolumen)mercaderia).getVolumen();
 			}
 		}
 		return volumenMax-volumenOcupado;
 	}
 	
+	public float getPesoDisponible() 
+	{
+		float pesoTotal = 0;
+		for(Remito remito: remitos)
+		{
+			for(Mercaderia mercaderia: remito.getMercaderias())
+			{
+				if(mercaderia.getClass()==MercaderiaPorPeso.class)
+					pesoTotal += ((MercaderiaPorPeso)mercaderia).getPeso();
+			}
+		}
+		return pesoMax-pesoTotal;
+	}
+	
+	public boolean isCargaPorVolumen()
+	{
+		if(getVolumenDisponible()<volumenMax)
+			return true;
+		return false;
+	}
 }

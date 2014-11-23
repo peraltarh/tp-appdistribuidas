@@ -23,6 +23,8 @@ public class Movimiento {
 		this.estado = estado;
 	}
 
+	public Movimiento() {}
+
 	public Date getFechaSalida() {
 		return fechaSalida;
 	}

@@ -254,6 +254,9 @@ public class Sistema {
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
 		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
+	//	sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
+	//	sucS.validarPedidosAVencer();
+		//
 		return pedP.getIdPedido();
 	}
 	
@@ -264,7 +267,6 @@ public class Sistema {
 		
 		Sucursal sucS = buscarSucursal(pb.getSucursal().getNombre());
 		SucursalPersistencia sP=convertSucursalNegocioToPersistencia(sucS);
-		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
 		PedidoPersistencia pedido=new PedidoPersistencia(pb.getManifiesto(), pb.getDirDestino()
 				,pb.getFechaEnregaMaxima(),pb.getFechaEntregaEstimada()
 				,pb.getCondEspeciales(),pb.getHorarioDeEntregaDesde(),pb.getHorarioDeEntregahasta()
@@ -274,6 +276,8 @@ public class Sistema {
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
 		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
+	//	sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
+	//	sucS.validarPedidosAVencer();
 		return pedP.getIdPedido();
 	}
 	
@@ -385,7 +389,22 @@ public class Sistema {
 		return DAOSucursal.getInstance().getSucursal(sucursal);
 	}
 	
-	//TODO buscar Vehiculos en memoria y en BD
+	
+	// buscar Vehiculos en memoria
+	public Vehiculo buscarVehiculo(String patente_)
+	{
+		for (Vehiculo vehiculo : vehiculos) 
+		{
+			if(vehiculo.getPatente().equals(patente_))
+				return vehiculo;
+		}
+		return buscarVehiculoEnBD(patente_).toNegocio();
+	}
+	// buscar Vehiculos en BD
+	public VehiculoPersistencia buscarVehiculoEnBD(String patente_)
+	{
+		return DAOVehiculo.getInstance().getVehiculo(patente_);
+	}
 	
 	//TODO buscar VehiculosExternos en memoria y en BD
 	

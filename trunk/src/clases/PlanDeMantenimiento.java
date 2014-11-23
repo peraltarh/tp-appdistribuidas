@@ -13,6 +13,8 @@ public class PlanDeMantenimiento {
 		this.tipo = tipo;
 		this.controlEspecial = controlEspecial;
 	}
+	public PlanDeMantenimiento() {}
+	
 	public float getCantKilometros() {
 		return cantKilometros;
 	}

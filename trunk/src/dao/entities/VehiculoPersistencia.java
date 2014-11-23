@@ -13,6 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import clases.Vehiculo;
+import clases.controller.Converter;
+import clases.controller.Sistema;
+
 
 @Entity
 @Table(name="Vehiculo")
@@ -245,6 +249,33 @@ public class VehiculoPersistencia extends Observable {
 		setChanged();
 //		Pasa como parametro un objeto de tipo Document (documento XML)
 //		notifyObservers(MensajeDeControl.getInstance().GenerarMensajeDeControl(this));
+	}
+
+	public Vehiculo toNegocio() 
+	{
+		Vehiculo v = new Vehiculo();
+		v.setCondEspeciales(condEspeciales);
+		v.setCoordenadaActual(coordenadaActual);
+		v.setEstado(estado);
+		v.setExpiracionGarantia(expiracionGarantia);
+		v.setModelo(modelo);
+		v.setKilometrajemaximo(kilometrajemaximo);
+		v.setKilometrakeActual(kilometrakeActual);
+		v.setNroChasis(String.valueOf(nroChasis));
+		v.setNumeroPolizaSeguro(numeroPolizaSeguro);
+		v.setPatente(patente);
+		v.setPesoMax(pesoMax);
+		v.setTara(tara);
+		v.setTipo(tipo);
+		v.setVolumenMax(volumenMax);
+		
+		for(PlanDeMantenimientoPersistencia pdmp : mantenimientosPlaneados)
+			v.addMantenimientoPlaneado(pdmp.toNegocio());
+		for(MantenimientoRealizadoPersistencia mrp : mantenimientosRealizados)
+			v.addMantenimientoRealizado(mrp.toNegocio());
+		for(RemitoPersistencia rp : remitos)
+			v.addRemito(rp.toNegocio());
+		return v;
 	}
 
 //	public float getVolumenDisponible() 

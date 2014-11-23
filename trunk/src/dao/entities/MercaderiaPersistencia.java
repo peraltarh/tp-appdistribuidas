@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import clases.Mercaderia;
+
 
 @Entity
 @Table(name="Mercaderia")
@@ -202,6 +204,24 @@ public abstract class MercaderiaPersistencia implements Serializable{
 
 	public void setDeposito(DepositoPersistencia deposito) {
 		this.deposito = deposito;
+	}
+
+	public Mercaderia toNegocio() 
+	{
+		Mercaderia m = new Mercaderia();
+		m.setAlto(alto);
+		m.setAncho(ancho);
+		m.setAplilable(apilable);
+		m.setCantApilable(cantApilable);
+		m.setCondDeViaje(condDeViaje);
+		m.setCoordenadasDestino(coordenadasDestino);
+		m.setFragilidad(fragilidad);
+		m.setIdMercaderia(idMercaderia);
+		m.setIndicacionesManpulacion(indicacionesManpulacion);
+		m.setProfundidad(profundidad);
+		for(MovimientoPersistencia movimiento: movimientos)
+			m.addMovimiento(movimiento.toNegocio());
+		return m;
 	}
 
 	

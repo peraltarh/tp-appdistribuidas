@@ -170,27 +170,42 @@ public class Sucursal {
 		return validacion;
 	}
 	
+	//------------------------------------------------------------------
+	// Recibe un pedido y ubica la carga en algún vehiculo.
+	// Si se dan las condiciones, se realiza el envío.
+	// Si no hay vehiculos/espacio disponible, devuelve una notificacion
+	// y no se genera remito.
+	//------------------------------------------------------------------
 	public String ProgramarEnvio(Pedido _pedido) 
 	{
+		float volumenOcupado, pesoCombinado = 0;
+		boolean porVolumen= (_pedido.getVolumenTotal()>0);
 		for(Vehiculo vehiculo : vehiculos)
 		{
-			if(vehiculo.getEstado().equals("Disponible"))// TODO: Cambiar por enum?
+			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
+			if(vehiculo.getEstado().equals("Disponible"))
 			{
-				// TODO: y ahora? hay mercaderia por volumen y por peso pero no con
-				// 		 ambos. Por ahora queda solamente por volumen con cast.
-				float volumenOcupado = vehiculo.getVolumenMax()/100.f*_pedido.getVolumenTotal();
-				if(volumenOcupado > 100)
-					continue;
-				if(volumenOcupado > 70)
+				volumenOcupado = 0;
+				pesoCombinado = 0;
+				if(porVolumen)
+					volumenOcupado = vehiculo.getVolumenMax()/100.f*_pedido.getVolumenTotal();
+				else
+					pesoCombinado = vehiculo.getPesoMax()/100.f*_pedido.getPesoTotal();
+				
+				if(volumenOcupado > 100 || pesoCombinado > 100)
+					continue;// supera la capacidad del vehiculo, pasar al proximo.
+				if(volumenOcupado > 70 || pesoCombinado > 70)
 				{
-					Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+					// >70% implica directamente realizar el envío.
+					Remito remito = new Remito(1, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
 					for(Mercaderia mercaderia : _pedido.getMercaderias())
 						remito.addMercaderia(mercaderia);
 					vehiculo.addRemito(remito);
 					vehiculo.setEstado("Despachar");
 					return null;
 				}else{
-					Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+					// <70% se asigna al vehiculo, pero se espera a que se alcance el nivel de carga requerido.
+					Remito remito = new Remito(1, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
 					for(Mercaderia mercaderia : _pedido.getMercaderias())
 						remito.addMercaderia(mercaderia);
 					vehiculo.addRemito(remito);
@@ -198,20 +213,42 @@ public class Sucursal {
 					return null;
 				}
 			}else{
-				if(vehiculo.getEstado().equals("Media carga")  && vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal())
+				// El vehiculo ya tiene una carga anterior. Comprobar que haya capacidad disponible.
+				if(vehiculo.getEstado().equals("Media carga"))
 				{
-					Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
-					for(Mercaderia mercaderia : _pedido.getMercaderias())
-						remito.addMercaderia(mercaderia);
-					vehiculo.addRemito(remito);
-					
-					if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
+					// Verifico que este en media carga por volumen. (no puedo mezclar por volumen y por peso)
+					if(vehiculo.isCargaPorVolumen()  && (vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal()))
 					{
-						vehiculo.setEstado("Despachar");
-						return null;
+						Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+						for(Mercaderia mercaderia : _pedido.getMercaderias())
+							remito.addMercaderia(mercaderia);
+						vehiculo.addRemito(remito);
+						
+						if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
+						{
+							vehiculo.setEstado("Despachar");
+							return null;
+						}else{
+							vehiculo.setEstado("Media carga");			
+							return null;
+						}
 					}else{
-						vehiculo.setEstado("Media carga");			
-						return null;
+						if(vehiculo.getPesoDisponible()<_pedido.getPesoTotal())
+						{
+							Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+							for(Mercaderia mercaderia : _pedido.getMercaderias())
+								remito.addMercaderia(mercaderia);
+							vehiculo.addRemito(remito);
+							
+							if(vehiculo.getPesoMax()/100.f*vehiculo.getPesoDisponible() <= 30)
+							{
+								vehiculo.setEstado("Despachar");
+								return null;
+							}else{
+								vehiculo.setEstado("Media carga");			
+								return null;
+							}
+						}
 					}
 				}
 			}
@@ -219,6 +256,11 @@ public class Sucursal {
 		return new String("No hay vehiculos/espacio disponible");
 	}
 	
+	//------------------------------------------------------------------
+	// Busca los pedidos correspondientes a la sucrusal que no hayan
+	// sido enviados y que esten por vencer. 
+	// Realiza los envios de cualquier forma posible.
+	//------------------------------------------------------------------
 	public String validarPedidosAVencer() 
 	{
 		float aVencer = 0, propios = 0, terceros = 0;

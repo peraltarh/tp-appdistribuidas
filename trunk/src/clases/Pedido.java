@@ -156,7 +156,8 @@ public class Pedido {
 		float pesoTotal=0;
 		for(Mercaderia mercaderia : mercaderias)
 		{
-			pesoTotal += ((MercaderiaPorPeso)mercaderia).getPeso();
+			if(mercaderia.getClass() == MercaderiaPorPeso.class)
+				pesoTotal += ((MercaderiaPorPeso)mercaderia).getPeso();
 		}
 		return pesoTotal;
 	}
@@ -166,7 +167,8 @@ public class Pedido {
 		float volumenTotal=0;
 		for(Mercaderia mercaderia : mercaderias)
 		{
-			volumenTotal += ((MercaderiaPorVolumen)mercaderia).getVolumen();
+			if(mercaderia.getClass() == MercaderiaPorVolumen.class)
+				volumenTotal += ((MercaderiaPorVolumen)mercaderia).getVolumen();
 		}
 		return volumenTotal;
 	}

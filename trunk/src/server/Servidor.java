@@ -4,7 +4,13 @@ import interfaz.InterfazEnvios;
 
 import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
+import java.sql.Date;
 
+import clases.controller.Sistema;
+import dao.DAOSucursal;
+import dao.DAOVehiculo;
+import dao.entities.SucursalPersistencia;
+import dao.entities.VehiculoPersistencia;
 import rmi.EnviosRMI;
 
 public class Servidor extends Thread{
@@ -29,6 +35,7 @@ public class Servidor extends Thread{
             InterfazEnvios objetoRemoto = new EnviosRMI();
             Naming.rebind ("//localhost/Envios", objetoRemoto);
             System.out.println("Fijado en //localhost/Envios");
+        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
