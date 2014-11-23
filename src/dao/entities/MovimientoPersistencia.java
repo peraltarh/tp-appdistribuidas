@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clases.Movimiento;
+
 @Entity
 @Table(name="Movimiento")
 public class MovimientoPersistencia {
@@ -112,6 +114,19 @@ public class MovimientoPersistencia {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public Movimiento toNegocio() 
+	{
+		Movimiento m = new Movimiento();
+		m.setCondicionDeArribo(condicionDeArribo);
+		m.setDestino(destino);
+		m.setEstado(estado);
+		m.setFechaLlegada(fechaLlegada);
+		m.setFechaSalida(fechaSalida);
+		m.setIdMovimiento(idMovimiento);
+		m.setOrigen(origen);
+		return m;
 	}
 	
 	

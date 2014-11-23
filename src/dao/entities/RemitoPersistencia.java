@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import clases.Remito;
+import clases.controller.Sistema;
+
 @Entity
 @Table(name="Remito")
 public class RemitoPersistencia implements Serializable{
@@ -74,6 +77,16 @@ public class RemitoPersistencia implements Serializable{
 
 	public void addMercaderia(MercaderiaPersistencia mercaderia) {
 		this.mercaderias.add(mercaderia);
+	}
+
+	public Remito toNegocio() 
+	{
+		Remito r = new Remito();
+		r.setEstado(estado);
+		r.setNroRemito(nroRemito);
+		for(MercaderiaPersistencia mp : mercaderias)
+			r.addMercaderia(mp.toNegocio());
+		return r;
 	}
 	
 	

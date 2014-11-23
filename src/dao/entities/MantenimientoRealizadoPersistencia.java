@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clases.MantenimientoRealizado;
+
 @Entity
 @Table(name="MantenimientoRealizado")
 
@@ -100,6 +102,19 @@ public class MantenimientoRealizadoPersistencia {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	public MantenimientoRealizado toNegocio() 
+	{
+		MantenimientoRealizado mr = new MantenimientoRealizado();
+		mr.setCosto(costo);
+		mr.setDescripcion(descripcion);
+		mr.setFecha(fecha);
+		mr.setIdMantenimiento(idMantenimiento);
+		mr.setKilometrajeActual(kilometrajeActual);
+		mr.setKilometrosRealizadosDesdeUltimoControl(kilometrosRealizadosDesdeUltimoControl);
+		mr.setTipo(tipo);
+		return mr;
 	}
 	
 	

@@ -22,6 +22,7 @@ public class MantenimientoRealizado {
 		this.kilometrosRealizadosDesdeUltimoControl = kilometrosRealizadosDesdeUltimoControl;
 		this.tipo = tipo;
 	}
+	public MantenimientoRealizado() {}
 	public String getDescripcion() {
 		return descripcion;
 	}

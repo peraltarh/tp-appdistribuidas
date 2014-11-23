@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import clases.PlanDeMantenimiento;
+
 @Entity
 @Table(name="PlanDeMantenimiento")
 
@@ -68,6 +70,16 @@ public class PlanDeMantenimientoPersistencia {
 	}
 	public void setControlEspecial(String controlEspecial) {
 		this.controlEspecial = controlEspecial;
+	}
+
+	public PlanDeMantenimiento toNegocio() 
+	{
+		PlanDeMantenimiento pdm = new PlanDeMantenimiento();
+		pdm.setCantKilometros(cantKilometros);
+		pdm.setControlEspecial(controlEspecial);
+		pdm.setIdPlan(idPlan);
+		pdm.setTipo(tipo);
+		return pdm;
 	}
 
 
