@@ -1,6 +1,7 @@
 package clases.controller;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -229,8 +230,8 @@ public class Sistema {
 	
 	public int altaPedido(String manifiesto, String dirDestino,
 			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
-			String condEspeciales, Date horarioDeEntregaDesde,
-			Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
+			String condEspeciales, Time horarioDeEntregaDesde,
+			Time horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,
 			int prioridad, String estado, String sucursal, String idCliente, String tipoId)
 	{
 		Cliente cS = null;

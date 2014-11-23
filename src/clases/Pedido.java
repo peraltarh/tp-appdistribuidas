@@ -1,6 +1,7 @@
 package clases;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class Pedido {
@@ -10,8 +11,8 @@ public class Pedido {
 	private Date fechaEnregaMaxima;
 	private Date fechaEntregaEstimada;
 	private String condEspeciales;
-	private Date horarioDeEntregaDesde;
-	private Date horarioDeEntregahasta;
+	private Time horarioDeEntregaDesde;
+	private Time horarioDeEntregahasta;
 	private String dirDeRetiroSoloEmpresa;
 	private String estado;
 	private int prioridad;
@@ -23,7 +24,7 @@ public class Pedido {
 	
 	public Pedido(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
-			Date horarioDeEntregaDesde, Date horarioDeEntregahasta,
+			Time horarioDeEntregaDesde, Time horarioDeEntregahasta,
 			String dirDeRetiroSoloEmpresa, int prioridad, Cliente cliente) {
 		super();
 		this.manifiesto = manifiesto;
@@ -73,11 +74,11 @@ public class Pedido {
 		return condEspeciales;
 	}
 
-	public Date getHorarioDeEntregaDesde() {
+	public Time getHorarioDeEntregaDesde() {
 		return horarioDeEntregaDesde;
 	}
 
-	public Date getHorarioDeEntregahasta() {
+	public Time getHorarioDeEntregahasta() {
 		return horarioDeEntregahasta;
 	}
 
@@ -121,11 +122,11 @@ public class Pedido {
 		this.condEspeciales = condEspeciales;
 	}
 
-	public void setHorarioDeEntregaDesde(Date horarioDeEntregaDesde) {
+	public void setHorarioDeEntregaDesde(Time horarioDeEntregaDesde) {
 		this.horarioDeEntregaDesde = horarioDeEntregaDesde;
 	}
 
-	public void setHorarioDeEntregahasta(Date horarioDeEntregahasta) {
+	public void setHorarioDeEntregahasta(Time horarioDeEntregahasta) {
 		this.horarioDeEntregahasta = horarioDeEntregahasta;
 	}
 

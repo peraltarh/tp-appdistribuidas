@@ -6,14 +6,18 @@ import interfaz.InterfazEnvios;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
 
 
 
+
+
 import beans.ClienteBean;
 import beans.PedidoBean;
+import beans.SucursalBean;
 import clases.controller.Sistema;
 import dao.HibernateFactory;
 
@@ -81,7 +85,7 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public int altaPedido(String manifiesto, String dirDestino,Date fechaEnregaMaxima, Date fechaEntregaEstimada,String condEspeciales, Date horarioDeEntregaDesde,Date horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,int prioridad, String estado, String sucursal, String cliente, String tipoC)
+	public int altaPedido(String manifiesto, String dirDestino,Date fechaEnregaMaxima, Date fechaEntregaEstimada,String condEspeciales,Time horarioDeEntregaDesde,Time horarioDeEntregahasta, String dirDeRetiroSoloEmpresa,int prioridad, String estado, String sucursal, String cliente, String tipoC)
 	{
 		return sistema.altaPedido( manifiesto,  dirDestino, fechaEnregaMaxima,  fechaEntregaEstimada, condEspeciales,  horarioDeEntregaDesde, horarioDeEntregahasta,  dirDeRetiroSoloEmpresa, prioridad,estado,  sucursal,  cliente, tipoC);
 		
@@ -115,6 +119,15 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	{
 //		return sistema.getMercaderiaDeDB(idMercaderia);
 		return null;
+	}
+
+	@Override
+	
+	
+	public SucursalBean getSucursal(String nombre) throws RemoteException {
+//		return sistema.buscarSucursal(nombre);
+		return null;
+
 	}
 	
 	

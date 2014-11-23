@@ -1,6 +1,7 @@
 package dao.entities;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class PedidoPersistencia {
 	private Date fechaEnregaMaxima;
 	private Date fechaEntregaEstimada;
 	private String condEspeciales;
-	private Date horarioDeEntregaDesde;
-	private Date horarioDeEntregahasta;
+	private Time horarioDeEntregaDesde;
+	private Time horarioDeEntregahasta;
 	private String estado;
 	private String dirDeRetiroSoloEmpresa;
 	private int prioridad;
@@ -37,7 +38,7 @@ public class PedidoPersistencia {
 
 	public PedidoPersistencia(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
-			Date horarioDeEntregaDesde, Date horarioDeEntregahasta,
+			Time horarioDeEntregaDesde, Time horarioDeEntregahasta,
 			String dirDeRetiroSoloEmpresa, int prioridad, String estado,SucursalPersistencia sucursal,ClientePersistencia cliente) 
 	{
 		this.manifiesto = manifiesto;
@@ -93,11 +94,11 @@ public class PedidoPersistencia {
 		return condEspeciales;
 	}
 
-	public Date getHorarioDeEntregaDesde() {
+	public Time getHorarioDeEntregaDesde() {
 		return horarioDeEntregaDesde;
 	}
 
-	public Date getHorarioDeEntregahasta() {
+	public Time getHorarioDeEntregahasta() {
 		return horarioDeEntregahasta;
 	}
 
@@ -162,11 +163,11 @@ public class PedidoPersistencia {
 		this.condEspeciales = condEspeciales;
 	}
 
-	public void setHorarioDeEntregaDesde(Date horarioDeEntregaDesde) {
+	public void setHorarioDeEntregaDesde(Time horarioDeEntregaDesde) {
 		this.horarioDeEntregaDesde = horarioDeEntregaDesde;
 	}
 
-	public void setHorarioDeEntregahasta(Date horarioDeEntregahasta) {
+	public void setHorarioDeEntregahasta(Time horarioDeEntregahasta) {
 		this.horarioDeEntregahasta = horarioDeEntregahasta;
 	}
 
