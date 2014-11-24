@@ -286,7 +286,8 @@ public class Sistema {
 	//Agrega una mercaderia a un Pedido TODO Revisar
 	public void actualizarPedido(PedidoBean pB) {
 		MercaderiaBean mercB = pB.getMercaderias().get(pB.getMercaderias().size()-1);
-		buscarPedido(pB.getIdPedido()).addMercaderia(Converter.getInstance().convertMercaderiaBeanToNegocio(mercB));
+		Pedido pedN = buscarPedido(pB.getIdPedido());
+		pedN.addMercaderia(Converter.getInstance().convertMercaderiaBeanToNegocio(mercB));
 		
 		Pedido pS=Converter.getInstance().convertPedidoBeanToNegocio(pB);
 		SucursalPersistencia sP=buscarSucursalEnBD(pB.getSucursal().getNombre());
@@ -298,10 +299,10 @@ public class Sistema {
 	
 	//NEGOCIO START
 	
-	public void cerrarPedido (PedidoBean pedB){
+	public String cerrarPedido (PedidoBean pedB){
 		Sucursal sucN = buscarSucursal(pedB.getSucursal().getNombre());
 		Pedido pedN = buscarPedido(pedB.getIdPedido());
-		sucN.ProgramarEnvio(pedN);
+		return sucN.ProgramarEnvio(pedN);
 	}
 	
 	
@@ -321,8 +322,10 @@ public class Sistema {
 				return pedidoN;
 			}
 		}
-		//TODO Buscar Pedidos en BD y cargarlos en memoria despues buscar de nuevo
-		return null;
+		
+		Pedido ped=convertPedidoPersistenciaToNegocio (DAOPedido.getInstance().getPedido(idPedido));
+		pedidos.add(ped);
+		return ped;
 		
 	}
 
@@ -1149,7 +1152,7 @@ public class Sistema {
 				pedP.getDirDeRetiroSoloEmpresa(),
 				pedP.getPrioridad(),
 				convertClientePersistenciaToNegocio(pedP.getCliente()));
-		pedP.setIdPedido(pedP.getIdPedido());
+		pedN.setIdPedido(pedP.getIdPedido());
 
 		for (ConsideracionEspecialPersistencia condEsP : pedP.getConsideraciones()) {
 			pedN.addConsideraciones(convertConsideracionEspecialPersistenciaToNegocio(condEsP));
@@ -1247,6 +1250,7 @@ public class Sistema {
 		mercS.setIndicacionesManpulacion(mercP.getIndicacionesManpulacion());
 		mercS.setProfundidad(mercP.getProfundidad());
 		mercS.setVolumen(mercP.getVolumen());
+		mercS.setMovimientos(new ArrayList<Movimiento>());
 		for (MovimientoPersistencia movP : mercP.getMovimientos()) {
 			mercS.addMovimiento(convertMovimientoMercaderiaPersistenciaToNegocio(movP));
 		}
@@ -1268,6 +1272,7 @@ public class Sistema {
 		mercS.setIndicacionesManpulacion(mercP.getIndicacionesManpulacion());
 		mercS.setProfundidad(mercP.getProfundidad());
 		mercS.setPeso(mercP.getPeso());
+		mercS.setMovimientos(new ArrayList<Movimiento>());
 		for (MovimientoPersistencia movP : mercP.getMovimientos()) {
 			mercS.addMovimiento(convertMovimientoMercaderiaPersistenciaToNegocio(movP));
 		}
@@ -1352,7 +1357,7 @@ public class Sistema {
 		db.setCantidadMax(dp.getCantidadMax());
 		db.setEncargado(db.getEncargado());
 		//TODO saque esto porque sino genera un loop
-		//db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
+		//3db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
 		return db;
 	}
 
@@ -1370,6 +1375,12 @@ public class Sistema {
 		ClienteBean cB=null;
 		if(cP.getClass().getName().equals(EmpresaPersistencia.class.getName())){
 			cB=new EmpresaBean();
+			((EmpresaBean)cB).setCuentasCorrientes(new ArrayList<CuentaCorrienteBean>());
+			for (CuentaCorrientePersistencia cuenta : ((EmpresaPersistencia)cP).getCuentasCorrientes()) {
+				
+			}
+			
+			((EmpresaBean)cB).addCuentaCorriente(null);
 		}
 		if(cP.getClass().getName().equals(ParticularPersistencia.class.getName())){
 			cB=new ParticularBean();
@@ -1438,8 +1449,8 @@ public class Sistema {
 			mB=this.convertMercaderiaPersistenciaToBean(mP);
 			pBean.addMercaderia(mB);
 		}
-		pBean.setDestinatarios(null);
-		pBean.setConsideraciones(null);
+		pBean.setDestinatarios(new ArrayList<DestinatarioBean>());
+		pBean.setConsideraciones(new ArrayList<ConsideracionEspecialBean>());
 
 		return pBean;
 	}
@@ -1451,6 +1462,11 @@ public class Sistema {
 		ped=DAOPedido.getInstance().getPedidos();
 		List<PedidoBean> pedidosBean=convertPedidosPersistenciaToBean(ped);
 		return pedidosBean;
+	}
+
+	public List<PedidoBean> getPedidosCliente(int idCliente) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

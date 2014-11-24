@@ -116,4 +116,14 @@ public class HibernateDAO {
 		return list;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	public Object get(Object clase, int id) {
+		Session session = getSession();
+		session.beginTransaction();
+		Object obj = session.get((Class) clase, id);
+		session.getTransaction().commit();
+		session.flush();
+		return obj;
+	}
+	
 }

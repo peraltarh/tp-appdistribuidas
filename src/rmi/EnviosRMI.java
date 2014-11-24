@@ -139,5 +139,16 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	public ArrayList<String> getListaNombresSucursales() throws RemoteException {
 		return sistema.getListaSucursalesBean();
 	}
+
+	@Override
+	public String cerrarPedido(PedidoBean pedB) throws RemoteException {
+		return sistema.cerrarPedido(pedB);
+		
+	}
+	
+	@Override
+	public List<PedidoBean> getPedidosCliente(int idCliente){
+		return sistema.getPedidosCliente(idCliente);
+	}
 	
 }
