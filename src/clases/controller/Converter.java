@@ -334,6 +334,13 @@ public class Converter {
 	}
 	
 	
+	//TODO
+	public PedidoBean convertPedidoNegocioToBean (Pedido pedN){
+		
+		return null;
+		
+		
+	}
 	
 
 }

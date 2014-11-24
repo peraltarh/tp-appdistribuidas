@@ -264,8 +264,8 @@ public class Sistema {
 	{
 		Cliente cS = Converter.getInstance().convertClienteBeanToNegocio(pb.getCliente());
 		ClientePersistencia cP=convertClienteNegocioToPersistencia(cS);
-
 		Sucursal sucS = buscarSucursal(pb.getSucursal().getNombre());
+		
 		SucursalPersistencia sP=convertSucursalNegocioToPersistencia(sucS);
 		pb.setEstado("En Proceso");
 		PedidoPersistencia pedido=new PedidoPersistencia(pb.getManifiesto(), pb.getDirDestino()
@@ -276,25 +276,55 @@ public class Sistema {
 
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
-		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
-		//	sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
-		//	sucS.validarPedidosAVencer();
 		return pedP.getIdPedido();
 	}
 
 	//ALTAS END
 
 	//UPDATES START
+	
+	//Agrega una mercaderia a un Pedido TODO Revisar
 	public void actualizarPedido(PedidoBean pB) {
+		MercaderiaBean mercB = pB.getMercaderias().get(pB.getMercaderias().size()-1);
+		buscarPedido(pB.getIdPedido()).addMercaderia(Converter.getInstance().convertMercaderiaBeanToNegocio(mercB));
+		
 		Pedido pS=Converter.getInstance().convertPedidoBeanToNegocio(pB);
-//RODRI, REVISAR POR QUE PIDE SUCURSAL PARA CONVERTIR.
-		SucursalPersistencia sP=null;
+		SucursalPersistencia sP=buscarSucursalEnBD(pB.getSucursal().getNombre());
 		PedidoPersistencia pP=convertPedidoNegocioToPersistencia(pS, sP);
 		DAOPedido.getInstance().update(pP);
 		}
+	
+	//UPDATES END
+	
+	//NEGOCIO START
+	
+	public void cerrarPedido (PedidoBean pedB){
+		Sucursal sucN = buscarSucursal(pedB.getSucursal().getNombre());
+		Pedido pedN = buscarPedido(pedB.getIdPedido());
+		sucN.ProgramarEnvio(pedN);
+	}
+	
+	
+	//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
+	//	sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
+	//	sucS.validarPedidosAVencer();
+	
+	//NEGOCIO END
+	
 
 	//BUSQUEDAS START
 
+
+	private Pedido buscarPedido(int idPedido) {
+		for (Pedido pedidoN : pedidos) {
+			if(pedidoN.getIdPedido() == idPedido){
+				return pedidoN;
+			}
+		}
+		//TODO Buscar Pedidos en BD y cargarlos en memoria despues buscar de nuevo
+		return null;
+		
+	}
 
 	//Buscar en BD Depositos de Scurusal
 	public List<DepositoPersistencia> buscarDepositosParaSucursalEnBd(int idSucursal) {
@@ -1283,6 +1313,10 @@ public class Sistema {
 				MercaderiaBean mB=this.convertMercaderiaPersistenciaToBean(mP);
 				pBean.addMercaderia(mB);
 			}
+			
+			
+			//TODO
+			
 			pBean.setDestinatarios(null);
 			pBean.setConsideraciones(null);
 
@@ -1317,7 +1351,8 @@ public class Sistema {
 		db.setIdDeposito(dp.getIdDeposito());
 		db.setCantidadMax(dp.getCantidadMax());
 		db.setEncargado(db.getEncargado());
-		db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
+		//TODO saque esto porque sino genera un loop
+		//db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
 		return db;
 	}
 
@@ -1354,6 +1389,16 @@ public class Sistema {
 		sb.setGerente(sp.getGerente());
 		sb.setNombre(sp.getNombre());
 		sb.setNumeroSucursal(sp.getNumeroSucursal());
+		sb.setRutas(null);
+		sb.setVehiculos(null);
+		sb.setPedidos(null);
+		
+		ArrayList<DepositoBean> depBL = new ArrayList<DepositoBean>();
+		
+		for (DepositoPersistencia depositoP : sp.getDepositos()) {
+			depBL.add(convertDepositoPersistenciaToBean(depositoP));
+		}
+		sb.setDepositos(depBL);
 
 		return sb;
 	}
@@ -1374,7 +1419,6 @@ public class Sistema {
 
 	private PedidoBean convertPedidoPersistenciaToBean(PedidoPersistencia pP) {
 		PedidoBean pBean=new PedidoBean();
-//Revienta cuando busco uno nuevo en manifiesto. Estará dando el alta?
 		pBean.setManifiesto(pP.getManifiesto());
 		pBean.setIdPedido(pP.getIdPedido());
 		pBean.setDirDestino(pP.getDirDestino());
