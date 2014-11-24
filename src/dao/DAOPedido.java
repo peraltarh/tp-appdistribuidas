@@ -51,7 +51,7 @@ public class DAOPedido
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<PedidoPersistencia> getPedidoPorCliente(int idCliente) {
- 		return (List<PedidoPersistencia>)HibernateDAO.getInstancia().getObjectWithInt("PedidoPersistencia", "cliente", idCliente);
+	public List<PedidoPersistencia> getPedidosPorCliente(int idCliente) {
+ 		return (List<PedidoPersistencia>)HibernateDAO.getInstancia().getListInt("PedidoPersistencia", "cliente", idCliente);
 	}
 }
