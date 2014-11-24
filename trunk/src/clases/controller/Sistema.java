@@ -1465,8 +1465,9 @@ public class Sistema {
 	}
 
 	public List<PedidoBean> getPedidosCliente(int idCliente) {
-		// TODO Auto-generated method stub
-		return null;
+		List<PedidoPersistencia> pP=DAOPedido.getInstance().getPedidoPorCliente(idCliente);
+		List<PedidoBean> pedidosBean=convertPedidosPersistenciaToBean(pP);
+		return pedidosBean;
 	}
 
 
