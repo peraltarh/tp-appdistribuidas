@@ -75,6 +75,7 @@ public class Converter {
 		mercS.setProfundidad(mercB.getProfundidad());
 		mercS.setVolumen(mercB.getVolumen());
 		mercS.setMovimientos(new ArrayList<Movimiento>());
+		if(mercB.getMovimientos()!=null)
 		for (MovimientoBean movB : mercB.getMovimientos()) {
 			mercS.addMovimiento(convertMovimientoMercaderiaBeanToNegocio(movB));
 		}
@@ -108,6 +109,7 @@ public class Converter {
 		mercS.setProfundidad(mercB.getProfundidad());
 		mercS.setPeso(mercB.getPeso());
 		mercS.setMovimientos(new ArrayList<Movimiento>());
+		if(mercB.getMovimientos()!=null)
 		for (MovimientoBean movB : mercB.getMovimientos()) {
 			mercS.addMovimiento(convertMovimientoMercaderiaBeanToNegocio(movB));
 		}
