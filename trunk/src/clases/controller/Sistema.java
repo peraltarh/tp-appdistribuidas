@@ -1352,6 +1352,7 @@ public class Sistema {
 
 	private PedidoBean convertPedidoPersistenciaToBean(PedidoPersistencia pP) {
 		PedidoBean pBean=new PedidoBean();
+//Revienta cuando busco uno nuevo en manifiesto. Estará dando el alta?
 		pBean.setManifiesto(pP.getManifiesto());
 		pBean.setIdPedido(pP.getIdPedido());
 		pBean.setDirDestino(pP.getDirDestino());
