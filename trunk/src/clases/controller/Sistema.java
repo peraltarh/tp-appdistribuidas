@@ -292,6 +292,7 @@ public class Sistema {
 		Pedido pS=Converter.getInstance().convertPedidoBeanToNegocio(pB);
 		SucursalPersistencia sP=buscarSucursalEnBD(pB.getSucursal().getNombre());
 		PedidoPersistencia pP=convertPedidoNegocioToPersistencia(pS, sP);
+		pP.setIdPedido(pB.getIdPedido());
 		DAOPedido.getInstance().update(pP);
 		}
 	

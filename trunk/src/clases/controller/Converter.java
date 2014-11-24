@@ -32,7 +32,7 @@ public class Converter {
 				pedB.getDirDeRetiroSoloEmpresa(),
 				pedB.getPrioridad(),
 				convertClienteBeanToNegocio(pedB.getCliente()));
-		pedB.setIdPedido(pedB.getIdPedido());
+		pedN.setIdPedido(pedB.getIdPedido());
 		
 		for (ConsideracionEspecialBean condEsP : pedB.getConsideraciones()) {
 			pedN.addConsideraciones(convertConsideracionEspecialBeanToNegocio(condEsP));
