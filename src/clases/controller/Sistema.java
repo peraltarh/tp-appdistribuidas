@@ -1465,7 +1465,8 @@ public class Sistema {
 	}
 
 	public List<PedidoBean> getPedidosCliente(int idCliente) {
-		List<PedidoPersistencia> pP=DAOPedido.getInstance().getPedidoPorCliente(idCliente);
+		List<PedidoPersistencia> pP=new ArrayList<PedidoPersistencia>();		
+		pP=DAOPedido.getInstance().getPedidosPorCliente(idCliente);
 		List<PedidoBean> pedidosBean=convertPedidosPersistenciaToBean(pP);
 		return pedidosBean;
 	}
