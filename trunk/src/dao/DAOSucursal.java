@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import dao.entities.*;
 
 
@@ -18,6 +20,13 @@ public class DAOSucursal
 	{
 		return (SucursalPersistencia)HibernateDAO.getInstancia().save(obj);
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<SucursalPersistencia> getListSucursales(){
+		List<SucursalPersistencia> listaT = null;
+		listaT = (List<SucursalPersistencia>) HibernateDAO.getInstancia().getList("SucursalPersistencia");
+		return listaT;
 	}
 	
 	
