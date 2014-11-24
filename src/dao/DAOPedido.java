@@ -41,9 +41,9 @@ public class DAOPedido
 		return lista;
 	}
 	
-	public void update(PedidoPersistencia pedido) 
+	public PedidoPersistencia update(PedidoPersistencia pedido) 
 	{
-		HibernateDAO.getInstancia().update(pedido);
+		return (PedidoPersistencia) HibernateDAO.getInstancia().update(pedido);
 	}
 
 	public PedidoPersistencia getPedido(int idPedido) {

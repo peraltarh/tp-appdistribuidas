@@ -294,12 +294,27 @@ public class Sistema {
 		PedidoPersistencia pP=convertPedidoNegocioToPersistencia(pS, sP);
 		pP.setIdPedido(pB.getIdPedido());
 		DAOPedido.getInstance().update(pP);
+		
+		reemplazarPedidoViejoConNuevo(convertPedidoPersistenciaToNegocio(pP));
+		
 		}
 	
 	//UPDATES END
 	
 	//NEGOCIO START
 	
+	private void reemplazarPedidoViejoConNuevo(
+			Pedido pedN) {
+		for (Pedido pedTemp : pedidos) {
+			if(pedTemp.getIdPedido() == pedN.getIdPedido()){
+				pedidos.remove(pedTemp);
+				break;
+			}
+		}
+		pedidos.add(pedN);
+		
+	}
+
 	public String cerrarPedido (PedidoBean pedB){
 		Sucursal sucN = buscarSucursal(pedB.getSucursal().getNombre());
 		Pedido pedN = buscarPedido(pedB.getIdPedido());
