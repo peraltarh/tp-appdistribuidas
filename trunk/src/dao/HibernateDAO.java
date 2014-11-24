@@ -92,12 +92,13 @@ public class HibernateDAO {
 		session.flush();
 	}
 
-	public void update(Object obj) {
+	public Object update(Object obj) {
 		Session session = getSession();
 		session.beginTransaction();
 		session.update(obj);
 		session.getTransaction().commit();
 		session.flush();
+		return obj;
 	}
 
 	public Object save(Object obj) {
