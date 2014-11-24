@@ -157,6 +157,7 @@ public class Pedido {
 		for(Mercaderia mercaderia : mercaderias)
 		{
 			if(mercaderia.getClass() == MercaderiaPorPeso.class)
+				System.out.println();
 				pesoTotal += ((MercaderiaPorPeso)mercaderia).getPeso();
 		}
 		return pesoTotal;

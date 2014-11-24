@@ -44,4 +44,9 @@ public class DAOPedido
 	{
 		HibernateDAO.getInstancia().update(pedido);
 	}
+
+	public PedidoPersistencia getPedido(int idPedido) {
+		return (PedidoPersistencia) HibernateDAO.getInstancia().get(PedidoPersistencia.class, idPedido);
+	}
+
 }

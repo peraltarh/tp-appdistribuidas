@@ -189,7 +189,7 @@ public class Sucursal {
 				pesoCombinado = 0;
 				if(porVolumen)
 					volumenOcupado = vehiculo.getVolumenMax()/100.f*_pedido.getVolumenTotal();
-				else
+				else //PorPeso
 					pesoCombinado = vehiculo.getPesoMax()/100.f*_pedido.getPesoTotal();
 				
 				if(volumenOcupado > 100 || pesoCombinado > 100)
@@ -197,7 +197,7 @@ public class Sucursal {
 				if(volumenOcupado > 70 || pesoCombinado > 70)
 				{
 					// >70% implica directamente realizar el envío.
-					Remito remito = new Remito(1, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+					Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
 					for(Mercaderia mercaderia : _pedido.getMercaderias())
 						remito.addMercaderia(mercaderia);
 					vehiculo.addRemito(remito);
@@ -205,7 +205,7 @@ public class Sucursal {
 					return null;
 				}else{
 					// <70% se asigna al vehiculo, pero se espera a que se alcance el nivel de carga requerido.
-					Remito remito = new Remito(1, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+					Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
 					for(Mercaderia mercaderia : _pedido.getMercaderias())
 						remito.addMercaderia(mercaderia);
 					vehiculo.addRemito(remito);
@@ -219,7 +219,7 @@ public class Sucursal {
 					// Verifico que este en media carga por volumen. (no puedo mezclar por volumen y por peso)
 					if(vehiculo.isCargaPorVolumen()  && (vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal()))
 					{
-						Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+						Remito remito = new Remito(0, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
 						for(Mercaderia mercaderia : _pedido.getMercaderias())
 							remito.addMercaderia(mercaderia);
 						vehiculo.addRemito(remito);
@@ -235,7 +235,7 @@ public class Sucursal {
 					}else{
 						if(vehiculo.getPesoDisponible()<_pedido.getPesoTotal())
 						{
-							Remito remito = new Remito(1, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+							Remito remito = new Remito(0, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
 							for(Mercaderia mercaderia : _pedido.getMercaderias())
 								remito.addMercaderia(mercaderia);
 							vehiculo.addRemito(remito);
