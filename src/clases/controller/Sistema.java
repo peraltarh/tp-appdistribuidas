@@ -1377,10 +1377,15 @@ public class Sistema {
 			cB=new EmpresaBean();
 			((EmpresaBean)cB).setCuentasCorrientes(new ArrayList<CuentaCorrienteBean>());
 			for (CuentaCorrientePersistencia cuenta : ((EmpresaPersistencia)cP).getCuentasCorrientes()) {
-				
+				((EmpresaBean)cB).addCuentaCorriente(convertCuenCuentaCorrientePersistenciaToBean(cuenta,(EmpresaBean)cB));
 			}
+			((EmpresaBean)cB).setDireccionesValidas(new ArrayList<EmpresaDirValidasBean>());
+			for (EmpresaDirValidasPersistencia dirVaP : ((EmpresaPersistencia)cP).getDireccionesValidas()) {
+				((EmpresaBean)cB).addDireccionValida(convertDireccionValidaPersistenciaToBean(dirVaP,(EmpresaBean)cB));
+			}
+			((EmpresaBean)cB).setProductosValidos(new ArrayList<ProductoBean>());
+			//TODO FOREACH CONVERT
 			
-			((EmpresaBean)cB).addCuentaCorriente(null);
 		}
 		if(cP.getClass().getName().equals(ParticularPersistencia.class.getName())){
 			cB=new ParticularBean();
@@ -1389,6 +1394,30 @@ public class Sistema {
 		cB.setDireccion(cP.getDireccion());
 		cB.setTelefono(cP.getTelefono());
 		return cB;
+	}
+
+	private EmpresaDirValidasBean convertDireccionValidaPersistenciaToBean(
+			EmpresaDirValidasPersistencia dirVaP, EmpresaBean cB) {
+		EmpresaDirValidasBean dirValB = new EmpresaDirValidasBean();
+		dirValB.setDireccion(dirVaP.getDireccion());
+		dirValB.setEmpresa(cB);
+		dirValB.setIdDir(dirVaP.getIdDir());
+		dirValB.setTel(dirVaP.getTel());
+		return dirValB;
+	}
+
+	private CuentaCorrienteBean convertCuenCuentaCorrientePersistenciaToBean(
+			CuentaCorrientePersistencia cuentaP, EmpresaBean empB) {
+		CuentaCorrienteBean cuentaB = new CuentaCorrienteBean();
+		cuentaB.setCbu(cuentaP.getCbu());
+		cuentaB.setEmpresa(empB);
+		cuentaB.setEstado(cuentaP.isEstado());
+		cuentaB.setMinimoPermitidoSinAuth(cuentaP.getMinimoPermitidoSinAuth());
+		cuentaB.setMovimientos(new ArrayList<MovimientoCuentaBean>());
+		//TODO cuentaB.addMovimiento();
+		
+		cuentaB.setSaldoActual(cuentaP.getSaldoActual());
+		return cuentaB;
 	}
 
 	private SucursalBean convertSucursalPersistenciaToBean(SucursalPersistencia sp)
