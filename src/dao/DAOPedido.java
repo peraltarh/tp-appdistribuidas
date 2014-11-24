@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 
+
 import dao.entities.PedidoPersistencia;
 
 public class DAOPedido 
@@ -49,4 +50,8 @@ public class DAOPedido
 		return (PedidoPersistencia) HibernateDAO.getInstancia().get(PedidoPersistencia.class, idPedido);
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<PedidoPersistencia> getPedidoPorCliente(int idCliente) {
+ 		return (List<PedidoPersistencia>)HibernateDAO.getInstancia().getObjectWithInt("PedidoPersistencia", "cliente", idCliente);
+	}
 }
