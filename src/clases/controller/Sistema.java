@@ -407,6 +407,28 @@ public class Sistema {
 	public SucursalPersistencia buscarSucursalEnBD(String sucursal){
 		return DAOSucursal.getInstance().getSucursal(sucursal);
 	}
+	
+	public ArrayList<String> getListaSucursalesBean(){
+		
+		ArrayList<String> sucS = new ArrayList<String>();
+		for (Sucursal sucN : buscarSucursales()) {
+			sucS.add(sucN.getNombre());
+		} 
+		return sucS;
+	}
+	
+	
+	public ArrayList<Sucursal> buscarSucursales(){
+		
+		ArrayList<Sucursal> listSuc = new ArrayList<Sucursal>();
+		
+		for (SucursalPersistencia sucP : DAOSucursal.getInstance().getListSucursales()) {
+			listSuc.add(convertSucursalPersistenciaToNegocio(sucP));
+		}
+		this.sucursales = listSuc;
+		
+		return listSuc;
+	}
 
 
 	// buscar Vehiculos en memoria
