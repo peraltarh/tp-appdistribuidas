@@ -34,6 +34,7 @@ public class Mercaderia {
 	}
 
 	public Mercaderia() {
+		this.movimientos = new ArrayList<Movimiento>();
 	}
 
 	public float getAlto() {
