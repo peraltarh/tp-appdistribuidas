@@ -175,10 +175,21 @@ public class Sucursal {
 	// Si se dan las condiciones, se realiza el envío.
 	// Si no hay vehiculos/espacio disponible, devuelve una notificacion
 	// y no se genera remito.
+	// Devuelve null en un envío exitoso.
 	//------------------------------------------------------------------
 	public String ProgramarEnvio(Pedido _pedido) 
 	{
+		// TODO validar mercaderia.
 		if(_pedido.getEstado().equals("Despachado")) return "Pedido ya fue despachado";
+		
+		for(ConsideracionEspecial ce: _pedido.getConsideraciones())
+		{
+//			if(ce.isRequiereAvioneta() || ce.isRequiereCamionExterno())
+//				return TercerizarTransporte(_pedido);
+			if(ce.isEntregaInmediata())
+				return ForzarEnvio(_pedido);
+		}
+			
 		float volumenOcupado, pesoCombinado = 0;
 		boolean porVolumen= (_pedido.getVolumenTotal()>0);
 		
@@ -211,7 +222,7 @@ public class Sucursal {
 					_pedido.setEstado("Despachado");
 					//TODO acualizar en memoria
 					
-					return "Pedido Despachado";
+					return null;
 				}
 			}
 		}
@@ -233,10 +244,10 @@ public class Sucursal {
 					if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
 					{
 						vehiculo.setEstado("Despachar");
-						return "Pedido despachado";
+						return null;
 					}else{
 						vehiculo.setEstado("Media carga");			
-						return "Se puso el pedido en Pendiente";
+						return "Pedido Pendiente";
 					}
 				}else{
 				// Si no es por volumen tiene que ser por peso.
@@ -250,10 +261,10 @@ public class Sucursal {
 						if(vehiculo.getPesoMax()/100.f*vehiculo.getPesoDisponible() <= 30)
 						{
 							vehiculo.setEstado("Despachar");
-							return "Pedido despachado";
+							return null;
 						}else{
 							vehiculo.setEstado("Media carga");			
-							return "Se puso el pedido en Pendiente";
+							return "Pedido Pendiente";
 						}
 					}
 				}
@@ -284,7 +295,7 @@ public class Sucursal {
 				_pedido.setEstado("Pendiente");
 				//TODO acualizar en memoria
 				
-				return "Pedido Despachado";
+				return null;
 			}
 		}
 		// Es imposible asignar el pedido a un vehiculo propio.
@@ -296,6 +307,7 @@ public class Sucursal {
 	// Busca los pedidos correspondientes a la sucrusal que no hayan
 	// sido enviados y que esten por vencer. 
 	// Realiza los envios de cualquier forma posible.
+	// Devuelve null si no quedaron envíos pendientes.
 	//------------------------------------------------------------------
 	public String validarPedidosAVencer() 
 	{
@@ -335,7 +347,7 @@ public class Sucursal {
 		// Intentar despachar con los vehiculos propios
 		for(Pedido pedido : pedidosAVencer)
 		{
-			if(ForzarEnvio(pedido))
+			if(ForzarEnvio(pedido) == null)
 				pedidosAVencer.remove(pedido);
 		}
 		propios = aVencer - pedidosAVencer.size();
@@ -353,16 +365,17 @@ public class Sucursal {
 					+"\nDespachados por terceros:"+terceros+"Pendientes:"+(aVencer-propios-terceros));
 	}
 	
-	private String TercerizarTransporte(Pedido pedido) 
+	private List<EmpresaSubContratada> TercerizarTransporte(Pedido pedido) 
 	{
 		return Contrataciones.getInstance().contratarTransporteExterno(pedido);
 	}
 	
 	//------------------------------------------------------------------
 	// Realiza el envío con vehiculos propios aunque no llegue al 70%
-	// caso contrario devuelve "false"
+	// caso contrario devuelve el error correspondiente.
+	// Devuelve null en un envío exitoso.
 	//------------------------------------------------------------------
-	public boolean ForzarEnvio(Pedido _pedido) 
+	public String ForzarEnvio(Pedido _pedido) 
 	{
 		float volumenOcupado, pesoCombinado = 0;
 		boolean porVolumen= (_pedido.getVolumenTotal()>0);
@@ -390,9 +403,9 @@ public class Sucursal {
 				_pedido.setEstado("Despachado");
 				//TODO acualizar en memoria
 				
-				return true;
+				return null;
 			}
 		}
-		return false;
+		return "No se pudo realizar el envío";
 	}
 }

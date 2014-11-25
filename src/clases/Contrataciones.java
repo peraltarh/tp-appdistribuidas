@@ -19,30 +19,20 @@ public class Contrataciones
     }
     
     //------------------------------------------------------------------
-    // Realiza los envios por medio de una compania externa.
+    // Devuelve los contratistas externos que cumplen con las condiciones
+    // especiales del pedido.
     //------------------------------------------------------------------
-	public String contratarTransporteExterno(Pedido pedido)
+	public List<EmpresaSubContratada> contratarTransporteExterno(Pedido pedido)
 	{
 		// TODO: Cargar BBDD de empresas de transporte.
 		ArrayList<ConsideracionEspecial> listaConsideraciones = pedido.getConsideraciones();
-		// Consideracion por mercaderia?
 		for(ConsideracionEspecial ce: listaConsideraciones )
 		{
 			if(ce.isRequiereAvioneta())
-			{
-				solicitarAvionetaExterna(ce);
-				continue;
-			}
+				return solicitarAvionetaExterna(ce);
 			
 			if(ce.isRequiereCamionExterno())// a granel
-			{
-				solicitarVehiculoExterno(ce);
-				continue;
-			}
-			
-			// Env�o internacional (carrier)
-			
-			
+				return solicitarVehiculoExterno(ce);
 			
 			// Si no es ninguna de las anteriores el problema es la
 			// no disponibilidad de vehiculos propios. 
@@ -56,31 +46,35 @@ public class Contrataciones
 	// con los requisitos se muestran al usuario para que realice la reserva
 	// y complete los datos del vehiculo, etc.
 	@SuppressWarnings("unused")
-	private void solicitarAvionetaExterna(ConsideracionEspecial ce)
+	private List<EmpresaSubContratada> solicitarAvionetaExterna(ConsideracionEspecial ce)
 	{
-		List<EmpresaSubContratada> empAereas;
+		List<EmpresaSubContratada> empAereas = new ArrayList<EmpresaSubContratada>();
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )
 		{
-			
+			// TODO Añadir empresas
 		}	
+		return empAereas;
 	}
 	
 	@SuppressWarnings("unused")
-	private void solicitarCarrierExterno(ConsideracionEspecial ce)
+	private List<EmpresaSubContratada> solicitarCarrierExterno(ConsideracionEspecial ce)
 	{
-		List<EmpresaSubContratada> carriers;
+		List<EmpresaSubContratada> carriers = new ArrayList<EmpresaSubContratada>();
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )
 		{
-			
+			// TODO Añadir empresas
 		}	
+		return carriers;
 	}
 	
 	@SuppressWarnings("unused")
-	private void solicitarVehiculoExterno(ConsideracionEspecial ce)
+	private List<EmpresaSubContratada> solicitarVehiculoExterno(ConsideracionEspecial ce)
 	{
+		List<EmpresaSubContratada> vExternos = new ArrayList<EmpresaSubContratada>();
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )
 		{
-			
+			// TODO Añadir empresas
 		}	
+		return vExternos;
 	}
 }
