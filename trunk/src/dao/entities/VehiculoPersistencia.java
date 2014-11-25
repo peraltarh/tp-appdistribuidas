@@ -14,8 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import clases.Vehiculo;
-import clases.controller.Converter;
-import clases.controller.Sistema;
 
 
 @Entity
