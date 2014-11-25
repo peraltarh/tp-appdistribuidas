@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import clases.controller.Sistema;
+import dao.DAOPedido;
 
 public class Sucursal {
 	
@@ -220,9 +221,11 @@ public class Sucursal {
 					vehiculo.addRemito(remito);
 					vehiculo.setEstado("Despachar");
 					_pedido.setEstado("Despachado");
-					//TODO acualizar en memoria
 					
-					return null;
+					//TODO Chequear
+					DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
+					
+					return "Pedido Despachado";
 				}
 			}
 		}
@@ -244,7 +247,7 @@ public class Sucursal {
 					if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
 					{
 						vehiculo.setEstado("Despachar");
-						return null;
+						return "Pedido despachado";
 					}else{
 						vehiculo.setEstado("Media carga");			
 						return "Pedido Pendiente";
@@ -261,7 +264,7 @@ public class Sucursal {
 						if(vehiculo.getPesoMax()/100.f*vehiculo.getPesoDisponible() <= 30)
 						{
 							vehiculo.setEstado("Despachar");
-							return null;
+							return "Pedido despachado";
 						}else{
 							vehiculo.setEstado("Media carga");			
 							return "Pedido Pendiente";
@@ -293,15 +296,15 @@ public class Sucursal {
 				vehiculo.addRemito(remito);
 				vehiculo.setEstado("Media carga");
 				_pedido.setEstado("Pendiente");
-				//TODO acualizar en memoria
+				//TODO Chequear
+				DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
 				
-				return null;
+				return "Pedido Pendiente";
 			}
 		}
 		// Es imposible asignar el pedido a un vehiculo propio.
 		return new String("No hay vehiculos/espacio disponible");
 	}
-	
 	
 	//------------------------------------------------------------------
 	// Busca los pedidos correspondientes a la sucrusal que no hayan
