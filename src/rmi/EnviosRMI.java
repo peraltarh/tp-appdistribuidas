@@ -16,6 +16,8 @@ import java.util.List;
 
 
 
+
+
 import beans.ClienteBean;
 import beans.PedidoBean;
 import beans.SucursalBean;
@@ -149,6 +151,11 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	@Override
 	public List<PedidoBean> getPedidosCliente(int idCliente){
 		return sistema.getPedidosCliente(idCliente);
+	}
+	
+	@Override
+	public String validarPedidosPorVencerDeSucursal (String sucursal){
+		return sistema.validarPedidosPorVencerDeSucursal (sucursal);
 	}
 	
 }

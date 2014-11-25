@@ -488,7 +488,11 @@ public class Sistema {
 			if(vehiculo.getPatente().equals(patente_))
 				return vehiculo;
 		}
-		return buscarVehiculoEnBD(patente_).toNegocio();
+		Vehiculo vehTemp = convertVehiculoPersistenciaToNegocio(buscarVehiculoEnBD(patente_));
+//		Vehiculo vehTemp = buscarVehiculoEnBD(patente_).toNegocio();
+		vehiculos.add(vehTemp);
+		
+		return vehTemp;
 	}
 	// buscar Vehiculos en BD
 	public VehiculoPersistencia buscarVehiculoEnBD(String patente_)
@@ -833,7 +837,7 @@ public class Sistema {
 		return mapaRutaP;
 	}
 
-	private PedidoPersistencia convertPedidoNegocioToPersistencia(
+	public PedidoPersistencia convertPedidoNegocioToPersistencia(
 			Pedido pedidoS, SucursalPersistencia suc) {
 		PedidoPersistencia pedP = new PedidoPersistencia();
 
@@ -1046,16 +1050,42 @@ public class Sistema {
 		for (DepositoPersistencia depP : sucBd.getDepositos()) {
 			sucT.addDeposito(convertDepositoPersistenciaToNegocio(depP));
 		};
+		//TODO CHECK
 		for (PedidoPersistencia pedP : sucBd.getPedidos()) {
-			//TODO buscar el pedido en memoria primero
-			sucT.addPedido(convertPedidoPersistenciaToNegocio(pedP));
+			boolean encontrado = false;
+			for (Pedido pedido : pedidos) {
+				if(pedido.getIdPedido() == pedP.getIdPedido()){
+					sucT.addPedido(pedido);
+					encontrado = true;
+					break;
+				}
+			}
+			if(encontrado==false){
+				Pedido pedTemp = convertPedidoPersistenciaToNegocio(pedP);
+				pedidos.add(pedTemp);
+				sucT.addPedido(pedTemp);
+			}
 		};
 		for (MapaDeRutaPersistencia mapP : sucBd.getRutas()) {
 			sucT.addRuta(convertMapaRutaPersistenciaToNegocio(mapP));
 		};
 		for (VehiculoPersistencia vehP : sucBd.getVehiculos()) {
-			//TODO buscar el vehiculo en memoria primero
-			sucT.addVehiculo(convertVehiculoPersistenciaToNegocio(vehP));
+			//TODO CHECK
+			
+			boolean encontrado = false;
+			for (Vehiculo vehiculo : vehiculos){
+				if(vehiculo.getPatente().equals(vehP.getPatente())){
+					sucT.addVehiculo(vehiculo);
+					encontrado = true;
+					break;
+				}
+			}
+			if(encontrado==false){
+				Vehiculo vehTemp = convertVehiculoPersistenciaToNegocio(vehP);
+				vehiculos.add(vehTemp);
+				sucT.addVehiculo(vehTemp);
+			}
+
 		};
 
 		return sucT;
@@ -1373,7 +1403,7 @@ public class Sistema {
 		db.setCantidadMax(dp.getCantidadMax());
 		db.setEncargado(db.getEncargado());
 		//TODO saque esto porque sino genera un loop
-		//3db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
+		//db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
 		return db;
 	}
 
@@ -1516,6 +1546,10 @@ public class Sistema {
 		return pedidosBean;
 	}
 
-
+	public String validarPedidosPorVencerDeSucursal (String sucursal){
+		Sucursal sucTemp = buscarSucursal(sucursal);
+		return sucTemp.validarPedidosAVencer();
+	}
+	
 
 }
