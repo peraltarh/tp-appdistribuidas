@@ -254,8 +254,8 @@ public class Sistema {
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
 		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
-		//	sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
-		//	sucS.validarPedidosAVencer();
+		// sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
+		// sucS.validarPedidosAVencer();
 		//
 		return pedP.getIdPedido();
 	}
