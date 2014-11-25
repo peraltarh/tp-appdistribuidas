@@ -291,6 +291,7 @@ public class Sucursal {
 		return new String("No hay vehiculos/espacio disponible");
 	}
 	
+	
 	//------------------------------------------------------------------
 	// Busca los pedidos correspondientes a la sucrusal que no hayan
 	// sido enviados y que esten por vencer. 
@@ -300,18 +301,41 @@ public class Sucursal {
 	{
 		float aVencer = 0, propios = 0, terceros = 0;
 		List<Pedido> pedidosAVencer = new ArrayList<Pedido>();
+		// Recorro los pedidos pendientes y calulo el tiempo restante para 
+		// su vencimiento, si es menor a 3 días lo sumo a la lista de pedidos
+		// a vencer.
 		for(Pedido pedido : pedidos)
 		{
+			if(pedido.equals("Despachado"))
+				continue;
 			int diasRestantes = (int) TimeUnit.MILLISECONDS.toDays(pedido.getFechaEnregaMaxima().getTime() - (new Date()).getTime());
-			// TODO: Cuando estaria por vencer?
 			if(diasRestantes <= 3)// cualquier número, reemplazar por lo que se necesite
-				pedidosAVencer.add(pedido);
+			{
+				if(pedido.equals("Pendiente"))
+				{
+					// TODO: Falta una forma de relacionar el pedido con el vehiculo
+					// El pedido está asignado a un vehiculo pero esta pendiente, asi que lo despacho.
+				/*	for(Vehiculo vehiculo : vehiculos)
+					{
+						for(Remito remito : vehiculo.getRemitos())
+						{
+							if(remito.getNroRemito() == 0)
+							{
+								
+							}
+						}
+					}*/
+				}else{
+					// El pedido no está asignado, asi que lo añado a una lista para procesar a continuación.
+					pedidosAVencer.add(pedido);
+				}
+			}
 		}
 		aVencer = pedidosAVencer.size();
 		// Intentar despachar con los vehiculos propios
 		for(Pedido pedido : pedidosAVencer)
 		{
-			if(ProgramarEnvio(pedido).isEmpty())// String vacio significa que se completo exitosamente la operación
+			if(ForzarEnvio(pedido))
 				pedidosAVencer.remove(pedido);
 		}
 		propios = aVencer - pedidosAVencer.size();
@@ -334,4 +358,41 @@ public class Sucursal {
 		return Contrataciones.getInstance().contratarTransporteExterno(pedido);
 	}
 	
+	//------------------------------------------------------------------
+	// Realiza el envío con vehiculos propios aunque no llegue al 70%
+	// caso contrario devuelve "false"
+	//------------------------------------------------------------------
+	public boolean ForzarEnvio(Pedido _pedido) 
+	{
+		float volumenOcupado, pesoCombinado = 0;
+		boolean porVolumen= (_pedido.getVolumenTotal()>0);
+		for(Vehiculo vehiculo : vehiculos)
+		{
+			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
+			if(vehiculo.getEstado().equals("Disponible"))
+			{
+				volumenOcupado = 0;
+				pesoCombinado = 0;
+				if(porVolumen)
+					volumenOcupado = vehiculo.getVolumenMax()/100.f*_pedido.getVolumenTotal();
+				else //PorPeso
+					pesoCombinado = vehiculo.getPesoMax()/100.f*_pedido.getPesoTotal();
+				
+				if(volumenOcupado > 100 || pesoCombinado > 100)
+					continue;// supera la capacidad del vehiculo, pasar al proximo.
+				
+				// >70% implica directamente realizar el envío.
+				Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+				for(Mercaderia mercaderia : _pedido.getMercaderias())
+					remito.addMercaderia(mercaderia);
+				vehiculo.addRemito(remito);
+				vehiculo.setEstado("Despachar");
+				_pedido.setEstado("Despachado");
+				//TODO acualizar en memoria
+				
+				return true;
+			}
+		}
+		return false;
+	}
 }
