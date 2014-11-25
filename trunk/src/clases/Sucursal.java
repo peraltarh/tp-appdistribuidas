@@ -181,6 +181,11 @@ public class Sucursal {
 		if(_pedido.getEstado().equals("Despachado")) return "Pedido ya fue despachado";
 		float volumenOcupado, pesoCombinado = 0;
 		boolean porVolumen= (_pedido.getVolumenTotal()>0);
+		
+		// La politica de la empresa es que si la carga ocupa como minimo un 70% de la capacidad
+		// del vehiculo, la carga se envía directamente.
+		// Asi que empiezo buscando algún vehiculo en el cual la carga ocupe entre el 70% y 100% 
+		// para realizar directamente el envío.
 		for(Vehiculo vehiculo : vehiculos)
 		{
 			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
@@ -208,60 +213,81 @@ public class Sucursal {
 					
 					return "Pedido Despachado";
 				}
-				
-				//TODO si no se depacha buscar otros pedidos pendientes e intentar mandarlos con este sumando los pesos.
-				
-//				else{
-//					// <70% se asigna al vehiculo, pero se espera a que se alcance el nivel de carga requerido.
-//					Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
-//					for(Mercaderia mercaderia : _pedido.getMercaderias())
-//						remito.addMercaderia(mercaderia);
-//					vehiculo.addRemito(remito);
-//					vehiculo.setEstado("Media carga");
-//					return "Se puso el pedido en Pendiente, vehiculo con media carga";
-//				}
 			}
-//			else{
-//				// El vehiculo ya tiene una carga anterior. Comprobar que haya capacidad disponible.
-//				if(vehiculo.getEstado().equals("Media carga"))
-//				{
-//					// Verifico que este en media carga por volumen. (no puedo mezclar por volumen y por peso)
-//					if(vehiculo.isCargaPorVolumen()  && (vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal()))
-//					{
-//						Remito remito = new Remito(0, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
-//						for(Mercaderia mercaderia : _pedido.getMercaderias())
-//							remito.addMercaderia(mercaderia);
-//						vehiculo.addRemito(remito);
-//						
-//						if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
-//						{
-//							vehiculo.setEstado("Despachar");
-//							return "Pedido despachado";
-//						}else{
-//							vehiculo.setEstado("Media carga");			
-//							return "Se puso el pedido en Pendiente";
-//						}
-//					}else{
-//						if(vehiculo.getPesoDisponible()<_pedido.getPesoTotal())
-//						{
-//							Remito remito = new Remito(0, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
-//							for(Mercaderia mercaderia : _pedido.getMercaderias())
-//								remito.addMercaderia(mercaderia);
-//							vehiculo.addRemito(remito);
-//							
-//							if(vehiculo.getPesoMax()/100.f*vehiculo.getPesoDisponible() <= 30)
-//							{
-//								vehiculo.setEstado("Despachar");
-//								return "Pedido despachado";
-//							}else{
-//								vehiculo.setEstado("Media carga");			
-//								return "Se puso el pedido en Pendiente";
-//							}
-//						}
-//					}
-//				}
-//			}
 		}
+		// No se pudo realizar el envío de forma individual, así que paso a combinar la carga con otras 
+		// que esten en vehiculos parcialmente llenos("media carga").
+		for(Vehiculo vehiculo : vehiculos)
+		{
+			// Solamente los vehiculos con cargas pendientes
+			if(vehiculo.getEstado().equals("Media carga"))
+			{
+				// Verifico que este en media carga por volumen. (no puedo mezclar por volumen y por peso)
+				if(vehiculo.isCargaPorVolumen()  && (vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal()))
+				{
+					Remito remito = new Remito(0, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+					for(Mercaderia mercaderia : _pedido.getMercaderias())
+						remito.addMercaderia(mercaderia);
+					vehiculo.addRemito(remito);
+					// Si los pedidos combinados llegan al 70%, despacharlos.
+					if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
+					{
+						vehiculo.setEstado("Despachar");
+						return "Pedido despachado";
+					}else{
+						vehiculo.setEstado("Media carga");			
+						return "Se puso el pedido en Pendiente";
+					}
+				}else{
+				// Si no es por volumen tiene que ser por peso.
+					if(vehiculo.getPesoDisponible()<_pedido.getPesoTotal())
+					{
+						Remito remito = new Remito(0, "Entrega pendiente");// TODO: Nro. remito dejarselo a BBDD
+						for(Mercaderia mercaderia : _pedido.getMercaderias())
+							remito.addMercaderia(mercaderia);
+						vehiculo.addRemito(remito);
+						// Si los pedidos combinados llegan al 70%, despacharlos.
+						if(vehiculo.getPesoMax()/100.f*vehiculo.getPesoDisponible() <= 30)
+						{
+							vehiculo.setEstado("Despachar");
+							return "Pedido despachado";
+						}else{
+							vehiculo.setEstado("Media carga");			
+							return "Se puso el pedido en Pendiente";
+						}
+					}
+				}
+			}
+		}
+		// Si tampoco se pudo combinar con otra carga la asigno a un vehiculo que esté disponible
+		// y lo dejo en "media carga" para combinar con otra carga a futuro.
+		for(Vehiculo vehiculo : vehiculos)
+		{
+			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
+			if(vehiculo.getEstado().equals("Disponible"))
+			{
+				volumenOcupado = 0;
+				pesoCombinado = 0;
+				if(porVolumen)
+					volumenOcupado = vehiculo.getVolumenMax()/100.f*_pedido.getVolumenTotal();
+				else //PorPeso
+					pesoCombinado = vehiculo.getPesoMax()/100.f*_pedido.getPesoTotal();
+				
+				if(volumenOcupado > 100 || pesoCombinado > 100)
+					continue;// supera la capacidad del vehiculo, pasar al proximo.
+				
+				Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+				for(Mercaderia mercaderia : _pedido.getMercaderias())
+					remito.addMercaderia(mercaderia);
+				vehiculo.addRemito(remito);
+				vehiculo.setEstado("Media carga");
+				_pedido.setEstado("Pendiente");
+				//TODO acualizar en memoria
+				
+				return "Pedido Despachado";
+			}
+		}
+		// Es imposible asignar el pedido a un vehiculo propio.
 		return new String("No hay vehiculos/espacio disponible");
 	}
 	
