@@ -18,6 +18,9 @@ public class Contrataciones
         return instance;
     }
     
+    //------------------------------------------------------------------
+    // Realiza los envios por medio de una compania externa.
+    //------------------------------------------------------------------
 	public String contratarTransporteExterno(Pedido pedido)
 	{
 		// TODO: Cargar BBDD de empresas de transporte.
