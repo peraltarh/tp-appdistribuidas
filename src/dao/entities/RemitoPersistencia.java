@@ -52,12 +52,12 @@ public class RemitoPersistencia implements Serializable{
 	public List<MercaderiaPersistencia> getMercaderias() {
 		return mercaderias;
 	}
-	public void setMercaderias(ArrayList<MercaderiaPersistencia> mercaderias) {
+	public void setMercaderias(List<MercaderiaPersistencia> mercaderias) {
 		this.mercaderias = mercaderias;
 	}
 
 	@ManyToOne
-	@JoinColumn(name="nroChasis")
+	@JoinColumn(name="patente")
 	public VehiculoPersistencia getVehiculo() {
 		return vehiculo;
 	}

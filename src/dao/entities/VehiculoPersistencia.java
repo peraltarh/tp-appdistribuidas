@@ -63,8 +63,13 @@ public class VehiculoPersistencia extends Observable {
 		this.remitos = new ArrayList<RemitoPersistencia>();
 	}
 
-	public VehiculoPersistencia(){}
+	public VehiculoPersistencia(){
+		this.remitos = new ArrayList<RemitoPersistencia>();
+		this.mantenimientosPlaneados= new ArrayList<PlanDeMantenimientoPersistencia>();
+		this.mantenimientosRealizados = new ArrayList<MantenimientoRealizadoPersistencia>();
+	}
 	
+	@Id
 	public String getPatente() {
 		return patente;
 	}
@@ -88,7 +93,6 @@ public class VehiculoPersistencia extends Observable {
 		return tara;
 	}
 
-@Id
 	public int getNroChasis() {
 		return nroChasis;
 	}
@@ -191,7 +195,7 @@ public class VehiculoPersistencia extends Observable {
 	}
 
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="nroChasis")
+	@JoinColumn(name="patente")
 	public List<PlanDeMantenimientoPersistencia> getMantenimientosPlaneados() {
 		return mantenimientosPlaneados;
 	}
@@ -219,7 +223,7 @@ public class VehiculoPersistencia extends Observable {
 		this.mantenimientosRealizados = mantenimientosRealizados;
 	}
 @OneToMany(cascade=CascadeType.ALL)
-@JoinColumn(name="nroChasis")
+@JoinColumn(name="patente")
 	public List<RemitoPersistencia> getRemitos() {
 		return remitos;
 	}

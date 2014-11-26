@@ -40,7 +40,7 @@ public class PlanDeMantenimientoPersistencia {
 
 
 	@ManyToOne
-	@JoinColumn(name="nroChasis")
+	@JoinColumn(name="patente")
 	public VehiculoPersistencia getVehiculo() {
 		return vehiculo;
 	}

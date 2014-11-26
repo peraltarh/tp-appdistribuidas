@@ -97,7 +97,7 @@ public abstract class MercaderiaPersistencia implements Serializable{
 		return movimientos;
 	}
 
-	public void setMovimientos(ArrayList<MovimientoPersistencia> movimientos) {
+	public void setMovimientos(List<MovimientoPersistencia> movimientos) {
 		this.movimientos = movimientos;
 	}
 
@@ -190,10 +190,6 @@ public abstract class MercaderiaPersistencia implements Serializable{
 		this.pedido = pedido;
 	}
 
-
-	public void setMovimientos(List<MovimientoPersistencia> movimientos) {
-		this.movimientos = movimientos;
-	}
 
 @ManyToOne
 @JoinColumn(name="idDeposito")
