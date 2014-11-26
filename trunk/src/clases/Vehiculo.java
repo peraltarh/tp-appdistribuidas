@@ -19,12 +19,17 @@ public class Vehiculo extends Observable {
 	private float kilometrajemaximo;
 	private Date modelo;
 	private String coordenadaActual;
-	private String estado;// Estados posibles: [Despachar] [Media Carga] [Disponible]
+	private String estado;// Estados posibles: [Despachado] [Media Carga] [Disponible]
 	private long numeroPolizaSeguro;
 	private Date expiracionGarantia;
 	private ArrayList<PlanDeMantenimiento> mantenimientosPlaneados;
 	private ArrayList<MantenimientoRealizado> mantenimientosRealizados;
 	private ArrayList<Remito> remitos;
+	
+	public enum ESTADO_VEHICULO
+	{
+		DESPACHADO, MEDIA_CARGA, DISPONIBLE
+	}
 	
 	public Vehiculo(float pesoMax, float volumenMax, String condEspeciales,
 			float tara, String patente, String nroChasis, String tipo,
@@ -165,8 +170,18 @@ public class Vehiculo extends Observable {
 		this.coordenadaActual = coordenadaActual;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setEstado(ESTADO_VEHICULO estado) {
+		switch(estado)
+		{
+		case MEDIA_CARGA:
+			this.estado = "media_carga";
+			break;
+		case DESPACHADO:
+			this.estado = "despachado";
+			break;
+		default:
+			this.estado = "disponible";
+		}
 	}
 
 	public void setNumeroPolizaSeguro(long numeroPolizaSeguro) {
@@ -231,5 +246,12 @@ public class Vehiculo extends Observable {
 		if(getVolumenDisponible()<volumenMax)
 			return true;
 		return false;
+	}
+
+	public void despachar() 
+	{
+		for(Remito r : remitos)
+			r.setEstado("Despachado");
+		this.setEstado(ESTADO_VEHICULO.DESPACHADO);
 	}
 }

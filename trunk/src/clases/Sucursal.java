@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import clases.Pedido.ESTADO_DE_PEDIDO;
+import clases.Vehiculo.ESTADO_VEHICULO;
 import clases.controller.Sistema;
 import dao.DAOPedido;
 
@@ -133,7 +135,10 @@ public class Sucursal {
 //		return resultado;// Operación finalizada con éxito
 //	}
 	
-	// Comprueba que no falten completar datos del cliente
+	//------------------------------------------------------------------
+	// Comprueba que no falten completar datos del cliente.
+	// Devuelve un string con todos los campos a completar.
+	//------------------------------------------------------------------
 	public String validarCliente(Cliente _cliente)
 	{
 		String validacion = "";
@@ -152,10 +157,16 @@ public class Sucursal {
 				validacion += "Completar nombre. \n";
 		}else{
 			Empresa empresa = (Empresa)_cliente;
-			// TODO: añadir los datos que faltan.
+			if(empresa.getCuit().isEmpty())
+				validacion += "Completar CUIT. \n";
+			if(empresa.getDireccion().isEmpty())
+				validacion += "Completar direccion. \n";
 			if(empresa.getRazonSoial().isEmpty())
 				validacion += "Completar razón social. \n";
-		
+			if(empresa.getRegularidad().isEmpty())
+				validacion += "Completar regularidad. \n";
+			if(empresa.getTelefono().isEmpty())
+				validacion += "Completar telefono. \n";
 		}
 		return validacion;// Si todo esta Ok devuelve un String vacio.
 	}
@@ -181,7 +192,7 @@ public class Sucursal {
 	public String ProgramarEnvio(Pedido _pedido) 
 	{
 		// TODO validar mercaderia.
-		if(_pedido.getEstado().equals("Despachado")) return "Pedido ya fue despachado";
+		if(_pedido.getEstado().equals("despachado")) return "Pedido ya fue despachado";
 		
 		for(ConsideracionEspecial ce: _pedido.getConsideraciones())
 		{
@@ -201,7 +212,7 @@ public class Sucursal {
 		for(Vehiculo vehiculo : vehiculos)
 		{
 			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
-			if(vehiculo.getEstado().equals("Disponible"))
+			if(vehiculo.getEstado().equals("disponible"))
 			{
 				volumenOcupado = 0;
 				pesoCombinado = 0;
@@ -215,12 +226,12 @@ public class Sucursal {
 				if(volumenOcupado > 70 || pesoCombinado > 70)
 				{
 					// >70% implica directamente realizar el envío.
-					Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+					Remito remito = new Remito(0, "pendiente");// TODO: Nro. remito dejarselo a BBDD
 					for(Mercaderia mercaderia : _pedido.getMercaderias())
 						remito.addMercaderia(mercaderia);
 					vehiculo.addRemito(remito);
-					vehiculo.setEstado("Despachar");
-					_pedido.setEstado("Despachado");
+					vehiculo.despachar();
+					_pedido.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
 					
 					//TODO Chequear
 					DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
@@ -234,7 +245,7 @@ public class Sucursal {
 		for(Vehiculo vehiculo : vehiculos)
 		{
 			// Solamente los vehiculos con cargas pendientes
-			if(vehiculo.getEstado().equals("Media carga"))
+			if(vehiculo.getEstado().equals("media_carga"))
 			{
 				// Verifico que este en media carga por volumen. (no puedo mezclar por volumen y por peso)
 				if(vehiculo.isCargaPorVolumen()  && (vehiculo.getVolumenDisponible()<_pedido.getVolumenTotal()))
@@ -246,10 +257,13 @@ public class Sucursal {
 					// Si los pedidos combinados llegan al 70%, despacharlos.
 					if(vehiculo.getVolumenMax()/100.f*vehiculo.getVolumenDisponible() <= 30)
 					{
-						vehiculo.setEstado("Despachar");
+						vehiculo.despachar();// cambia vehiculo y remitos asociados a "Despachado"
+						_pedido.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
 						return "Pedido despachado";
 					}else{
-						vehiculo.setEstado("Media carga");			
+						remito.setEstado("pendiente");
+						vehiculo.setEstado(ESTADO_VEHICULO.MEDIA_CARGA);			
+						_pedido.setEstado(ESTADO_DE_PEDIDO.PENDIENTE);
 						return "Pedido Pendiente";
 					}
 				}else{
@@ -263,10 +277,13 @@ public class Sucursal {
 						// Si los pedidos combinados llegan al 70%, despacharlos.
 						if(vehiculo.getPesoMax()/100.f*vehiculo.getPesoDisponible() <= 30)
 						{
-							vehiculo.setEstado("Despachar");
+							vehiculo.despachar();// cambia vehiculo y remitos asociados a "Despachado"
+							_pedido.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
 							return "Pedido despachado";
 						}else{
-							vehiculo.setEstado("Media carga");			
+							remito.setEstado("pendiente");
+							vehiculo.setEstado(ESTADO_VEHICULO.MEDIA_CARGA);	
+							_pedido.setEstado(ESTADO_DE_PEDIDO.PENDIENTE);
 							return "Pedido Pendiente";
 						}
 					}
@@ -278,7 +295,7 @@ public class Sucursal {
 		for(Vehiculo vehiculo : vehiculos)
 		{
 			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
-			if(vehiculo.getEstado().equals("Disponible"))
+			if(vehiculo.getEstado().equals("disponible"))
 			{
 				volumenOcupado = 0;
 				pesoCombinado = 0;
@@ -290,12 +307,12 @@ public class Sucursal {
 				if(volumenOcupado > 100 || pesoCombinado > 100)
 					continue;// supera la capacidad del vehiculo, pasar al proximo.
 				
-				Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+				Remito remito = new Remito(0, "pendiente");// TODO: Nro. remito dejarselo a BBDD
 				for(Mercaderia mercaderia : _pedido.getMercaderias())
 					remito.addMercaderia(mercaderia);
 				vehiculo.addRemito(remito);
-				vehiculo.setEstado("Media carga");
-				_pedido.setEstado("Pendiente");
+				vehiculo.setEstado(ESTADO_VEHICULO.MEDIA_CARGA);
+				_pedido.setEstado(ESTADO_DE_PEDIDO.PENDIENTE);
 				//TODO Chequear
 				DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
 				
@@ -321,12 +338,12 @@ public class Sucursal {
 		// a vencer.
 		for(Pedido pedido : pedidos)
 		{
-			if(pedido.equals("Despachado"))
+			if(pedido.equals("despachado"))
 				continue;
 			int diasRestantes = (int) TimeUnit.MILLISECONDS.toDays(pedido.getFechaEnregaMaxima().getTime() - (new Date()).getTime());
 			if(diasRestantes <= 3)// cualquier número, reemplazar por lo que se necesite
 			{
-				if(pedido.equals("Pendiente"))
+				if(pedido.equals("pendiente"))
 				{
 					// TODO: Falta una forma de relacionar el pedido con el vehiculo
 					// El pedido está asignado a un vehiculo pero esta pendiente, asi que lo despacho.
@@ -385,7 +402,7 @@ public class Sucursal {
 		for(Vehiculo vehiculo : vehiculos)
 		{
 			// Un vehiculo en estado "Disponible" no tiene ninguna carga asignada.
-			if(vehiculo.getEstado().equals("Disponible"))
+			if(vehiculo.getEstado().equals("disponible"))
 			{
 				volumenOcupado = 0;
 				pesoCombinado = 0;
@@ -398,12 +415,12 @@ public class Sucursal {
 					continue;// supera la capacidad del vehiculo, pasar al proximo.
 				
 				// >70% implica directamente realizar el envío.
-				Remito remito = new Remito(0, "Pendiente");// TODO: Nro. remito dejarselo a BBDD
+				Remito remito = new Remito(0, "pendiente");// TODO: Nro. remito dejarselo a BBDD
 				for(Mercaderia mercaderia : _pedido.getMercaderias())
 					remito.addMercaderia(mercaderia);
 				vehiculo.addRemito(remito);
-				vehiculo.setEstado("Despachar");
-				_pedido.setEstado("Despachado");
+				vehiculo.setEstado(ESTADO_VEHICULO.DESPACHADO);
+				_pedido.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
 				//TODO acualizar en memoria
 				
 				return null;

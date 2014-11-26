@@ -35,7 +35,6 @@ public class Servidor extends Thread{
             InterfazEnvios objetoRemoto = new EnviosRMI();
             Naming.rebind ("//localhost/Envios", objetoRemoto);
             System.out.println("Fijado en //localhost/Envios");
-        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
