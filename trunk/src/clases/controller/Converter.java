@@ -273,10 +273,10 @@ public class Converter {
 		emp.setTelefono(eN.getTelefono());
 		emp.setIdCliente(eN.getIdCliente());
 		List<CuentaCorrienteBean>cuentas=new ArrayList<CuentaCorrienteBean>();
+		emp.setCuentasCorrientes(cuentas);
 		for (CuentaCorriente cuentaCorrienteB : eN.getCuentasCorrientes()) {
 			emp.addCuentaCorriente(convertCuentaCorrienteNegocioToBean(cuentaCorrienteB));
 		}
-		emp.setCuentasCorrientes(cuentas);
 
 		List<EmpresaDirValidasBean>direcciones=new ArrayList<EmpresaDirValidasBean>();
 		for (EmpresaDirValidas empresaDirValidasB : eN.getDireccionesValidas()) {
