@@ -14,13 +14,18 @@ public class Pedido {
 	private Time horarioDeEntregaDesde;
 	private Time horarioDeEntregahasta;
 	private String dirDeRetiroSoloEmpresa;
-	private String estado;
+	private String estado;// procesar / despachado / pendiente.
 	private int prioridad;
 	private int idPedido;
 	private Cliente clinete;
 	private ArrayList<Mercaderia> mercaderias;
 	private ArrayList<Destinatario> destinatarios;
 	private ArrayList<ConsideracionEspecial> consideraciones;
+	
+	public enum ESTADO_DE_PEDIDO
+	{
+		PENDIENTE, DESPACHADO, SIN_PROCESAR
+	}
 	
 	public Pedido(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
 			Date fechaEntregaEstimada, String condEspeciales,
@@ -40,6 +45,7 @@ public class Pedido {
 		this.destinatarios = new ArrayList<Destinatario>();
 		this.consideraciones = new ArrayList<ConsideracionEspecial>();
 		this.clinete = cliente;
+		this.setEstado(ESTADO_DE_PEDIDO.SIN_PROCESAR);
 		
 	}
 	
@@ -173,12 +179,30 @@ public class Pedido {
 		return volumenTotal;
 	}
 
-	public String getEstado() {
+	
+	public String getEstado() 
+	{
+	/*	if(estado.equals("pendiente"))
+			return ESTADO_DEL_PEDIDO.PENDIENTE;
+		if(estado.equals("despachado"))
+			return ESTADO_DEL_PEDIDO.DESPACHADO;
+		return ESTADO_DEL_PEDIDO.SIN_PROCESAR;*/
 		return estado;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setEstado(ESTADO_DE_PEDIDO estado) 
+	{
+		switch(estado)
+		{
+		case PENDIENTE:
+			this.estado = "pendiente";
+			break;
+		case DESPACHADO:
+			this.estado = "despachado";
+			break;
+		default:
+			this.estado = "sin_procesar";
+		}
 	}
 
 	public void setMercaderias(ArrayList<Mercaderia> mercaderias) {

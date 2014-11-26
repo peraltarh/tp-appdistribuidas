@@ -258,7 +258,13 @@ public class VehiculoPersistencia extends Observable {
 		Vehiculo v = new Vehiculo();
 		v.setCondEspeciales(condEspeciales);
 		v.setCoordenadaActual(coordenadaActual);
-		v.setEstado(estado);
+		if(estado.equals("media_carga"))
+			v.setEstado(Vehiculo.ESTADO_VEHICULO.MEDIA_CARGA);
+		else if(estado.equals("despachado"))
+			v.setEstado(Vehiculo.ESTADO_VEHICULO.DESPACHADO);
+		else
+			v.setEstado(Vehiculo.ESTADO_VEHICULO.DISPONIBLE);
+		
 		v.setExpiracionGarantia(expiracionGarantia);
 		v.setModelo(modelo);
 		v.setKilometrajemaximo(kilometrajemaximo);
