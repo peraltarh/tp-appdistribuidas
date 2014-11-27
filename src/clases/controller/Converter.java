@@ -5,6 +5,7 @@ import java.util.List;
 
 import beans.*;
 import clases.*;
+import clases.Pedido.ESTADO_DE_PEDIDO;
 
 
 
@@ -33,6 +34,13 @@ public class Converter {
 				pedB.getPrioridad(),
 				convertClienteBeanToNegocio(pedB.getCliente()));
 		pedN.setIdPedido(pedB.getIdPedido());
+		if(pedB.getEstado() == null )pedB.setEstado("SIN_PROCESAR");
+		if(pedB.getEstado().equalsIgnoreCase("SIN_PROCESAR"));
+		pedN.setEstado(ESTADO_DE_PEDIDO.SIN_PROCESAR);
+		if(pedB.getEstado().equalsIgnoreCase("PENDIENTE"));
+		pedN.setEstado(ESTADO_DE_PEDIDO.PENDIENTE);
+		if(pedB.getEstado().equalsIgnoreCase("DESPACHADO"));
+		pedN.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
 		
 		for (ConsideracionEspecialBean condEsP : pedB.getConsideraciones()) {
 			pedN.addConsideraciones(convertConsideracionEspecialBeanToNegocio(condEsP));
