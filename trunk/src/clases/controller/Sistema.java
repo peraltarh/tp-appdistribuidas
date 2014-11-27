@@ -2,7 +2,11 @@ package clases.controller;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import beans.*;
@@ -230,6 +234,7 @@ public class Sistema {
 		clientes.add(empresa.toNegocio());
 	}
 
+	@SuppressWarnings("deprecation")
 	public int altaPedido(String manifiesto, String dirDestino,
 			Date fechaEnregaMaxima, Date fechaEntregaEstimada,
 			String condEspeciales, Time horarioDeEntregaDesde,
@@ -252,7 +257,35 @@ public class Sistema {
 		//Fuerzo esto porque es un pedido nuevo
 		estado = "SIN_PROCESAR";
 		
+		java.util.Date date=new GregorianCalendar().getTime();
+		
+		
+
+		
 		Sucursal sucS = buscarSucursal(sucursal);
+		Sucursal sucDes = buscarSucursal(dirDestino);
+		
+		int cantHoras = sucS.obtenerTiempoDeEntregaA(sucDes.getNumero());
+		int cantDias = (cantHoras/24);
+		
+		if(cantDias>0) cantHoras = cantHoras - (cantDias*24);
+		
+
+		String sDate=(date.getYear()+"-"+date.getMonth()+"-"+date.getDay());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(sdf.parse(sDate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c.add(Calendar.DATE, cantDias);  // number of days to add
+		sDate = sdf.format(c.getTime());
+		
+		
+		fechaEntregaEstimada = java.sql.Date.valueOf(sDate);
 		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
@@ -265,6 +298,38 @@ public class Sistema {
 		Cliente cS = Converter.getInstance().convertClienteBeanToNegocio(pb.getCliente());
 		ClientePersistencia cP=convertClienteNegocioToPersistencia(cS);
 		Sucursal sucS = buscarSucursal(pb.getSucursal().getNombre());
+		
+		Sucursal sucDes = buscarSucursal(pb.getDirDestino());
+		
+		int cantHoras = sucS.obtenerTiempoDeEntregaA(sucDes.getNumero());
+		int cantDias = (cantHoras/24);
+		
+		if(cantDias>0) cantHoras = cantHoras - (cantDias*24);
+		
+		java.util.Date date=new GregorianCalendar().getTime();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int month = cal.get(Calendar.MONTH)+1 ;
+		int year = cal.get(Calendar.YEAR);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		
+		String sDate=(year+"-"+month+"-"+day);
+		System.out.println();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		try {
+			c.setTime(sdf.parse(sDate));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c.add(Calendar.DATE, cantDias);  // number of days to add
+		sDate = sdf.format(c.getTime());
+		
+		
+		Date fechaEntregaEstimada = java.sql.Date.valueOf(sDate);
+		pb.setFechaEntregaEstimada(fechaEntregaEstimada);
 		
 		SucursalPersistencia sP=convertSucursalNegocioToPersistencia(sucS);
 		pb.setEstado("SIN_PROCESAR");
@@ -325,10 +390,7 @@ public class Sistema {
 		return sucN.ProgramarEnvio(pedN);
 	}
 	
-	
-	//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
-	//	sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
-	//	sucS.validarPedidosAVencer();
+
 	
 	//NEGOCIO END
 	
