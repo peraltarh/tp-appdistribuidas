@@ -293,7 +293,11 @@ public class Sistema {
 		SucursalPersistencia sP=buscarSucursalEnBD(pB.getSucursal().getNombre());
 		PedidoPersistencia pP=convertPedidoNegocioToPersistencia(pS, sP);
 		pP.setIdPedido(pB.getIdPedido());
-		DAOPedido.getInstance().update(pP);
+		DepositoPersistencia dP=DAODeposito.getInstance().getDeposito(mercB.getDeposito().getEncargado());
+		PedidoPersistencia pP2=DAOPedido.getInstance().getPedido(pB.getIdPedido());
+		pP2.setMercaderias(pP.getMercaderias());
+		pP2.getMercaderias().get(pP2.getMercaderias().size()-1).setDeposito(dP);
+		DAOPedido.getInstance().update(pP2);
 		
 		reemplazarPedidoViejoConNuevo(convertPedidoPersistenciaToNegocio(pP));
 		
@@ -1401,7 +1405,7 @@ public class Sistema {
 		DepositoBean db=new DepositoBean();
 		db.setIdDeposito(dp.getIdDeposito());
 		db.setCantidadMax(dp.getCantidadMax());
-		db.setEncargado(db.getEncargado());
+		db.setEncargado(dp.getEncargado());
 		//TODO saque esto porque sino genera un loop
 		//db.setSuc(this.convertSucursalPersistenciaToBean(dp.getSuc()));
 		return db;
@@ -1509,7 +1513,7 @@ public class Sistema {
 		pBean.setIdPedido(pP.getIdPedido());
 		pBean.setDirDestino(pP.getDirDestino());
 		pBean.setFechaEnregaMaxima(pP.getFechaEnregaMaxima());
-		pBean.setFechaEnregaMaxima(pP.getFechaEntregaEstimada());
+		pBean.setFechaEntregaEstimada(pP.getFechaEntregaEstimada());
 		pBean.setCondEspeciales(pP.getCondEspeciales());
 		pBean.setHorarioDeEntregaDesde(pP.getHorarioDeEntregaDesde());
 		pBean.setHorarioDeEntregahasta(pP.getHorarioDeEntregahasta());
