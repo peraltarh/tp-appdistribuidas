@@ -341,6 +341,8 @@ public class Sucursal {
 			if(pedido.getEstado().equalsIgnoreCase("DESPACHADO")||pedido.getEstado().equalsIgnoreCase("ENTREGADO"))
 				continue;
 			int diasRestantes = (int) TimeUnit.MILLISECONDS.toDays(pedido.getFechaEnregaMaxima().getTime() - (new Date()).getTime());
+			
+			//TODO cambiar, para la duracion de la ruta de sucursal origen a destino hay suficiente tiempo
 			if(diasRestantes <= 3)// cualquier número, reemplazar por lo que se necesite
 			{
 				if(pedido.getEstado().equalsIgnoreCase("PENDIENTE")){
@@ -422,5 +424,13 @@ public class Sucursal {
 			}
 		}
 		return "No se pudo realizar el envío";
+	}
+	public int obtenerTiempoDeEntregaA(int idSucDes) {
+		for (MapaDeRuta ruta : rutas) {
+			if(ruta.getNumSucDestino()==idSucDes)return (int)ruta.getDuracionHs();
+			
+		}
+		return 0;
+		
 	}
 }
