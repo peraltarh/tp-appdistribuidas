@@ -38,4 +38,9 @@ public class DAODeposito
 		return lista;
 	}
 	
+	public DepositoPersistencia getDeposito(String encargado)
+	{
+		return (DepositoPersistencia)HibernateDAO.getInstancia().getObjectWithString("DepositoPersistencia", "encargado", encargado);
+	}
+	
 }
