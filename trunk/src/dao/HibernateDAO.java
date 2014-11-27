@@ -5,6 +5,8 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import dao.entities.PedidoPersistencia;
+
 
 public class HibernateDAO {
 	protected static HibernateDAO instancia = null;
@@ -95,7 +97,7 @@ public class HibernateDAO {
 	public Object update(Object obj) {
 		Session session = getSession();
 		session.beginTransaction();
-		session.update(obj);
+		session.saveOrUpdate(obj);
 		session.getTransaction().commit();
 		session.flush();
 		return obj;
