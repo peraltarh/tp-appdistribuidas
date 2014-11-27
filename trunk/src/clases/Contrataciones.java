@@ -2,7 +2,7 @@ package clases;
 
 import java.util.ArrayList;
 import java.util.List;
-// TODO: seguimiento satelital, los seguros y el m�vil de seguridad
+
 public class Contrataciones 
 {
     private static volatile Contrataciones instance = new Contrataciones();    
@@ -31,7 +31,6 @@ public class Contrataciones
     //------------------------------------------------------------------
 	public List<EmpresaSubContratada> contratarTransporteExterno(Pedido pedido)
 	{
-		// TODO: Cargar BBDD de empresas de transporte.
 		
 		if(pedido.getConsideraciones()!=null){
 		ArrayList<ConsideracionEspecial> listaConsideraciones = pedido.getConsideraciones();

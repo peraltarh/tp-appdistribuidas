@@ -24,7 +24,7 @@ public class Pedido {
 	
 	public enum ESTADO_DE_PEDIDO
 	{
-		PENDIENTE, DESPACHADO, SIN_PROCESAR
+		PENDIENTE, DESPACHADO, SIN_PROCESAR, ENTREGADO
 	}
 	
 	public Pedido(String manifiesto, String dirDestino, Date fechaEnregaMaxima,
@@ -195,13 +195,16 @@ public class Pedido {
 		switch(estado)
 		{
 		case PENDIENTE:
-			this.estado = "pendiente";
+			this.estado = "PENDIENTE";
+			break;
+		case ENTREGADO:
+			this.estado = "ENTREGADO";
 			break;
 		case DESPACHADO:
-			this.estado = "despachado";
+			this.estado = "DESPACHADO";
 			break;
 		default:
-			this.estado = "sin_procesar";
+			this.estado = "SIN_PROCESAR";
 		}
 	}
 

@@ -7,6 +7,8 @@ import java.util.List;
 
 import beans.*;
 import clases.*;
+import clases.Pedido.ESTADO_DE_PEDIDO;
+import clases.Vehiculo.ESTADO_VEHICULO;
 import dao.*;
 import dao.entities.*;
 
@@ -247,16 +249,14 @@ public class Sistema {
 			cP=convertParticularNegocioToPersistencia(cS);
 		}
 
-
+		//Fuerzo esto porque es un pedido nuevo
+		estado = "SIN_PROCESAR";
+		
 		Sucursal sucS = buscarSucursal(sucursal);
 		SucursalPersistencia suc = convertSucursalNegocioToPersistencia(sucS);
 		PedidoPersistencia pedido=new PedidoPersistencia(manifiesto, dirDestino, fechaEnregaMaxima, fechaEntregaEstimada, condEspeciales, horarioDeEntregaDesde, horarioDeEntregahasta, dirDeRetiroSoloEmpresa, prioridad, estado,suc, cP);
 		PedidoPersistencia pedP = DAOPedido.getInstance().persistir(pedido);
 		this.pedidos.add(convertPedidoPersistenciaToNegocio(pedP));
-		//TODO hacer la logica para que si el peiddo se puede mandar que se mande y que valide los pedidos en BD y en memoria para mandarlos tambien.
-		sucS.ProgramarEnvio(convertPedidoPersistenciaToNegocio(pedP));
-		// sucS.validarPedidosAVencer();
-		//
 		return pedP.getIdPedido();
 	}
 
@@ -267,7 +267,7 @@ public class Sistema {
 		Sucursal sucS = buscarSucursal(pb.getSucursal().getNombre());
 		
 		SucursalPersistencia sP=convertSucursalNegocioToPersistencia(sucS);
-		pb.setEstado("En Proceso");
+		pb.setEstado("SIN_PROCESAR");
 		PedidoPersistencia pedido=new PedidoPersistencia(pb.getManifiesto(), pb.getDirDestino()
 				,pb.getFechaEnregaMaxima(),pb.getFechaEntregaEstimada()
 				,pb.getCondEspeciales(),pb.getHorarioDeEntregaDesde(),pb.getHorarioDeEntregahasta()
@@ -1143,6 +1143,12 @@ public class Sistema {
 				vehP.getEstado(),
 				vehP.getNumeroPolizaSeguro(),
 				vehP.getExpiracionGarantia());
+		if(vehP.getEstado().equalsIgnoreCase("DISPONIBLE"))
+			vehN.setEstado(ESTADO_VEHICULO.DISPONIBLE);
+		if(vehP.getEstado().equalsIgnoreCase("DESPACHADO"))
+		vehN.setEstado(ESTADO_VEHICULO.DESPACHADO);
+		if(vehP.getEstado().equalsIgnoreCase("MEDIA_CARGA"))
+		vehN.setEstado(ESTADO_VEHICULO.MEDIA_CARGA);
 
 		for (PlanDeMantenimientoPersistencia pmP : vehP.getMantenimientosPlaneados()) {
 			vehN.addMantenimientoPlaneado(convertPlanDeMantenimientoPersistenciaToNegocio(pmP));
@@ -1203,6 +1209,15 @@ public class Sistema {
 				pedP.getPrioridad(),
 				convertClientePersistenciaToNegocio(pedP.getCliente()));
 		pedN.setIdPedido(pedP.getIdPedido());
+		
+		if(pedP.getEstado().equalsIgnoreCase("SIN_PROCESAR"))
+		pedN.setEstado(ESTADO_DE_PEDIDO.SIN_PROCESAR);
+		if(pedP.getEstado().equalsIgnoreCase("PENDIENTE"))
+		pedN.setEstado(ESTADO_DE_PEDIDO.PENDIENTE);
+		if(pedP.getEstado().equalsIgnoreCase("DESPACHADO"))
+		pedN.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
+		if(pedP.getEstado().equalsIgnoreCase("ENTREGADO"))
+		pedN.setEstado(ESTADO_DE_PEDIDO.ENTREGADO);
 
 		for (ConsideracionEspecialPersistencia condEsP : pedP.getConsideraciones()) {
 			pedN.addConsideraciones(convertConsideracionEspecialPersistenciaToNegocio(condEsP));
