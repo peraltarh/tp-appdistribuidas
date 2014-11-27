@@ -11,6 +11,13 @@ public class Contrataciones
     private Contrataciones()
     {
     	lEmpresasDeTransporte = new ArrayList<EmpresaSubContratada>();
+    	
+    	EmpresaSubContratada emp1 = new EmpresaSubContratada("TranportesPepe");
+    	emp1.addVehiculoEsterno(new VehiculoExterno("Camioneta", "ASD 123", 20000));
+    	emp1.addVehiculoEsterno(new VehiculoExterno("Avioneta", "ASR 123", 20000));
+    	emp1.addCarrier(new Carrier("Lanus", "Mendoza", 2000));
+    	lEmpresasDeTransporte.add(emp1);
+    	
     }
  
     public static Contrataciones getInstance() 
@@ -25,33 +32,40 @@ public class Contrataciones
 	public List<EmpresaSubContratada> contratarTransporteExterno(Pedido pedido)
 	{
 		// TODO: Cargar BBDD de empresas de transporte.
+		
+		if(pedido.getConsideraciones()!=null){
 		ArrayList<ConsideracionEspecial> listaConsideraciones = pedido.getConsideraciones();
-		for(ConsideracionEspecial ce: listaConsideraciones )
-		{
-			if(ce.isRequiereAvioneta())
-				return solicitarAvionetaExterna(ce);
-			
-			if(ce.isRequiereCamionExterno())// a granel
+			for(ConsideracionEspecial ce: listaConsideraciones )
+			{
+				if(ce.isRequiereAvioneta())
+					return solicitarAvionetaExterna(ce);
+				
+				if(ce.isRequiereCamionExterno())// a granel
+					return solicitarVehiculoExterno(ce);
+				
+				// Si no es ninguna de las anteriores el problema es la
+				// no disponibilidad de vehiculos propios. 
+				// Por lo tanto cualquier empresa normal sirve.
 				return solicitarVehiculoExterno(ce);
-			
-			// Si no es ninguna de las anteriores el problema es la
-			// no disponibilidad de vehiculos propios. 
-			// Por lo tanto cualquier empresa normal sirve.
-			solicitarVehiculoExterno(ce);
+			}
 		}
-		return null;
+		return solicitarVehiculoExterno(null);
 		
 	}
 	// Para estas tres, despues de obtener la lista de empresas que cumplen
 	// con los requisitos se muestran al usuario para que realice la reserva
 	// y complete los datos del vehiculo, etc.
-	@SuppressWarnings("unused")
 	private List<EmpresaSubContratada> solicitarAvionetaExterna(ConsideracionEspecial ce)
 	{
 		List<EmpresaSubContratada> empAereas = new ArrayList<EmpresaSubContratada>();
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )
 		{
-			// TODO Añadir empresas
+			
+			for (VehiculoExterno vehiculoE : et.getVehiculosEsternos()) {
+				if(vehiculoE.getTipo().equals("Avioneta")){
+					empAereas.add(et);
+				}
+			}
 		}	
 		return empAereas;
 	}
@@ -62,18 +76,23 @@ public class Contrataciones
 		List<EmpresaSubContratada> carriers = new ArrayList<EmpresaSubContratada>();
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )
 		{
-			// TODO Añadir empresas
+			if(et.getCarriers().size()!=0) {
+				carriers.add(et);
+			}
 		}	
 		return carriers;
 	}
 	
-	@SuppressWarnings("unused")
 	private List<EmpresaSubContratada> solicitarVehiculoExterno(ConsideracionEspecial ce)
 	{
+		
+		if(ce==null) return lEmpresasDeTransporte;
 		List<EmpresaSubContratada> vExternos = new ArrayList<EmpresaSubContratada>();
 		for(EmpresaSubContratada et: lEmpresasDeTransporte )
 		{
-			// TODO Añadir empresas
+			if (et.getVehiculosEsternos().size()!=0) {
+				vExternos.add(et);
+			}
 		}	
 		return vExternos;
 	}
