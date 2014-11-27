@@ -22,11 +22,26 @@ INSERT INTO Area(descripcion,capacidadMaxima, idDeposito) VALUES ('Zona Oeste',3
 INSERT INTO Area(descripcion,capacidadMaxima, idDeposito) VALUES ('Capital',1000,5);
 
 /******----MAPA DE RUTA----******/
-INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (3.5,350,1,2,1500,1);
-INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (3.5,150,3,1,1400,2);
-INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (3.5,250,2,3,1300,3);
-INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (3.5,450,2,4,1200,4);
-INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (3.5,550,1,2,1100,5);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (24,350,1,2,1500,1);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,1,3,1500,1);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (72,350,1,4,1500,1);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,1,5,1500,1);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (24,350,2,1,1500,2);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,2,3,1500,2);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (72,350,2,4,1500,2);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,2,5,1500,2);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (24,350,3,1,1500,3);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,3,2,1500,3);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (72,350,3,4,1500,3);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,3,5,1500,3);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (24,350,4,1,1500,4);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,4,3,1500,4);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (72,350,4,2,1500,4);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,4,5,1500,4);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (24,350,5,1,1500,5);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,5,3,1500,5);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (72,350,5,4,1500,5);
+INSERT INTO MapaDeRuta (duracionHs,distancia,numSucOrigen,numSucDestino,costo,numeroSucursal) VALUES (48,350,5,2,1500,5);
 
 /******----CLIENTE----******/
 INSERT INTO Cliente (tipo,telefono,direccion,razonSoial,cuit,nombre,dni,apellido) VALUES ('Particular','41112222','Corrientes 1234',NULL,NULL,'Jorge',33900111,'Dominguez');
