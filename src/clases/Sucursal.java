@@ -393,7 +393,7 @@ public class Sucursal {
 		int nroSucDestino = 0;
 		for(Sucursal s :Sistema.getInstance().getSucursales())
 		{
-			if(s.getDir().equals(sucursalDestino))
+			if(s.getNombre().equals(sucursalDestino))
 			{
 				nroSucDestino = s.getNumero();
 				break;
@@ -406,7 +406,7 @@ public class Sucursal {
 				return (int) TimeUnit.HOURS.toDays((long) mdr.getDuracionHs());
 			}
 		}
-		return 3;
+		return 0;
 	}
 	
 	
