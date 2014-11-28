@@ -334,16 +334,16 @@ public class Sucursal {
 		int aVencer = 0, propios = 0, terceros = 0;
 		List<Pedido> pedidosAVencer = new ArrayList<Pedido>();
 		// Recorro los pedidos pendientes y calulo el tiempo restante para 
-		// su vencimiento, si es menor a 3 días lo sumo a la lista de pedidos
-		// a vencer.
+		// su vencimiento, si es menor o igual al tiempo de viaje requerido
+		// lo sumo a la lista de pedidos a vencer.
 		for(Pedido pedido : pedidos)
 		{
 			if(pedido.getEstado().equalsIgnoreCase("DESPACHADO")||pedido.getEstado().equalsIgnoreCase("ENTREGADO"))
 				continue;
 			int diasRestantes = (int) TimeUnit.MILLISECONDS.toDays(pedido.getFechaEnregaMaxima().getTime() - (new Date()).getTime());
 			
-			//TODO cambiar, para la duracion de la ruta de sucursal origen a destino hay suficiente tiempo
-			if(diasRestantes <= 3)// cualquier número, reemplazar por lo que se necesite
+			int diasViaje = CalcularTiempoADestino(pedido);
+			if(diasRestantes <= diasViaje)
 			{
 				if(pedido.getEstado().equalsIgnoreCase("PENDIENTE")){
 					//TODO Deberia despachar los vehiculos que ya tienen asignados pedidos
@@ -381,6 +381,34 @@ public class Sucursal {
 					+"\nDespachados por terceros: "+terceros+
 					"\nPendientes: "+(aVencer-propios-terceros));
 	}
+	
+	//------------------------------------------------------------------
+	// Calcula la cantidad de tiempo(en días) necesarios para realizar
+	// el recorrido hasta el destino.
+	// Devuelve el tiempo requerido en días, o si no encuentra la ruta 0
+	//------------------------------------------------------------------
+	private int CalcularTiempoADestino(Pedido pedido) 
+	{
+		String sucursalDestino = pedido.getDirDestino();
+		int nroSucDestino = 0;
+		for(Sucursal s :Sistema.getInstance().getSucursales())
+		{
+			if(s.getDir().equals(sucursalDestino))
+			{
+				nroSucDestino = s.getNumero();
+				break;
+			}
+		}
+		for(MapaDeRuta mdr : rutas)
+		{
+			if(mdr.getNumSucOrigen() == this.numero && mdr.getNumSucDestino() == nroSucDestino)
+			{
+				return (int) TimeUnit.HOURS.toDays((long) mdr.getDuracionHs());
+			}
+		}
+		return 3;
+	}
+	
 	
 	private List<EmpresaSubContratada> TercerizarTransporte(Pedido pedido) 
 	{
