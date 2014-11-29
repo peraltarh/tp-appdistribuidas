@@ -51,6 +51,7 @@ public class Contrataciones
 		return solicitarVehiculoExterno(null);
 		
 	}
+	
 	// Para estas tres, despues de obtener la lista de empresas que cumplen
 	// con los requisitos se muestran al usuario para que realice la reserva
 	// y complete los datos del vehiculo, etc.
