@@ -5,7 +5,7 @@ public class PorGranel implements PoliticasDeEnvio{
 	public PorGranel(){}
 
 	@Override
-	public String Evaluar(Mercaderia _mercaderia) {
+	public String Evaluar(Pedido _pedido) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,15 +1,14 @@
 package clases;
 
-public class Combustibles implements PoliticasDeEnvio{
-
+public class Combustibles implements PoliticasDeEnvio
+{
 	public Combustibles (){}
 
 	@Override
-	public String Evaluar(Mercaderia _mercaderia) {
+	public String Evaluar(Pedido _pedido) 
+	{
+		if(_pedido.getManifiesto().contains("Combustible"))
+			return "Combustible-No se puede transportar";
 		return null;
-		// TODO Auto-generated method stub
-		
 	}
-	
-	
 }

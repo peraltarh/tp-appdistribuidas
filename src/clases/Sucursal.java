@@ -180,17 +180,25 @@ public class Sucursal {
 	public String validarMercaderias(Pedido _pedido)
 	{
 		String validacion = null;
+		Cliente _cliente = _pedido.getClinete();
 		// Evaluar si los productos estan validados para la empresa.
-		if(_pedido.getClinete().getClass() == Empresa.class)
+		if(_cliente.getClass() == Empresa.class)
 		{
-		//	for(Mercaderia _mercaderia: _pedido.getMercaderias())
-		//		((Empresa)_cliente).getProductosValidos();// TODO: Evaluar mercaderia contra productos validos
+			validacion = "Producto no validado";
+			for(Producto p :((Empresa)_cliente).getProductosValidos())
+			{
+				if(p.getDescripcion() == _pedido.getManifiesto())
+				{
+					validacion = null;
+					break;
+				}
+			}
 		}
 		// Comprueba que la mercaderia no vaya en contra de las politicas de la empresa.
 		for(PoliticasDeEnvio politica :Sistema.getInstance().getPoliticas())
 		{
 			for(Mercaderia _mercaderia: _pedido.getMercaderias())
-				validacion = politica.Evaluar(_mercaderia);// TODO: Establecer condiciones de evaluacion.
+				validacion = politica.Evaluar(_pedido);
 		}
 		return validacion;
 	}
@@ -205,10 +213,14 @@ public class Sucursal {
 	public String ProgramarEnvio(Pedido _pedido) 
 	{
 		if(_pedido.getEstado().equalsIgnoreCase("despachado")) return "Su Pedido ya fue despachado";
-		
-		String validacion = validarMercaderias(_pedido);
-		if(validacion != null)
-			return validacion;
+
+//		TODO: Sacar comentario para habilitar la validación de mercaderias. 
+//			  Para que no falle el manifiesto del pedido tiene que ser igual a algún producto 
+//			  de la empresa y ademas no tiene que figurar ninguna de las palabras que indican
+//			  que la empresa no acepta el pedido de envío(Estan en Armas, Combustibles y Explosivos).
+//		String validacion = validarMercaderias(_pedido);
+//		if(validacion != null)
+//			return validacion;
 		
 		for(ConsideracionEspecial ce: _pedido.getConsideraciones())
 		{

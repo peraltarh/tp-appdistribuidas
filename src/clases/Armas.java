@@ -1,15 +1,24 @@
 package clases;
 
-public class Armas implements PoliticasDeEnvio {
+import java.util.ArrayList;
+import java.util.Arrays;
 
+public class Armas implements PoliticasDeEnvio 
+{
+	static private ArrayList<String> armas= new ArrayList<String>(Arrays.asList("Escopeta", "Rifle", "Pistola", "Revolver", "Ametralladora"));  
+	
 	public Armas (){}
 
 	@Override
-	public String Evaluar(Mercaderia _mercaderia) {
+	public String Evaluar(Pedido _pedido) 
+	{
+		for(String tipo_arma: armas)
+		{
+			if(_pedido.getManifiesto().contains(tipo_arma))
+				return "Armas-No se puede transportar";
+		}
+			
 		return null;
-		// TODO Auto-generated method stub
-		
 	}
-	
-	
+
 }
