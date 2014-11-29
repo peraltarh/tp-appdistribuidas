@@ -120,8 +120,8 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	
 	public beans.MercaderiaBean getMercaderia(int idMercaderia) throws RemoteException
 	{
-//		return sistema.getMercaderiaDeDB(idMercaderia);
-		return null;
+//		return sistema.getMercaderia(idMercaderia);
+	return  null;
 	}
 
 	@Override

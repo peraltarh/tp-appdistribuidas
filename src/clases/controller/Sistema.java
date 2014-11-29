@@ -568,6 +568,8 @@ public class Sistema {
 
 	//TODO buscar VehiculosExternos en memoria y en BD
 
+	
+	
 
 	//BUSQUEDAS END
 
