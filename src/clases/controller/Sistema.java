@@ -278,7 +278,6 @@ public class Sistema {
 		try {
 			c.setTime(sdf.parse(sDate));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		c.add(Calendar.DATE, cantDias);  // number of days to add
@@ -321,7 +320,6 @@ public class Sistema {
 		try {
 			c.setTime(sdf.parse(sDate));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		c.add(Calendar.DATE, cantDias);  // number of days to add

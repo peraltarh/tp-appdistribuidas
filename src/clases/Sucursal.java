@@ -171,13 +171,26 @@ public class Sucursal {
 		return validacion;// Si todo esta Ok devuelve un String vacio.
 	}
 	
-	public String validarMercaderia(Cliente _cliente, Mercaderia _mercaderia)
+	//------------------------------------------------------------------
+	// Comprueba que la mercaderia este restringida por politicas de la
+	// empresa, y si el cliente es una empresa verifica que el producto 
+	// esté entre los validados para la misma.
+	// Devuelve null si no hay problemas.
+	//------------------------------------------------------------------
+	public String validarMercaderias(Pedido _pedido)
 	{
-		String validacion = "";
-		//TODO: _cliente.get getAutorizaciones -> implementar? -- no lo hace la parte web
+		String validacion = null;
+		// Evaluar si los productos estan validados para la empresa.
+		if(_pedido.getClinete().getClass() == Empresa.class)
+		{
+		//	for(Mercaderia _mercaderia: _pedido.getMercaderias())
+		//		((Empresa)_cliente).getProductosValidos();// TODO: Evaluar mercaderia contra productos validos
+		}
+		// Comprueba que la mercaderia no vaya en contra de las politicas de la empresa.
 		for(PoliticasDeEnvio politica :Sistema.getInstance().getPoliticas())
 		{
-			validacion = politica.Evaluar(_mercaderia);
+			for(Mercaderia _mercaderia: _pedido.getMercaderias())
+				validacion = politica.Evaluar(_mercaderia);// TODO: Establecer condiciones de evaluacion.
 		}
 		return validacion;
 	}
@@ -191,8 +204,11 @@ public class Sucursal {
 	//------------------------------------------------------------------
 	public String ProgramarEnvio(Pedido _pedido) 
 	{
-		// TODO validar mercaderia.
 		if(_pedido.getEstado().equalsIgnoreCase("despachado")) return "Su Pedido ya fue despachado";
+		
+		String validacion = validarMercaderias(_pedido);
+		if(validacion != null)
+			return validacion;
 		
 		for(ConsideracionEspecial ce: _pedido.getConsideraciones())
 		{
@@ -329,7 +345,7 @@ public class Sucursal {
 	// Realiza los envios de cualquier forma posible.
 	// Devuelve null si no quedaron envíos pendientes.
 	//------------------------------------------------------------------
-	public String validarPedidosAVencer() 
+	public String validarPedidosAVencer() // TODO: Probar.
 	{
 		int aVencer = 0, propios = 0, terceros = 0;
 		List<Pedido> pedidosAVencer = new ArrayList<Pedido>();
@@ -345,8 +361,36 @@ public class Sucursal {
 			int diasViaje = CalcularTiempoADestino(pedido);
 			if(diasRestantes <= diasViaje)
 			{
-				if(pedido.getEstado().equalsIgnoreCase("PENDIENTE")){
-					//TODO Deberia despachar los vehiculos que ya tienen asignados pedidos
+				// Los pedidos pendientes estan asignados a un vehiculo, pero no se despacharon
+				// por que el vehiculo quedó en MEDIA_CARGA. Asi que si estan por vencer los
+				// despacho.
+				if(pedido.getEstado().equalsIgnoreCase("PENDIENTE"))
+				{
+					for(Vehiculo v: vehiculos)
+					{
+						proximo_vehiculo:
+						if(v.getEstado().equals(ESTADO_VEHICULO.MEDIA_CARGA))
+						{
+							for(Remito r: v.getRemitos())
+							{
+								// Comparo los id de las medcaderias en el remito con las del
+								// pedido, si coincide deberia de ser el vehiculo al que se le
+								// asigno el pedido.
+								for(Mercaderia m_a : r.getMercaderias())
+								{
+									for(Mercaderia m_b : pedido.getMercaderias())
+									{
+										if(m_a.getIdMercaderia() == m_b.getIdMercaderia())
+										{
+											v.despachar();// cambia vehiculo y remitos asociados a "Despachado"
+											pedido.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
+											break proximo_vehiculo;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 				
 				if(pedido.getEstado().equalsIgnoreCase("SIN_PROCESAR"))
