@@ -127,18 +127,22 @@ public class Sistema {
 
 	//ALTAS START
 
-	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
+	public ParticularBean altaParticular(String direccion, String telefono, String nombre, String apellido, String dni)
 	{
 		ClientePersistencia cP = null;
 		for(Cliente cliente: clientes)
 		{
 			if((cliente.getClass()==Particular.class)&&((Particular)cliente).getDni().equals(dni))
-				return;
+				break;
 		}		
 		ParticularPersistencia p= new ParticularPersistencia(direccion, telefono,nombre,apellido,dni);
 		cP = DAOCliente.getInstance().persistirParticular(p);
-		this.clientes.add(convertClientePersistenciaToNegocio(cP));
+		Particular cN=(Particular) convertClientePersistenciaToNegocio(cP);
 
+		this.clientes.add(cN);
+		ParticularBean cB=new ParticularBean();
+		cB=	(ParticularBean) Converter.getInstance().convertParticularNegocioToBean(cN);
+		return (ParticularBean) cB;
 	}
 
 	public void altaEmpresa(String direccion, String telefono, String razonSocial, String cuit, String regularidad) 
@@ -1474,6 +1478,7 @@ public class Sistema {
 		mb.setIndicacionesManpulacion(mp.getIndicacionesManpulacion());
 		mb.setProfundidad(mp.getProfundidad());
 		mb.setRemito(null);
+		//TODO Falta movimientos de mercaderias
 		return mb;
 	}
 

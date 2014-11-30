@@ -18,7 +18,9 @@ import java.util.List;
 
 
 
+
 import beans.ClienteBean;
+import beans.ParticularBean;
 import beans.PedidoBean;
 import beans.SucursalBean;
 import clases.controller.Sistema;
@@ -66,8 +68,8 @@ public class EnviosRMI extends UnicastRemoteObject implements InterfazEnvios
 	}
 
 	@Override
-	public void altaParticular(String direccion, String telefono, String nombre, String apellido, String dni) throws RemoteException {
-		sistema.altaParticular(direccion,telefono,nombre,apellido,dni);
+	public ParticularBean altaParticular(String direccion, String telefono, String nombre, String apellido, String dni) throws RemoteException {
+		return sistema.altaParticular(direccion,telefono,nombre,apellido,dni);
 		
 	}
 
