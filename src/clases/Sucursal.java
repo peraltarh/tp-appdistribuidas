@@ -261,8 +261,8 @@ public class Sucursal {
 					vehiculo.despachar();
 					_pedido.setEstado(ESTADO_DE_PEDIDO.DESPACHADO);
 					
-					//TODO Chequear
-					DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
+
+					//DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
 					
 					return "Pedido Despachado";
 				}
@@ -341,8 +341,8 @@ public class Sucursal {
 				vehiculo.addRemito(remito);
 				vehiculo.setEstado(ESTADO_VEHICULO.MEDIA_CARGA);
 				_pedido.setEstado(ESTADO_DE_PEDIDO.PENDIENTE);
-				//TODO Chequear
-				DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
+
+				//DAOPedido.getInstance().update(Sistema.getInstance().convertPedidoNegocioToPersistencia(_pedido, null));
 				
 				return "Pedido Pendiente";
 			}
