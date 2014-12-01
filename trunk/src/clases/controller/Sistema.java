@@ -352,21 +352,53 @@ public class Sistema {
 	
 	//Agrega una mercaderia a un Pedido TODO Revisar
 	public void actualizarPedido(PedidoBean pB) {
+		
+		//Obtengo la mercaderia nueva
 		MercaderiaBean mercB = pB.getMercaderias().get(pB.getMercaderias().size()-1);
-		Pedido pedN = buscarPedido(pB.getIdPedido());
-		pedN.addMercaderia(Converter.getInstance().convertMercaderiaBeanToNegocio(mercB));
 		
-		Pedido pS=Converter.getInstance().convertPedidoBeanToNegocio(pB);
-		SucursalPersistencia sP=buscarSucursalEnBD(pB.getSucursal().getNombre());
-		PedidoPersistencia pP=convertPedidoNegocioToPersistencia(pS, sP);
-		pP.setIdPedido(pB.getIdPedido());
+		//Busco el pedido en memoria
+		PedidoPersistencia pedP = DAOPedido.getInstance().getPedido(pB.getIdPedido());
+		Mercaderia mercN = Converter.getInstance().convertMercaderiaBeanToNegocio(mercB);
+		
 		DepositoPersistencia dP=DAODeposito.getInstance().getDeposito(mercB.getDeposito().getEncargado());
-		PedidoPersistencia pP2=DAOPedido.getInstance().getPedido(pB.getIdPedido());
-		pP2.setMercaderias(pP.getMercaderias());
-		pP2.getMercaderias().get(pP2.getMercaderias().size()-1).setDeposito(dP);
-		DAOPedido.getInstance().update(pP2);
 		
-		reemplazarPedidoViejoConNuevo(convertPedidoPersistenciaToNegocio(pP));
+		MercaderiaPersistencia mercP = convertMercaderiaNegocioToPersistencia(mercN, pedP, null, dP);
+		
+		boolean contieneMerc = false;
+		MercaderiaPersistencia merAMod = null;
+		for (MercaderiaPersistencia mercTemp : pedP.getMercaderias()) {
+			if(mercTemp.getIdMercaderia()==mercP.getIdMercaderia()){
+				contieneMerc = true;
+				merAMod = mercTemp;
+				break;
+			}
+
+			
+		}
+		if(!contieneMerc)pedP.addMercaderia(mercP);
+		else{
+			MovimientoBean movB = mercB.getMovimientos().get(mercB.getMovimientos().size()-1);
+			Movimiento movNeg = Converter.getInstance().convertMovimientoMercaderiaBeanToNegocio(movB);
+			merAMod.addMovimiento(convertMovimientomercaderiaNegocioToPersistencia(movNeg, merAMod));	
+		};
+		DAOPedido.getInstance().update(pedP);
+		reemplazarPedidoViejoConNuevo(convertPedidoPersistenciaToNegocio(pedP));
+		
+//		
+//		Pedido pedN = buscarPedido(pB.getIdPedido());
+//		pedN.addMercaderia(Converter.getInstance().convertMercaderiaBeanToNegocio(mercB));
+//		
+//		Pedido pS=Converter.getInstance().convertPedidoBeanToNegocio(pB);
+//		SucursalPersistencia sP=buscarSucursalEnBD(pB.getSucursal().getNombre());
+//		PedidoPersistencia pP=convertPedidoNegocioToPersistencia(pS, sP);
+//		pP.setIdPedido(pB.getIdPedido());
+//		DepositoPersistencia dP=DAODeposito.getInstance().getDeposito(mercB.getDeposito().getEncargado());
+//		PedidoPersistencia pP2=DAOPedido.getInstance().getPedido(pB.getIdPedido());
+//		pP2.setMercaderias(pP.getMercaderias());
+//		pP2.getMercaderias().get(pP2.getMercaderias().size()-1).setDeposito(dP);
+//		DAOPedido.getInstance().update(pP2);
+//		
+//		reemplazarPedidoViejoConNuevo(convertPedidoPersistenciaToNegocio(pP));
 		
 		}
 	
@@ -568,10 +600,6 @@ public class Sistema {
 		return DAOVehiculo.getInstance().getVehiculo(patente_);
 	}
 
-	//TODO buscar VehiculosExternos en memoria y en BD
-
-	
-	
 
 	//BUSQUEDAS END
 
@@ -1120,7 +1148,6 @@ public class Sistema {
 		for (DepositoPersistencia depP : sucBd.getDepositos()) {
 			sucT.addDeposito(convertDepositoPersistenciaToNegocio(depP));
 		};
-		//TODO CHECK
 		for (PedidoPersistencia pedP : sucBd.getPedidos()) {
 			boolean encontrado = false;
 			for (Pedido pedido : pedidos) {
@@ -1140,7 +1167,7 @@ public class Sistema {
 			sucT.addRuta(convertMapaRutaPersistenciaToNegocio(mapP));
 		};
 		for (VehiculoPersistencia vehP : sucBd.getVehiculos()) {
-			//TODO CHECK
+
 			
 			boolean encontrado = false;
 			for (Vehiculo vehiculo : vehiculos){
