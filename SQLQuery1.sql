@@ -103,7 +103,7 @@ INSERT INTO ItemFactura (costo,idFactura) VALUES (19,3);
 INSERT INTO ItemFactura (costo,idFactura) VALUES (21,2);
 
 
-/******----CUENTACORRIENTE  CAMBIAR CBU A LONG!!!!----******/
+/******----CUENTACORRIENTE----******/
 INSERT INTO CuentaCorriente (cbu,estado,minimoPermitidoSinAuth,saldoActual,empresa) VALUES (9992,1,2000,1000,2);
 INSERT INTO CuentaCorriente (cbu,estado,minimoPermitidoSinAuth,saldoActual,empresa) VALUES (9993,0,1500,0,3);
 INSERT INTO CuentaCorriente (cbu,estado,minimoPermitidoSinAuth,saldoActual,empresa) VALUES (9994,1,1500,900,4);
@@ -169,11 +169,14 @@ INSERT INTO Remito (nroRemito,estado,patente) VALUES (000003,'ENTREGADO','CCC 00
 INSERT INTO Remito (nroRemito,estado,patente) VALUES (000004,'ENTREGADO','DDD 001');
 
 /******----MERCADERIA----******/
-INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porPeso',40,'Ninguna','300-250',20,'Fragil',1,20,10,0.560,133.33,10.1,0001,1,1);
-INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna',1,10,20,0.340,10.1,200,0002,2,2);
-INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna',1,10,20,0.340,10.1,200,null,1,3);
-INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna',1,10,20,0.340,10.1,200,null,1,4);
-
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porPeso',40,'Ninguna','300-250',20,'Fragil','No',20,10,0.560,133.33,10.1,0001,1,1);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,0002,2,2);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,null,1,3);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,null,1,4);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,null,1,5);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,null,1,6);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,null,1,7);
+INSERT INTO Mercaderia (tipo,cantApilable,condDeViaje,coordenadasDestino,profundidad,indicacionesManpulacion,fragilidad,apilable,ancho,alto,peso,volumen,nroRemito,idDeposito,idPedido) VALUES ('porVolumen',80,'Ninguna','301-251',30,'Ninguna','No',10,20,0.340,10.1,200,null,1,8);
 
 
 /******----MOVIMIENTO----******/
