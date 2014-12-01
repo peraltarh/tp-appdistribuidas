@@ -1505,8 +1505,32 @@ public class Sistema {
 		mb.setIndicacionesManpulacion(mp.getIndicacionesManpulacion());
 		mb.setProfundidad(mp.getProfundidad());
 		mb.setRemito(null);
-		//TODO Falta movimientos de mercaderias
+
+		List<MovimientoBean> listMov = new ArrayList<MovimientoBean>();
+		
+		for (MovimientoPersistencia movimientoP : mp.getMovimientos()) {
+			listMov.add(convertMovimientoPersistenciaToBean(movimientoP,mb));
+		}
+		
+		mb.setMovimientos(listMov);
+		
+		
 		return mb;
+	}
+
+	private MovimientoBean convertMovimientoPersistenciaToBean(
+			MovimientoPersistencia movimientoP, MercaderiaBean mercB) {
+		MovimientoBean mobB = new MovimientoBean();
+		mobB.setCondicionDeArribo(movimientoP.getCondicionDeArribo());
+		mobB.setDestino(movimientoP.getDestino());
+		mobB.setEstado(movimientoP.getEstado());
+		mobB.setFechaLlegada(movimientoP.getFechaLlegada());
+		mobB.setFechaSalida(movimientoP.getFechaSalida());
+		mobB.setIdMovimiento(movimientoP.getIdMovimiento());
+		mobB.setMercaderia(mercB);
+		mobB.setOrigen(movimientoP.getOrigen());
+		
+		return mobB;
 	}
 
 	private DepositoBean convertDepositoPersistenciaToBean(DepositoPersistencia dp)
